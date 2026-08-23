@@ -7,34 +7,22 @@ Databert Services
 `index.html` is a self-contained, editable dashboard CV — one file, no build step, no
 dependencies. Open it in any browser (or host it on GitHub Pages) and it just runs.
 
-### Editing
+### What it does
 
-The page is **always editable** — there is no edit mode to switch on. Click any text and type.
-Controls stay hidden until you hover the thing they belong to, so at rest the dashboard looks
-exactly like a finished CV.
+The page is a **read-only document** — nothing on it can be changed by a reader. What it
+offers instead:
 
-| What | How |
+| | |
 | --- | --- |
-| Text | Click any heading, bullet, figure or paragraph and type over it |
-| Progress bars | Drag a bar to set its percentage |
-| Colours | Hover an item; a pill of colour dots floats over it |
-| Icons | Click an icon to cycle through the icon set |
-| Photo | Hover the avatar and click the camera button |
-| Add | Hover a card and a **+** appears beside its heading |
-| Remove | Hover a single entry for its bin icon |
-| Skill weights | Hover the Skills card; the weights panel drops out of its bottom edge |
-| Lock | <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>E</kbd> freezes the page against accidental edits |
+| Contact details | Live `mailto:` / `tel:` / LinkedIn links, each with a one-click copy button |
+| Career journey | Select a role to bring it forward and fade the rest; <kbd>Esc</kbd> or a second select clears it |
+| Skills snapshot | Hover a donut segment *or* its label to highlight both and read the share in the middle; click to pin it |
+| Tech stack & industries | Hover any bar for its exact level |
+| Theme | Light / dark, following your system on first visit and remembered afterwards |
+| PDF | Sizes the page so the whole dashboard prints on a single sheet |
 
-Changes save to the browser automatically. **Export** copies the whole CV out as JSON and
-**Import** loads it back — that is how you move your edits to another browser or machine.
-**Reset** restores the original content.
-
-### Other features
-
-- **Light / dark themes** — follows your system setting on first visit, then remembers your choice
-- **PDF** — sizes the page so the dashboard prints onto a single sheet
-- **Responsive** — the grid collapses cleanly down to phone width
-- **Animated** — count-up figures, bar fills, an interactive skills donut and reveal-on-scroll
+Everything interactive is reachable with <kbd>Tab</kbd> and activated with <kbd>Enter</kbd>.
+The only thing kept in browser storage is the theme choice.
 
 ### Structure
 

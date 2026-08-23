@@ -76,10 +76,6 @@ ul{list-style:none}
 .btn:focus-visible,.mini:focus-visible,.add-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 6px 18px -8px var(--blue)}
 .btn.primary:hover{background:var(--blue-600)}
-.btn.on{background:var(--teal);border-color:var(--teal);color:#04231f;box-shadow:0 6px 18px -8px var(--teal)}
-.btn.danger:hover{border-color:#ef4444;color:#ef4444}
-.save-pill{font-size:11.5px;color:var(--ink-mute);opacity:0;transition:opacity .3s;font-weight:600}
-.save-pill.show{opacity:1}
 
 /* ---------- Shell ---------- */
 .sheet{
@@ -102,13 +98,6 @@ ul{list-style:none}
   background:#0d1c3d;
 }
 .avatar-ph{display:grid;place-items:center;color:#4d6699;font-size:44px;font-weight:800;letter-spacing:.04em}
-.avatar-edit{
-  position:absolute;right:6px;bottom:6px;width:38px;height:38px;border-radius:50%;
-  background:var(--blue);border:3px solid var(--navy-800);display:none;place-items:center;
-  cursor:pointer;color:#fff;transition:.18s;
-}
-.avatar-edit:hover{transform:scale(1.08)}
-.avatar-edit svg{width:16px;height:16px}
 .side h1{font-size:26px;line-height:1.15;font-weight:800;text-align:center;letter-spacing:-.01em;color:#fff}
 .side .role{text-align:center;color:var(--blue-300);font-weight:700;font-size:16px;margin-top:9px}
 .side .tagline{text-align:center;color:#9fb2d8;font-size:12.5px;margin-top:5px}
@@ -136,7 +125,7 @@ ul{list-style:none}
 .edu-ic{width:36px;height:36px;border-radius:11px;background:rgba(96,165,250,.14);display:grid;place-items:center;color:var(--blue-300);flex:none}
 .edu-ic svg{width:19px;height:19px}
 .edu-item b{display:block;color:#fff;font-size:13.5px;font-weight:700}
-.edu-item span[data-bind]{display:block;color:#a9bbdd;font-size:12.5px}
+.edu-item span{display:block;color:#a9bbdd;font-size:12.5px}
 
 /* ---------- Main ---------- */
 .main{padding:22px;display:grid;gap:16px;background:var(--card);align-content:start}
@@ -228,7 +217,7 @@ ul{list-style:none}
 .donut-mid .ic svg{width:24px;height:24px}
 .donut-mid .pv{font-size:22px;font-weight:800;line-height:1.1}
 .donut-mid .pl{font-size:10.5px;color:var(--ink-mute);max-width:12ch;margin:3px auto 0;line-height:1.3}
-.dlab{position:absolute;width:78px;font-size:10.2px;line-height:1.35;color:var(--ink-mute);transform:translate(-50%,-50%);pointer-events:none}
+.dlab{position:absolute;width:78px;font-size:10.2px;line-height:1.35;color:var(--ink-mute);transform:translate(-50%,-50%)}
 .dlab b{display:block;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:2px}
 
 /* projects */
@@ -264,100 +253,46 @@ ul{list-style:none}
 .trait{display:flex;align-items:center;gap:9px;font-size:12.4px;font-weight:600;color:var(--ink-soft)}
 .trait svg{width:19px;height:19px;color:var(--blue)}
 
-/* ---------- Inline editing ----------
-   The page is always editable. Every control stays hidden until the pointer
-   (or keyboard focus) reaches the thing it belongs to, and each one floats
-   over the layout rather than pushing it around. */
-body.live [data-bind]{overflow-wrap:normal;word-break:normal;border-radius:5px;
-  transition:box-shadow .15s, background .15s}
-.contact-item [data-bind],.href-edit{overflow-wrap:break-word!important;word-break:break-word!important}
-body.live [data-bind]:hover{background:color-mix(in srgb,var(--blue) 8%,transparent);
-  box-shadow:0 0 0 1px color-mix(in srgb,var(--blue) 30%,transparent)}
-body.live [data-bind]:focus{background:color-mix(in srgb,var(--blue) 12%,transparent);
-  box-shadow:0 0 0 2px var(--blue)}
-.side [data-bind]:hover,.side [data-bind]:focus{background:rgba(96,165,250,.16)!important}
-body.live [data-act="icon"]{cursor:pointer;transition:transform .15s}
-body.live [data-act="icon"]:hover{transform:scale(1.09);
-  outline:2px dashed color-mix(in srgb,var(--blue) 55%,transparent);outline-offset:3px;border-radius:50%}
-body.live .bar:hover{cursor:ew-resize;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--blue) 55%,transparent)}
-body.live .card:hover,body.live .card:focus-within{z-index:30}
-
-/* hidden by default */
-.ctl,.swatches,.edit-only,.avatar-edit,.add-mini,.skill-edit{display:none}
-
-/* …revealed for whatever is under the pointer */
-body.live .item-wrap:hover .ctl,
-body.live .item-wrap:focus-within .ctl{display:inline-flex}
-body.live .item-wrap:hover .swatches,
-body.live .item-wrap:focus-within .swatches{display:flex}
-body.live .contact-item:hover .edit-only,
-body.live .contact-item:focus-within .edit-only{display:block}
-body.live .avatar-wrap:hover .avatar-edit,
-body.live .avatar-wrap:focus-within .avatar-edit{display:grid}
-body.live .card:hover > .skill-edit,
-body.live .card:focus-within > .skill-edit{display:block}
-body.live .card:hover > .card-h > .add-mini,
-body.live .card:focus-within > .card-h > .add-mini,
-body.live .side:hover .side-h > .add-mini,
-body.live .side:focus-within .side-h > .add-mini,
-body.live .row-rel:hover > .add-mini,
-body.live .row-rel:focus-within > .add-mini,
-body.live .foot:hover > .add-mini,
-body.live .foot:focus-within > .add-mini{display:grid}
-
-.ctl{gap:6px;align-items:center}
-.mini{
-  width:22px;height:22px;border-radius:7px;display:grid;place-items:center;cursor:pointer;
-  border:1px solid var(--line);background:var(--card);color:var(--ink-mute);transition:.15s;flex:none;
+/* ---------- Reader interactions ---------- */
+/* contact rows act like links, with the address one click from the clipboard */
+.contact-link{color:inherit;text-decoration:none;flex:1;border-bottom:1px solid transparent;transition:.15s}
+.contact-item:hover .contact-link,.contact-link:focus-visible{color:#fff;border-bottom-color:var(--blue-300)}
+.copy-btn{
+  width:26px;height:26px;border-radius:8px;display:grid;place-items:center;flex:none;cursor:pointer;
+  background:transparent;border:1px solid transparent;color:#7f93bb;opacity:0;transition:.16s;
 }
-.mini:hover{color:#fff;background:var(--blue);border-color:var(--blue)}
-.mini.del:hover{background:#ef4444;border-color:#ef4444}
-.mini svg{width:12px;height:12px}
-.side .mini{background:#16244a;border-color:rgba(255,255,255,.16);color:#9fb2d8}
-.item-wrap{position:relative}
-.item-ctl{position:absolute;top:-6px;right:-4px;z-index:5}
+.contact-item:hover .copy-btn,.copy-btn:focus-visible{opacity:1}
+.copy-btn:hover{background:rgba(96,165,250,.16);border-color:rgba(96,165,250,.35);color:#fff}
+.copy-btn.done{opacity:1;color:var(--teal);border-color:color-mix(in srgb,var(--teal) 45%,transparent)}
+.copy-btn svg{width:14px;height:14px}
 
-/* the “add another” button lives in the section heading, so nothing reflows */
-.add-mini{
-  width:23px;height:23px;border-radius:50%;place-items:center;cursor:pointer;flex:none;margin-left:auto;
-  border:1px dashed color-mix(in srgb,var(--blue) 60%,var(--line));background:var(--card);
-  color:var(--blue);transition:.15s;
-}
-.add-mini:hover{background:var(--blue);border-style:solid;color:#fff;transform:scale(1.08)}
-.add-mini svg{width:12px;height:12px}
-.side .add-mini{background:#16244a;color:var(--blue-300);border-color:rgba(96,165,250,.5)}
-.add-mini.float{position:absolute;z-index:9}
-.row-rel{position:relative}
-.row-rel > .add-mini.float{top:-11px;right:-5px}
-.foot > .add-mini.float{top:50%;right:16px;transform:translateY(-50%)}
+/* career journey: bring one role forward */
+.tl-col{cursor:pointer;border-radius:12px;padding:6px 9px 6px 6px;margin:-6px 0 0 -6px;
+  transition:background .22s, opacity .22s, transform .22s}
+.tl-col:hover{background:color-mix(in srgb,var(--blue) 7%,transparent)}
+.tl-focus .tl-col{opacity:.34}
+.tl-focus .tl-col.on{opacity:1;background:color-mix(in srgb,var(--blue) 10%,transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--blue) 26%,transparent)}
+.tl-focus .tl-dot{opacity:.34;transform:scale(.85)}
+.tl-focus .tl-dot.on{opacity:1;transform:scale(1.45);box-shadow:0 0 0 4px color-mix(in srgb,var(--blue) 18%,transparent)}
+.tl-hint{font-size:10.5px;color:var(--ink-mute);margin-top:12px;text-align:center;opacity:0;transition:opacity .25s}
+.tl:hover .tl-hint,.tl-focus .tl-hint{opacity:1}
 
-/* colour picker floats over the item it recolours */
-.swatches .add-mini{display:grid;margin:0 3px 0 0;width:20px;height:20px;border-color:color-mix(in srgb,var(--blue) 45%,var(--line))}
-.swatches{
-  position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);z-index:8;gap:4px;
-  flex-wrap:wrap;justify-content:center;width:max-content;max-width:min(230px,calc(100vw - 48px));
-  padding:5px 8px;border-radius:99px;
-  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-lg);
-}
-.side .swatches{background:#16244a;border-color:rgba(255,255,255,.16)}
-.sw{width:13px;height:13px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:.15s}
-.sw:hover{transform:scale(1.25)}
-.sw.sel{border-color:var(--ink)}
-
-/* contact links: the address sits under the label while you are on it */
-.contact-item .edit-only{
-  position:absolute;left:42px;right:0;top:100%;z-index:9;margin-top:2px;
-  background:#16244a;border:1px solid rgba(120,160,230,.32);border-radius:8px;padding:5px 8px;
+/* on touch there is no hover, so the affordances stay visible */
+@media (hover: none){
+  .copy-btn{opacity:.8}
+  .tl-hint{opacity:1}
 }
 
-/* skill weights drop out of the bottom of their card */
-.skill-edit{
-  position:absolute;left:12px;right:12px;top:100%;margin-top:-8px;z-index:25;
-  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 6px;
-  box-shadow:var(--shadow-lg);
-}
-.skill-edit .bar-row{margin-bottom:18px}
-.skill-edit .swatches{bottom:-11px}
+/* skills donut and its labels answer to each other */
+.dlab{cursor:pointer;transition:opacity .2s,transform .2s}
+.dlab.dim{opacity:.34}
+.dlab.on{transform:translate(-50%,-50%) scale(1.08)}
+.donut circle:focus-visible{outline:none;stroke-width:26}
+
+/* bars respond to the pointer */
+.bar-row:hover .bar-name,.ind-row:hover .nm{color:var(--ink)}
+.bar-row:hover .bar-fill,.ind-row:hover .bar-fill{filter:saturate(1.25) brightness(1.06)}
 
 /* ---------- Modal ---------- */
 .overlay{
@@ -435,7 +370,7 @@ body.live .foot:focus-within > .add-mini{display:grid}
 @media print{
   @page{margin:0}                 /* the exact page size is injected before printing */
   body{padding:16px;background:#fff}
-  .toolbar,.overlay,.toast,.ctl,.swatches,.avatar-edit,.add-mini,.edit-only,.skill-edit{display:none!important}
+  .toolbar,.overlay,.toast,.copy-btn{display:none!important}
   .sheet{box-shadow:none;border-radius:18px}
   .card{break-inside:avoid;box-shadow:none}
   .reveal{opacity:1!important;transform:none!important}
@@ -448,13 +383,9 @@ body.live .foot:focus-within > .add-mini{display:grid}
 <!-- ================= Toolbar ================= -->
 <div class="toolbar no-print">
   <div class="tb-brand"><span class="tb-dot"></span><span>CV Dashboard</span></div>
-  <span class="save-pill" id="savePill">Saved</span>
   <button class="btn" id="btnTheme" title="Toggle light / dark"></button>
   <button class="btn" id="btnPrint" title="Print or save as PDF"></button>
-  <button class="btn" id="btnExport" title="Export data as JSON"></button>
-  <button class="btn" id="btnImport" title="Import data from JSON"></button>
-  <button class="btn danger" id="btnReset" title="Reset to the original CV"></button>
-  <button class="btn" id="btnHelp" title="How to use">?</button>
+  <button class="btn" id="btnHelp" title="What you can do on this page">?</button>
 </div>
 
 <!-- ================= Sheet ================= -->
@@ -463,8 +394,6 @@ body.live .foot:focus-within > .add-mini{display:grid}
   <section class="main" id="main"></section>
   <footer class="foot" id="foot"></footer>
 </main>
-
-<input type="file" id="photoInput" accept="image/*" hidden>
 
 <!-- ================= Modals ================= -->
 <div class="overlay" id="overlay">
@@ -531,10 +460,6 @@ const PALETTE = ['#2563eb','#14b8a6','#8b5cf6','#f97316','#f5b400','#22c55e','#e
    2. Default CV data
    ============================================================ */
 const DEFAULT_DATA = {
-  /* Bump this whenever the content below is edited in the source: the file then
-     replaces whatever an earlier visit left in this browser. Edits made in the
-     page itself survive until the next bump — keep a copy with Export. */
-  dataVersion: 2,
   profile:{
     name:"Rathan\nNarayana Raju",
     role:"Senior Data Analyst",
@@ -568,9 +493,9 @@ const DEFAULT_DATA = {
   timeline:[
     {year:"2017 – 2020", company:"Cognizant", role:"Data Analyst", color:"#f97316",
      bullets:["SQL & Data Reporting","Data Quality & Validation","Client Delivery Support"]},
-    {year:"2021", company:"CloudFM Group", role:"Data Scientist", color:"#2563eb",
+    {year:"2021 - 2023", company:"CloudFM Group", role:"Data Scientist", color:"#2563eb",
      bullets:["ML Model Development","Process Automation","Data Analysis & Reporting"]},
-    {year:"2023", company:"Harwin Group", role:"Data Scientist", color:"#14b8a6",
+    {year:"2023 - 2023", company:"Harwin Group", role:"Data Scientist", color:"#14b8a6",
      bullets:["Forecasting & Analytics","Financial Reporting","Power BI Solutions"]},
     {year:"2023 – Present", company:"TSA Riley", role:"Senior Data Analyst", color:"#8b5cf6",
      bullets:["Enterprise Analytics Solutions","AI-Powered Data Agents","Stakeholder & Delivery Lead"]}
@@ -622,46 +547,23 @@ const DEFAULT_DATA = {
 };
 
 /* ============================================================
-   3. State, storage & helpers
+   3. State & helpers
    ============================================================ */
-const KEY = 'cv-dashboard-v1';
-const clone = o => JSON.parse(JSON.stringify(o));
-let DATA = clone(DEFAULT_DATA);
-let editing = true;   /* the page is live unless it is locked with Ctrl/Cmd+E */
+const KEY  = 'cv-dashboard-v1';
+const DATA = DEFAULT_DATA;
 
-/* -- extra runtime styles -- */
-document.head.insertAdjacentHTML('beforeend','<style>'+
-  '.href-edit{font-size:10.2px;color:var(--blue-300);margin-top:4px;word-break:break-all;opacity:.9}'+
-  '.name-ed{white-space:pre-line}'+
-
-'</style>');
+/* -- the name keeps its line break -- */
+document.head.insertAdjacentHTML('beforeend','<style>.name-ed{white-space:pre-line}</style>');
 
 function get(path){
   return path.split('.').reduce((o,k)=> (o==null?o:o[k]), DATA);
-}
-function set(path,val){
-  const ks = path.split('.'); const last = ks.pop();
-  const t = ks.reduce((o,k)=>o[k], DATA);
-  if(t) t[last] = val;
 }
 const esc = s => String(s==null?'':s)
   .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
 /* editable element factory */
 function ed(path, tag, cls, extra){
-  const v = esc(get(path));
-  return '<'+tag+' class="'+(cls||'')+'" data-bind="'+path+'"'+(extra||'')+'>'+v+'</'+tag+'>';
-}
-function delBtn(list, i, cls){
-  return '<span class="ctl '+(cls||'')+'"><button class="mini del" data-act="del" data-list="'+list+'" data-i="'+i+'" title="Remove">'+svg('trash')+'</button></span>';
-}
-function addMini(list, title, cls){
-  return '<button class="add-mini'+(cls?' '+cls:'')+'" data-act="add" data-list="'+list+'" '+
-         'title="'+esc(title)+'" aria-label="'+esc(title)+'">'+svg('plus')+'</button>';
-}
-function swatches(path, cur, extra){
-  return '<div class="swatches">'+(extra||'')+PALETTE.map(c =>
-    '<span class="sw'+(c.toLowerCase()===String(cur).toLowerCase()?' sel':'')+'" style="background:'+c+'" data-act="color" data-path="'+path+'" data-color="'+c+'" title="'+c+'"></span>').join('')+'</div>';
+  return '<'+tag+' class="'+(cls||'')+'"'+(extra||'')+'>'+esc(get(path))+'</'+tag+'>';
 }
 
 /* ============================================================
@@ -675,32 +577,29 @@ function renderSide(){
     : '<div class="avatar avatar-ph">'+esc(initials)+'</div>';
 
   const contact = DATA.contact.map((c,i)=>
-    '<li class="contact-item item-wrap">'+
-      '<span class="contact-ic" data-act="icon" data-path="contact.'+i+'.icon">'+svg(c.icon)+'</span>'+
-      '<span style="flex:1">'+
-        ed('contact.'+i+'.text','span','')+
-        '<div class="edit-only href-edit" data-bind="contact.'+i+'.href">'+esc(c.href)+'</div>'+
-      '</span>'+
-      delBtn('contact',i)+
+    '<li class="contact-item">'+
+      '<span class="contact-ic">'+svg(c.icon)+'</span>'+
+      '<a class="contact-link" href="'+esc(c.href)+'"'+
+        (/^https?:/i.test(c.href) ? ' target="_blank" rel="noopener noreferrer"' : '')+'>'+esc(c.text)+'</a>'+
+      '<button class="copy-btn" data-copy="'+esc(c.text)+'" title="Copy" aria-label="Copy '+esc(c.text)+'">'+
+        svg('copy')+'</button>'+
     '</li>').join('');
 
   const certs = DATA.certifications.map((c,i)=>
-    '<li class="bullet-item item-wrap">'+ed('certifications.'+i,'span','',' style="flex:1"')+delBtn('certifications',i)+'</li>').join('');
+    '<li class="bullet-item">'+ed('certifications.'+i,'span','',' style="flex:1"')+'</li>').join('');
 
   const edu = DATA.education.map((e,i)=>
-    '<div class="edu-item item-wrap">'+
+    '<div class="edu-item">'+
       '<span class="edu-ic">'+svg('cap')+'</span>'+
       '<div style="flex:1">'+
         ed('education.'+i+'.degree','b','')+
         ed('education.'+i+'.school','span','')+
         ed('education.'+i+'.years','span','')+
-      '</div>'+ delBtn('education',i)+
+      '</div>'+
     '</div>').join('');
 
   return ''+
-  '<div class="avatar-wrap">'+photo+
-    '<button class="avatar-edit" data-act="photo" title="Change photo">'+svg('camera')+'</button>'+
-  '</div>'+
+  '<div class="avatar-wrap">'+photo+'</div>'+
   ed('profile.name','h1','name-ed')+
   ed('profile.role','div','role')+
   ed('profile.tagline','div','tagline')+
@@ -709,27 +608,26 @@ function renderSide(){
     '<div class="meta-row">'+svg('chevron')+ed('profile.availability','span','')+'</div>'+
   '</div>'+
   '<div class="side-sep"></div>'+
-  '<div class="side-h">Contact'+addMini('contact','Add contact')+'</div>'+
+  '<div class="side-h">Contact'+'</div>'+
   '<ul class="contact-list">'+contact+'</ul>'+
   '<div class="side-sep"></div>'+
-  '<div class="side-h">Certifications'+addMini('certifications','Add certification')+'</div>'+
+  '<div class="side-h">Certifications'+'</div>'+
   '<ul class="bullet-list">'+certs+'</ul>'+
   '<div class="side-sep"></div>'+
-  '<div class="side-h">Education'+addMini('education','Add education')+'</div>'+
+  '<div class="side-h">Education'+'</div>'+
   '<div class="bullet-list">'+edu+'</div>';
 }
 
 function renderStats(){
   const cards = DATA.stats.map((s,i)=>
-    '<div class="card stat reveal item-wrap">'+
-      '<span class="ic" data-act="icon" data-path="stats.'+i+'.icon" style="background:'+esc(s.color)+'">'+svg(s.icon)+'</span>'+
+    '<div class="card stat reveal">'+
+      '<span class="ic" style="background:'+esc(s.color)+'">'+svg(s.icon)+'</span>'+
       '<div style="flex:1">'+
         ed('stats.'+i+'.value','div','v',' data-count="1"')+
         ed('stats.'+i+'.label','div','l')+
-        swatches('stats.'+i+'.color', s.color)+
-      '</div>'+ delBtn('stats',i,'item-ctl')+
+      '</div>'+
     '</div>').join('');
-  return '<div class="row-stats row-rel">'+cards+addMini('stats','Add stat','float')+'</div>';
+  return '<div class="row-stats row-rel">'+cards+'</div>';
 }
 
 function renderSummary(){
@@ -741,15 +639,13 @@ function renderSummary(){
 
 function renderExpertise(){
   const items = DATA.expertise.map((e,i)=>
-    '<div class="exp item-wrap">'+
-      '<span class="ic" data-act="icon" data-path="expertise.'+i+'.icon" style="background:'+esc(e.color)+'">'+svg(e.icon)+'</span>'+
+    '<div class="exp">'+
+      '<span class="ic" style="background:'+esc(e.color)+'">'+svg(e.icon)+'</span>'+
       ed('expertise.'+i+'.title','b','')+
       ed('expertise.'+i+'.desc','p','')+
-      swatches('expertise.'+i+'.color', e.color)+
-      delBtn('expertise',i,'item-ctl')+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Core Expertise'+addMini('expertise','Add expertise area')+'</div>'+
+    '<div class="card-h">Core Expertise'+'</div>'+
     '<div class="exp-grid">'+items+'</div>'+
   '</div>';
 }
@@ -766,39 +662,38 @@ function renderTimeline(){
   const rail = 'background:linear-gradient(90deg,'+stops.join(',')+')';
   const heads = DATA.timeline.map((t,i)=>
     '<div>'+ed('timeline.'+i+'.year','div','tl-year')+
-    '<div class="tl-dot" style="background:'+esc(t.color)+'" title="'+esc(t.company)+'"></div></div>').join('');
+    '<div class="tl-dot" data-dot="'+i+'" style="background:'+esc(t.color)+'" title="'+esc(t.company)+'"></div></div>').join('');
   const bodies = DATA.timeline.map((t,i)=>
-    '<div class="tl-col item-wrap">'+
+    '<div class="tl-col" data-role="'+i+'" tabindex="0" role="button" aria-pressed="false" '+
+      'aria-label="Focus '+esc(t.company)+'">'+
       ed('timeline.'+i+'.company','div','tl-co',' style="color:'+esc(t.color)+'"')+
       ed('timeline.'+i+'.role','div','tl-role')+
       '<ul class="tl-ul">'+ t.bullets.map((b,j)=>
-        '<li class="item-wrap">'+ed('timeline.'+i+'.bullets.'+j,'span','',' style="flex:1"')+
-        delBtn('timeline.'+i+'.bullets',j)+'</li>').join('') +'</ul>'+
-      swatches('timeline.'+i+'.color', t.color, addMini('timeline.'+i+'.bullets','Add bullet'))+
-      delBtn('timeline',i,'item-ctl')+
+        '<li>'+ed('timeline.'+i+'.bullets.'+j,'span','')+'</li>').join('') +'</ul>'+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Career Journey'+addMini('timeline','Add role')+'</div>'+
+    '<div class="card-h">Career Journey'+'</div>'+
     '<div class="tl">'+
       '<div class="tl-track"><div class="tl-line" style="'+rail+'"></div><div class="tl-cols" style="'+cols+'">'+heads+'</div></div>'+
       '<div class="tl-body" style="'+cols+'">'+bodies+'</div>'+
+      '<div class="tl-hint">Select a role to bring it forward — Esc, or select it again, to show them all</div>'+
     '</div>'+
   '</div>';
 }
 
 function renderTech(){
   const rows = DATA.techstack.map((t,i)=>
-    '<div class="bar-row item-wrap">'+
+    '<div class="bar-row">'+
       ed('techstack.'+i+'.name','div','bar-name')+
       '<div style="display:flex;align-items:center;gap:8px">'+
         '<div class="bar" data-path="techstack.'+i+'.level" style="flex:1">'+
           '<div class="bar-fill" data-w="'+t.level+'"></div>'+
           '<span class="bar-val">'+t.level+'%</span>'+
-        '</div>'+ delBtn('techstack',i)+
+        '</div>'+
       '</div>'+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Tech Stack'+addMini('techstack','Add technology')+'</div>'+
+    '<div class="card-h">Tech Stack'+'</div>'+
     '<div class="bars">'+rows+'</div>'+
   '</div>';
 }
@@ -809,94 +704,79 @@ function renderSkills(){
   let off = 0;
   const segs = DATA.skills.map((s,i)=>{
     const frac = (+s.value||0)/total, len = frac*C;
-    const el = '<circle data-seg="'+i+'" cx="60" cy="60" r="'+R+'" fill="none" stroke="'+esc(s.color)+'" '+
+    const el = '<circle data-seg="'+i+'" tabindex="0" role="button" aria-label="'+esc(s.label)+', '+
+      Math.round(frac*100)+' percent" cx="60" cy="60" r="'+R+'" fill="none" stroke="'+esc(s.color)+'" '+
       'stroke-width="21" stroke-dasharray="'+len.toFixed(2)+' '+(C-len).toFixed(2)+'" '+
       'stroke-dashoffset="'+(-off).toFixed(2)+'" data-mid="'+(off+len/2).toFixed(2)+'"></circle>';
     off += len; return el;
   }).join('');
   const labs = DATA.skills.map((s,i)=>
-    '<div class="dlab" data-lab="'+i+'"><b>'+Math.round((+s.value||0)/total*100)+'%</b>'+esc(s.label)+'</div>').join('');
-  const list = DATA.skills.map((s,i)=>
-    '<div class="bar-row item-wrap">'+
-      ed('skills.'+i+'.label','div','bar-name')+
-      '<div style="display:flex;align-items:center;gap:8px">'+
-        '<div class="bar" data-path="skills.'+i+'.value" data-max="60" style="flex:1;background:var(--track)">'+
-          '<div class="bar-fill" data-w="'+Math.min(100,(+s.value||0)/60*100)+'" style="background:'+esc(s.color)+'"></div>'+
-          '<span class="bar-val">'+s.value+'</span>'+
-        '</div>'+ delBtn('skills',i)+
-      '</div>'+
-      swatches('skills.'+i+'.color', s.color)+
-    '</div>').join('');
+    '<div class="dlab" data-lab="'+i+'" tabindex="0"><b>'+Math.round((+s.value||0)/total*100)+'%</b>'+esc(s.label)+'</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Skills Snapshot'+addMini('skills','Add skill area')+'</div>'+
+    '<div class="card-h">Skills Snapshot'+'</div>'+
     '<div class="donut-wrap" id="donutWrap">'+
       '<svg class="donut" viewBox="0 0 120 120">'+segs+'</svg>'+
       '<div class="donut-mid" id="donutMid"><div class="ic">'+svg('bulb')+'</div></div>'+
       labs+
     '</div>'+
-    '<div class="skill-edit">'+list+'</div>'+
   '</div>';
 }
 
 function renderProjects(){
   const items = DATA.projects.map((p,i)=>
-    '<div class="proj item-wrap">'+
+    '<div class="proj">'+
       '<div class="head">'+
-        '<span class="ic" data-act="icon" data-path="projects.'+i+'.icon" style="background:'+esc(p.color)+'">'+svg(p.icon)+'</span>'+
+        '<span class="ic" style="background:'+esc(p.color)+'">'+svg(p.icon)+'</span>'+
         '<div style="flex:1">'+
           ed('projects.'+i+'.title','div','t',' style="color:'+esc(p.color)+'"')+
           ed('projects.'+i+'.tags','div','tags')+
         '</div>'+
       '</div>'+
       ed('projects.'+i+'.desc','p','')+
-      swatches('projects.'+i+'.color', p.color)+
-      delBtn('projects',i,'item-ctl')+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Featured Projects'+addMini('projects','Add project')+'</div>'+
+    '<div class="card-h">Featured Projects'+'</div>'+
     '<div class="proj-grid">'+items+'</div>'+
   '</div>';
 }
 
 function renderImpact(){
   const rows = DATA.impact.map((m,i)=>
-    '<div class="imp-row item-wrap">'+
-      '<span class="imp-ic" data-act="icon" data-path="impact.'+i+'.icon" style="background:color-mix(in srgb,'+esc(m.color)+' 16%,transparent);color:'+esc(m.color)+'">'+svg(m.icon)+'</span>'+
+    '<div class="imp-row">'+
+      '<span class="imp-ic" style="background:color-mix(in srgb,'+esc(m.color)+' 16%,transparent);color:'+esc(m.color)+'">'+svg(m.icon)+'</span>'+
       '<div style="flex:1">'+
         ed('impact.'+i+'.value','div','v',' style="color:'+esc(m.color)+'" data-count="1"')+
         ed('impact.'+i+'.label','div','l')+
-        swatches('impact.'+i+'.color', m.color)+
-      '</div>'+ delBtn('impact',i)+
+      '</div>'+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Key Impact'+addMini('impact','Add metric')+'</div>'+
+    '<div class="card-h">Key Impact'+'</div>'+
     '<div class="imp">'+rows+'</div>'+
   '</div>';
 }
 
 function renderIndustries(){
   const rows = DATA.industries.map((n,i)=>
-    '<div class="ind-row item-wrap">'+
+    '<div class="ind-row">'+
       '<div class="top">'+
         ed('industries.'+i+'.name','span','nm')+
-        '<span style="display:flex;align-items:center;gap:7px"><span class="pc">'+n.value+'%</span>'+delBtn('industries',i)+'</span>'+
+        '<span style="display:flex;align-items:center;gap:7px"><span class="pc">'+n.value+'%</span>'+'</span>'+
       '</div>'+
       '<div class="bar" data-path="industries.'+i+'.value">'+
         '<div class="bar-fill" data-w="'+n.value+'"></div><span class="bar-val">'+n.value+'%</span>'+
       '</div>'+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Industry Experience'+addMini('industries','Add industry')+'</div>'+
+    '<div class="card-h">Industry Experience'+'</div>'+
     '<div class="ind">'+rows+'</div>'+
   '</div>';
 }
 
 function renderFoot(){
   const traits = DATA.traits.map((t,i)=>
-    '<div class="trait item-wrap"><span data-act="icon" data-path="traits.'+i+'.icon" style="display:inline-flex">'+svg(t.icon)+'</span>'+ed('traits.'+i+'.label','span','')+delBtn('traits',i)+'</div>').join('');
+    '<div class="trait">'+svg(t.icon)+ed('traits.'+i+'.label','span','')+'</div>').join('');
   return '<div class="quote">'+svg('quote')+ed('quote','span','')+'</div>'+
-    '<div class="traits">'+traits+'</div>'+
-    addMini('traits','Add trait','float');
+    '<div class="traits">'+traits+'</div>';
 }
 
 function render(){
@@ -907,210 +787,17 @@ function render(){
     '<div class="row-3">'+renderTimeline()+renderTech()+renderSkills()+'</div>'+
     '<div class="row-4">'+renderProjects()+renderImpact()+renderIndustries()+'</div>';
   document.getElementById('foot').innerHTML = renderFoot();
-  applyEditable();
   observeReveal();
   requestAnimationFrame(()=>{ fillBars(); placeDonutLabels(); });
   wireDonut();
 }
 
 /* ============================================================
-   5. Persistence
-   ============================================================ */
-let saveTimer = null;
-function save(quiet){
-  try{
-    localStorage.setItem(KEY, JSON.stringify(DATA));
-    if(!quiet) flashSaved();
-  }catch(e){ toast('Could not save locally — export your JSON to keep a copy.'); }
-}
-function scheduleSave(){
-  clearTimeout(saveTimer);
-  saveTimer = setTimeout(()=>save(), 500);
-}
-function flashSaved(){
-  const p = document.getElementById('savePill');
-  p.textContent = 'Saved'; p.classList.add('show');
-  clearTimeout(flashSaved._t);
-  flashSaved._t = setTimeout(()=>p.classList.remove('show'), 1400);
-}
-function load(){
-  try{
-    const raw = localStorage.getItem(KEY);
-    if(raw){
-      const saved = JSON.parse(raw);
-      DATA = (saved && saved.dataVersion === DEFAULT_DATA.dataVersion)
-        ? mergeDefaults(saved)
-        : clone(DEFAULT_DATA);
-    }
-  }catch(e){ DATA = clone(DEFAULT_DATA); }
-}
-/* keep newly added default keys if the saved copy is older */
-function mergeDefaults(saved){
-  const out = clone(DEFAULT_DATA);
-  Object.keys(out).forEach(k=>{ if(saved[k] !== undefined) out[k] = saved[k]; });
-  out.profile = Object.assign(clone(DEFAULT_DATA.profile), saved.profile||{});
-  return out;
-}
-
-/* ============================================================
-   6. Edit mode
-   ============================================================ */
-const CE_MODE = (()=>{ const d = document.createElement('div');
-  d.setAttribute('contenteditable','plaintext-only');
-  return d.contentEditable === 'plaintext-only' ? 'plaintext-only' : 'true'; })();
-function applyEditable(){
-  document.querySelectorAll('[data-bind]').forEach(el=>{
-    if(editing){ el.setAttribute('contenteditable', CE_MODE); el.setAttribute('spellcheck','false'); }
-    else el.removeAttribute('contenteditable');
-  });
-}
-function setEditing(on){
-  editing = on;
-  document.body.classList.toggle('live', on);
-  applyEditable();
-  try{ localStorage.setItem(KEY+':locked', on ? '' : '1'); }catch(e){}
-  toast(on ? 'Editing unlocked — click any text to change it.'
-           : 'Editing locked. Press Ctrl/Cmd + E to unlock.');
-  if(!on) save();
-}
-
-/* text edits */
-document.addEventListener('input', e=>{
-  const el = e.target.closest('[data-bind]');
-  if(!el || !editing) return;
-  set(el.getAttribute('data-bind'), el.innerText.replace(/\u00a0/g,' '));
-  scheduleSave();
-});
-/* paste as plain text */
-document.addEventListener('paste', e=>{
-  const el = e.target.closest('[data-bind]');
-  if(!el || !editing) return;
-  e.preventDefault();
-  const t = (e.clipboardData||window.clipboardData).getData('text/plain');
-  document.execCommand('insertText', false, t);
-});
-
-/* ============================================================
-   7. Structural actions
-   ============================================================ */
-const ICON_ORDER = Object.keys(I);
-const NEW_ITEM = {
-  contact:       ()=>({icon:'globe', text:'New contact', href:'https://'}),
-  certifications:()=>'New certification',
-  education:     ()=>({degree:'Degree', school:'Institution', years:'20XX – 20XX'}),
-  stats:         ()=>({icon:'spark', value:'0', label:'New Metric', color:PALETTE[0]}),
-  expertise:     ()=>({icon:'spark', title:'New Area', desc:'Describe this area of expertise', color:PALETTE[2]}),
-  timeline:      ()=>({year:'20XX', company:'Company', role:'Job Title', color:PALETTE[3], bullets:['Key responsibility']}),
-  bullets:       ()=>'Key responsibility',
-  techstack:     ()=>({name:'New tool', level:70}),
-  skills:        ()=>({label:'New area', value:10, color:PALETTE[1]}),
-  projects:      ()=>({icon:'spark', title:'New Project', tags:'Tools | Tech', color:PALETTE[1], desc:'What you built and the outcome it delivered.'}),
-  impact:        ()=>({icon:'trend', value:'0%', label:'What improved', color:PALETTE[5]}),
-  industries:    ()=>({name:'New industry', value:50}),
-  traits:        ()=>({icon:'shield', label:'New trait'})
-};
-
-document.addEventListener('click', e=>{
-  const t = e.target.closest('[data-act]');
-  if(!t) return;
-  const act = t.getAttribute('data-act');
-
-  if(act==='del'){
-    if(!editing) return;
-    const arr = get(t.getAttribute('data-list'));
-    arr.splice(+t.getAttribute('data-i'), 1);
-    save(true); render(); return;
-  }
-  if(act==='add'){
-    if(!editing) return;
-    const path = t.getAttribute('data-list');
-    const key = path.split('.').pop();
-    const arr = get(path);
-    arr.push(NEW_ITEM[key] ? NEW_ITEM[key]() : 'New item');
-    save(true); render();
-    const wrap = document.querySelector('[data-list="'+path+'"]');
-    if(wrap) wrap.scrollIntoView({behavior:'smooth', block:'center'});
-    return;
-  }
-  if(act==='color'){
-    if(!editing) return;
-    set(t.getAttribute('data-path'), t.getAttribute('data-color'));
-    save(true); render(); return;
-  }
-  if(act==='icon'){
-    if(!editing) return;
-    const p = t.getAttribute('data-path');
-    const cur = ICON_ORDER.indexOf(get(p));
-    set(p, ICON_ORDER[(cur+1) % ICON_ORDER.length]);
-    save(true); render(); return;
-  }
-  if(act==='photo'){ document.getElementById('photoInput').click(); return; }
-});
-
-/* photo upload — downscaled so it fits comfortably in local storage */
-document.getElementById('photoInput').addEventListener('change', e=>{
-  const f = e.target.files && e.target.files[0];
-  if(!f) return;
-  const r = new FileReader();
-  r.onload = ()=>{
-    const img = new Image();
-    img.onload = ()=>{
-      const S = 460, c = document.createElement('canvas');
-      const side = Math.min(img.width, img.height);
-      c.width = c.height = S;
-      const ctx = c.getContext('2d');
-      ctx.drawImage(img, (img.width-side)/2, (img.height-side)/2, side, side, 0, 0, S, S);
-      DATA.profile.photo = c.toDataURL('image/jpeg', 0.86);
-      save(true); render(); toast('Photo updated');
-    };
-    img.src = r.result;
-  };
-  r.readAsDataURL(f);
-  e.target.value = '';
-});
-
-/* ============================================================
-   8. Bars — drag to set a value in edit mode
+   5. Donut interaction + label placement
    ============================================================ */
 function fillBars(){
   document.querySelectorAll('.bar-fill[data-w]').forEach(f=>{ f.style.width = f.getAttribute('data-w')+'%'; });
 }
-function barUpdate(bar, clientX){
-  const path = bar.getAttribute('data-path');
-  const max  = +(bar.getAttribute('data-max') || 100);
-  const r = bar.getBoundingClientRect();
-  const pct = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
-  const val = Math.round(pct * max);
-  set(path, val);
-  const fill = bar.querySelector('.bar-fill');
-  fill.style.transition = 'none';
-  fill.style.width = (val/max*100)+'%';
-  fill.setAttribute('data-w', val/max*100);
-  const lab = bar.querySelector('.bar-val');
-  if(lab) lab.textContent = (max===100 ? val+'%' : val);
-  const pc = bar.closest('.ind-row') && bar.closest('.ind-row').querySelector('.pc');
-  if(pc) pc.textContent = val+'%';
-  scheduleSave();
-}
-let dragBar = null;
-document.addEventListener('pointerdown', e=>{
-  if(!editing) return;
-  const bar = e.target.closest('.bar');
-  if(!bar) return;
-  dragBar = bar; bar.setPointerCapture(e.pointerId);
-  barUpdate(bar, e.clientX); e.preventDefault();
-});
-document.addEventListener('pointermove', e=>{ if(dragBar) barUpdate(dragBar, e.clientX); });
-document.addEventListener('pointerup', ()=>{
-  if(!dragBar) return;
-  const wasSkill = dragBar.getAttribute('data-path').startsWith('skills.');
-  dragBar = null; save(true);
-  if(wasSkill) render();
-});
-
-/* ============================================================
-   9. Donut interaction + label placement
-   ============================================================ */
 function placeDonutLabels(){
   const wrap = document.getElementById('donutWrap');
   if(!wrap) return;
@@ -1129,26 +816,93 @@ function placeDonutLabels(){
 function wireDonut(){
   const wrap = document.getElementById('donutWrap');
   if(!wrap) return;
-  const mid = document.getElementById('donutMid');
+  const mid   = document.getElementById('donutMid');
   const total = DATA.skills.reduce((a,s)=>a+(+s.value||0),0) || 1;
-  const base = mid.innerHTML;
-  wrap.querySelectorAll('[data-seg]').forEach(seg=>{
-    seg.addEventListener('mouseenter', ()=>{
-      const s = DATA.skills[+seg.getAttribute('data-seg')];
-      wrap.querySelectorAll('[data-seg]').forEach(o=>o.classList.toggle('dim', o!==seg));
-      seg.setAttribute('stroke-width','26');
-      mid.innerHTML = '<div class="pv" style="color:'+esc(s.color)+'">'+Math.round(s.value/total*100)+'%</div>'+
-                      '<div class="pl">'+esc(s.label)+'</div>';
-    });
-    seg.addEventListener('mouseleave', ()=>{
-      wrap.querySelectorAll('[data-seg]').forEach(o=>{ o.classList.remove('dim'); o.setAttribute('stroke-width','21'); });
+  const base  = mid.innerHTML;
+  const segs  = [...wrap.querySelectorAll('[data-seg]')];
+  const labs  = [...wrap.querySelectorAll('[data-lab]')];
+  let pinned = null;
+
+  function paint(i){
+    if(i === null){
+      segs.forEach(o=>{ o.classList.remove('dim'); o.setAttribute('stroke-width','21'); });
+      labs.forEach(l=>l.classList.remove('dim','on'));
       mid.innerHTML = base;
+      return;
+    }
+    const s = DATA.skills[i];
+    segs.forEach((o,n)=>{ o.classList.toggle('dim', n!==i); o.setAttribute('stroke-width', n===i ? '26' : '21'); });
+    labs.forEach((l,n)=>{ l.classList.toggle('dim', n!==i); l.classList.toggle('on', n===i); });
+    mid.innerHTML = '<div class="pv" style="color:'+esc(s.color)+'">'+Math.round(s.value/total*100)+'%</div>'+
+                    '<div class="pl">'+esc(s.label)+'</div>';
+  }
+  const show  = i => paint(i);
+  const reset = () => paint(pinned);
+
+  segs.concat(labs).forEach((el,n)=>{
+    const i = n % segs.length;
+    el.addEventListener('mouseenter', ()=>show(i));
+    el.addEventListener('mouseleave', reset);
+    el.addEventListener('focus', ()=>show(i));
+    el.addEventListener('blur', reset);
+    el.addEventListener('click', ()=>{ pinned = (pinned === i) ? null : i; paint(pinned); });
+    el.addEventListener('keydown', ev=>{
+      if(ev.key !== 'Enter' && ev.key !== ' ') return;
+      ev.preventDefault();
+      pinned = (pinned === i) ? null : i; paint(pinned);
     });
   });
 }
 
 /* ============================================================
-   10. Reveal + count-up
+   6. Reader interactions
+   ============================================================ */
+/* -- copy a contact detail -- */
+document.addEventListener('click', e=>{
+  const btn = e.target.closest('.copy-btn');
+  if(!btn) return;
+  e.preventDefault();
+  const value = btn.getAttribute('data-copy');
+  copyText(value, ()=>{
+    btn.classList.add('done');
+    btn.innerHTML = svg('check');
+    setTimeout(()=>{ btn.classList.remove('done'); btn.innerHTML = svg('copy'); }, 1600);
+    toast(value + ' copied');
+  });
+});
+
+/* -- bring one role of the career journey forward -- */
+let focusedRole = null;
+function paintRole(){
+  const tl = document.querySelector('.tl');
+  if(!tl) return;
+  tl.classList.toggle('tl-focus', focusedRole !== null);
+  tl.querySelectorAll('[data-role]').forEach(c=>{
+    const on = c.getAttribute('data-role') === focusedRole;
+    c.classList.toggle('on', on);
+    c.setAttribute('aria-pressed', on ? 'true' : 'false');
+  });
+  tl.querySelectorAll('[data-dot]').forEach(d=>
+    d.classList.toggle('on', d.getAttribute('data-dot') === focusedRole));
+}
+function clearFocusRole(){ if(focusedRole !== null){ focusedRole = null; paintRole(); } }
+function toggleRole(i){ focusedRole = (focusedRole === i) ? null : i; paintRole(); }
+document.addEventListener('click', e=>{
+  const col = e.target.closest('[data-role]');
+  const dot = e.target.closest('[data-dot]');
+  if(col) toggleRole(col.getAttribute('data-role'));
+  else if(dot) toggleRole(dot.getAttribute('data-dot'));
+});
+document.addEventListener('keydown', e=>{
+  if(e.key !== 'Enter' && e.key !== ' ') return;
+  const col = e.target.closest && e.target.closest('[data-role]');
+  if(!col) return;
+  e.preventDefault();
+  toggleRole(col.getAttribute('data-role'));
+});
+
+/* ============================================================
+   7. Reveal + count-up
    ============================================================ */
 let io = null;
 function countUp(el){
@@ -1189,7 +943,7 @@ setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add
 window.addEventListener('resize', ()=>placeDonutLabels());
 
 /* ============================================================
-   11. Toolbar, modals & toast
+   8. Toolbar, modals & toast
    ============================================================ */
 function toast(msg){
   const t = document.getElementById('toast');
@@ -1204,10 +958,8 @@ function closeModal(){ overlay.classList.remove('open'); modal.innerHTML=''; }
 overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
 document.addEventListener('click', e=>{ if(e.target.closest('[data-close]')) closeModal(); });
 
-const inIframe = (()=>{ try{ return window.self !== window.top; }catch(e){ return true; } })();
-
-function copyText(str){
-  const done = ()=>toast('Copied to clipboard');
+function copyText(str, after){
+  const done = after || (()=>toast('Copied to clipboard'));
   if(navigator.clipboard && navigator.clipboard.writeText){
     navigator.clipboard.writeText(str).then(done).catch(()=>legacyCopy(str,done));
   } else legacyCopy(str, done);
@@ -1221,82 +973,21 @@ function legacyCopy(str, done){
   document.body.removeChild(ta);
 }
 
-/* --- Export --- */
-document.getElementById('btnExport').addEventListener('click', ()=>{
-  const json = JSON.stringify(DATA, null, 2);
-  openModal(
-    '<h3>Export your CV data</h3>'+
-    '<p class="sub">This JSON holds everything on the page. Keep it somewhere safe — pasting it back through <b>Import</b> restores your CV on any browser or device.</p>'+
-    '<textarea id="expArea" readonly>'+esc(json)+'</textarea>'+
-    '<div class="modal-foot">'+
-      (inIframe ? '' : '<button class="btn" id="dlJson">'+svg('download')+'Download .json</button>')+
-      '<button class="btn primary" id="copyJson">'+svg('copy')+'Copy JSON</button>'+
-      '<button class="btn" data-close>Close</button>'+
-    '</div>');
-  document.getElementById('copyJson').addEventListener('click', ()=>copyText(json));
-  const dl = document.getElementById('dlJson');
-  if(dl) dl.addEventListener('click', ()=>{
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(new Blob([json], {type:'application/json'}));
-    a.download = 'cv-dashboard-data.json'; a.click();
-    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
-  });
-});
-
-/* --- Import --- */
-document.getElementById('btnImport').addEventListener('click', ()=>{
-  openModal(
-    '<h3>Import CV data</h3>'+
-    '<p class="sub">Paste a JSON export below and choose <b>Load data</b>. This replaces everything currently on the page.</p>'+
-    '<textarea id="impArea" placeholder="Paste your exported JSON here…"></textarea>'+
-    '<div class="modal-foot">'+
-      '<button class="btn" data-close>Cancel</button>'+
-      '<button class="btn primary" id="doImport">'+svg('upload')+'Load data</button>'+
-    '</div>');
-  document.getElementById('doImport').addEventListener('click', ()=>{
-    try{
-      const parsed = JSON.parse(document.getElementById('impArea').value);
-      if(!parsed || typeof parsed !== 'object' || !parsed.profile) throw new Error('bad shape');
-      DATA = mergeDefaults(parsed);
-      DATA.dataVersion = DEFAULT_DATA.dataVersion;
-      save(true); render(); closeModal(); toast('CV data imported');
-    }catch(err){ toast('That does not look like a valid CV export'); }
-  });
-});
-
-/* --- Reset --- */
-document.getElementById('btnReset').addEventListener('click', ()=>{
-  openModal(
-    '<h3>Reset to the original CV?</h3>'+
-    '<p class="sub">Every change you have made in this browser will be discarded and the dashboard returns to its starting content. Export first if you want to keep a copy.</p>'+
-    '<div class="modal-foot">'+
-      '<button class="btn" data-close>Keep my changes</button>'+
-      '<button class="btn primary" id="doReset">'+svg('reset')+'Reset everything</button>'+
-    '</div>');
-  document.getElementById('doReset').addEventListener('click', ()=>{
-    DATA = clone(DEFAULT_DATA);
-    save(true); render(); closeModal(); toast('Reset to the original CV');
-  });
-});
-
 /* --- Help --- */
 document.getElementById('btnHelp').addEventListener('click', ()=>{
   openModal(
-    '<h3>How to use this dashboard</h3>'+
-    '<p class="sub">Everything on the page is yours to change — no build step, no server.</p>'+
+    '<h3>About this page</h3>'+
+    '<p class="sub">A read-only CV dashboard. Nothing here can be changed from the page — these are the things it does for you.</p>'+
     '<div class="help-list">'+
-      '<div><b>Always editable</b> — click any text and type over it. There is no edit mode to turn on.</div>'+
-      '<div><b>Lock it</b> — <span class="kbd">Ctrl</span>/<span class="kbd">⌘</span> + <span class="kbd">E</span> freezes the page so nothing can be changed by accident, and unlocks it again.</div>'+
-      '<div><b>Bars</b> — drag any progress bar to set its percentage.</div>'+
-      '<div><b>Colours</b> — hover an item and a row of coloured dots appears over it; click one to recolour it.</div>'+
-      '<div><b>Icons</b> — click any icon to cycle through the icon set.</div>'+
-      '<div><b>Photo</b> — click the camera button on the avatar to upload your own picture.</div>'+
-      '<div><b>Add / remove</b> — hover a card and a <b>+</b> appears beside its heading; hover any single entry for its bin icon.</div>'+
-      '<div><b>Skills donut</b> — hover a segment to inspect it; the weights panel drops out of the bottom of that card while your pointer is on it.</div>'+
-      '<div><b>Saving</b> — changes save automatically in this browser. Use <b>Export</b> for a portable copy and <b>Import</b> to restore it elsewhere.</div>'+
-      '<div><b>PDF</b> — <b>Print</b> opens your browser dialog and sizes the page so the dashboard lands on one sheet. It prints the theme on screen, so switch to <b>Light</b> first for an ink-friendly copy.</div>'+
+      '<div><b>Contact details</b> — the email, phone and LinkedIn lines are live links. The button beside each one copies it to your clipboard.</div>'+
+      '<div><b>Career journey</b> — select any role to bring it forward and fade the others. Select it again, or press <span class="kbd">Esc</span>, to show them all.</div>'+
+      '<div><b>Skills snapshot</b> — point at a segment or its label and the share appears in the middle of the ring. Click to keep it there.</div>'+
+      '<div><b>Tech stack &amp; industries</b> — hover any bar to read its exact level.</div>'+
+      '<div><b>Light and dark</b> — <b>Dark</b> / <b>Light</b> switches the theme, and your choice is remembered on this device.</div>'+
+      '<div><b>PDF</b> — <b>PDF</b> opens your browser\'s print dialog and sizes the page so the whole dashboard lands on one sheet. It prints the theme on screen, so switch to <b>Light</b> first for an ink-friendly copy.</div>'+
+      '<div><b>Keyboard</b> — everything interactive is reachable with <span class="kbd">Tab</span> and activated with <span class="kbd">Enter</span>.</div>'+
     '</div>'+
-    '<div class="modal-foot"><button class="btn primary" data-close>Got it</button></div>');
+    '<div class="modal-foot"><button class="btn primary" data-close>Close</button></div>');
 });
 
 /* --- Print --- */
@@ -1340,41 +1031,24 @@ document.getElementById('btnTheme').addEventListener('click', ()=>{
 
 /* --- Keyboard --- */
 document.addEventListener('keydown', e=>{
-  const meta = e.ctrlKey || e.metaKey;
-  if(meta && e.key.toLowerCase()==='e'){ e.preventDefault(); setEditing(!editing); }
-  if(meta && e.key.toLowerCase()==='s'){ e.preventDefault(); save(); }
   if(e.key==='Escape'){
     if(overlay.classList.contains('open')) closeModal();
-    else if(document.activeElement && document.activeElement.hasAttribute('data-bind')) document.activeElement.blur();
+    else clearFocusRole();
   }
 });
 
 /* ============================================================
-   12. Boot
+   9. Boot
    ============================================================ */
 (function init(){
-  load();
   let theme = null;
   try{ theme = localStorage.getItem(KEY+':theme'); }catch(e){}
   if(!theme) theme = document.documentElement.getAttribute('data-theme') ||
     (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   setTheme(theme);
-  let locked = false;
-  try{ locked = localStorage.getItem(KEY+':locked')==='1'; }catch(e){}
-  editing = !locked;
-  document.body.classList.toggle('live', editing);
-  document.getElementById('btnPrint').innerHTML  = svg('printer')+'PDF';
-  document.getElementById('btnExport').innerHTML = svg('download')+'Export';
-  document.getElementById('btnImport').innerHTML = svg('upload')+'Import';
-  document.getElementById('btnReset').innerHTML  = svg('reset')+'Reset';
-  document.getElementById('btnHelp').innerHTML   = svg('book')+'Help';
+  document.getElementById('btnPrint').innerHTML = svg('printer')+'PDF';
+  document.getElementById('btnHelp').innerHTML  = svg('book')+'Help';
   render();
-  try{
-    if(!localStorage.getItem(KEY+':seen')){
-      localStorage.setItem(KEY+':seen','1');
-      setTimeout(()=>toast('Everything here is editable — click any text and type. Hover a card for its add, colour and delete controls.'), 900);
-    }
-  }catch(e){}
 })();
 </script>
 </body>

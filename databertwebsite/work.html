@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Example Work · Databert</title>
+<meta name="description" content="Example Power BI and Microsoft Fabric projects: what was going wrong, what I built, and what changed. Illustrative engagements showing how the work runs." />
+<link rel="canonical" href="https://www.databert.co.uk/work.html" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="Example Work · Databert" />
+<meta property="og:description" content="Example Power BI and Microsoft Fabric engagements, start to finish." />
+<meta property="og:url" content="https://www.databert.co.uk/work.html" />
+<meta name="twitter:card" content="summary" />
+
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container nav">
+    <a href="index.html" class="nav__brand">
+      <svg class="nav__mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M20,4 L33,11.5 L33,26.5 L20,34 L7,26.5 L7,11.5 Z" fill="#080F1C" stroke="#C9A84C" stroke-width="1.3"/>
+        <circle cx="20" cy="4" r="1.4" fill="#C9A84C"/>
+        <circle cx="33" cy="11.5" r="1.4" fill="#C9A84C"/>
+        <circle cx="33" cy="26.5" r="1.4" fill="#C9A84C"/>
+        <circle cx="20" cy="34" r="1.4" fill="#C9A84C"/>
+        <circle cx="7" cy="26.5" r="1.4" fill="#C9A84C"/>
+        <circle cx="7" cy="11.5" r="1.4" fill="#C9A84C"/>
+        <rect x="13.5" y="21" width="3" height="6" rx="0.5" fill="#E8EDF2"/>
+        <rect x="18.5" y="15.5" width="3" height="11.5" rx="0.5" fill="#C9A84C"/>
+        <rect x="23.5" y="11" width="3" height="16" rx="0.5" fill="#E8EDF2"/>
+      </svg>
+      <span class="nav__word">Databert</span>
+    </a>
+    <nav class="nav__links" aria-label="Primary">
+      <a class="nav__link" href="index.html">Home</a>
+      <a class="nav__link" href="services.html">Services</a>
+      <a class="nav__link" href="work.html">Work</a>
+      <a class="nav__link" href="about.html">About</a>
+      <a class="nav__link" href="contact.html">Contact</a>
+      <a class="btn btn--primary nav__cta--mobile" href="contact.html">Book a consultation</a>
+    </nav>
+    <div class="nav__right">
+      <a class="btn btn--primary nav__cta--desktop" href="contact.html">Book a consultation</a>
+      <button class="nav__toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="page-header">
+    <div class="container">
+      <div class="breadcrumb"><a href="index.html">Home</a> / Work</div>
+      <span class="eyebrow">Example work</span>
+      <h1 class="page-header__title">What these projects actually look like</h1>
+      <p class="page-header__lead">Four engagements that show the shape of the work: what was going wrong, what I built, and what changed once it was live. The reporting views alongside them are mockups, drawn to show the kind of thing I build rather than any one client's numbers.</p>
+    </div>
+  </section>
+
+  <!-- ============ CASE 1 ============ -->
+  <section class="case" id="month-end">
+    <div class="container case__grid">
+      <div class="case__body">
+        <span class="case__tag">Finance</span>
+        <h2 class="case__title">Four days of month end, gone</h2>
+
+        <div class="case__block">
+          <h3 class="case__label">The situation</h3>
+          <p>A finance team of five spent the first four working days of every month rebuilding the same board pack by hand. Figures were exported from the ledger, reconciled in Excel, then pasted into slides. When a number was questioned in the meeting, nobody could answer on the spot, because the trail ran back through six workbooks and one person's memory.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What I did</h3>
+          <p>Modelled the general ledger into a star schema with a proper date table, so periods, comparatives, and year to date all behaved consistently instead of being recalculated by hand each time. Automated an overnight refresh from the finance system. Rebuilt the pack in Power BI, keeping the commentary boxes the board actually reads, and added drill through to the underlying transactions on every figure.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What changed</h3>
+          <p>The pack is ready on the first working day, and it says the same thing every month. When a figure gets queried, someone clicks into it while the meeting is still running.</p>
+        </div>
+
+        <div class="case__stack">
+          <span>Power BI</span><span>DAX</span><span>Star schema</span><span>Scheduled refresh</span>
+        </div>
+      </div>
+
+      <div class="case__visual">
+        <div class="report-card" role="img" aria-label="Illustrative finance board pack showing revenue, margin and days to close, with a twelve month revenue trend">
+          <div class="report-card__head">
+            <span class="report-card__title">Board pack · March</span>
+            <span class="report-card__live">Refreshed 06:00</span>
+          </div>
+
+          <div class="mock-stats">
+            <div class="mock-stat">
+              <span class="mock-stat__label">Revenue</span>
+              <span class="mock-stat__value">£4.28m</span>
+              <span class="mock-stat__delta mock-stat__delta--up">&#9650; 6.1% vs Feb</span>
+            </div>
+            <div class="mock-stat">
+              <span class="mock-stat__label">Gross margin</span>
+              <span class="mock-stat__value">41.2%</span>
+              <span class="mock-stat__delta mock-stat__delta--up">&#9650; 0.8pp</span>
+            </div>
+            <div class="mock-stat">
+              <span class="mock-stat__label">Days to close</span>
+              <span class="mock-stat__value">1</span>
+              <span class="mock-stat__delta">was 4</span>
+            </div>
+          </div>
+
+          <div class="mock-chart">
+            <span class="mock-chart__caption">Revenue, last 12 months</span>
+            <svg viewBox="0 0 380 130" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" class="report-card__chart">
+              <line class="chart-grid" x1="0" y1="18" x2="380" y2="18"/>
+              <line class="chart-grid" x1="0" y1="64" x2="380" y2="64"/>
+              <line class="chart-grid" x1="0" y1="110" x2="380" y2="110"/>
+              <path class="chart-area" d="M0,96 L34,101 L69,88 L104,92 L138,74 L173,79 L208,58 L242,63 L277,44 L312,38 L346,26 L380,18 L380,130 L0,130 Z"/>
+              <path class="chart-line" d="M0,96 L34,101 L69,88 L104,92 L138,74 L173,79 L208,58 L242,63 L277,44 L312,38 L346,26 L380,18"/>
+              <circle class="chart-dot" cx="380" cy="18" r="4"/>
+            </svg>
+            <div class="mock-axis"><span>Apr</span><span>Jul</span><span>Oct</span><span>Jan</span><span>Mar</span></div>
+          </div>
+
+          <p class="report-card__foot">Illustrative view, not client data</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CASE 2 ============ -->
+  <section class="case section--alt" id="operations">
+    <div class="container case__grid case__grid--flip">
+      <div class="case__body">
+        <span class="case__tag">Operations</span>
+        <h2 class="case__title">One screen instead of three systems</h2>
+
+        <div class="case__block">
+          <h3 class="case__label">The situation</h3>
+          <p>Dispatchers at a field service business tracked jobs across a scheduling tool, a spreadsheet of engineer availability, and a shared mailbox. The status of a job depended on who you asked. Customers were being told an engineer was on the way when the job had already been reassigned that morning.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What I did</h3>
+          <p>Built Fabric pipelines to bring the scheduling system, the staffing feed, and the job notes into one lakehouse, refreshing through the day rather than overnight. Designed a single operational view showing jobs by status, engineer, and region, with exceptions surfaced at the top instead of buried somewhere in a table of four hundred rows.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What changed</h3>
+          <p>Dispatch works from one screen. The morning stand up and the afternoon review look at the same numbers, which turned out to matter more than anyone expected.</p>
+        </div>
+
+        <div class="case__stack">
+          <span>Microsoft Fabric</span><span>Data Factory</span><span>Lakehouse</span><span>Power BI</span>
+        </div>
+      </div>
+
+      <div class="case__visual">
+        <div class="report-card" role="img" aria-label="Illustrative live operations view showing job counts by status and open jobs by region">
+          <div class="report-card__head">
+            <span class="report-card__title">Live operations</span>
+            <span class="report-card__live">Updated 4 min ago</span>
+          </div>
+
+          <div class="mock-stats">
+            <div class="mock-stat">
+              <span class="mock-stat__label">On site</span>
+              <span class="mock-stat__value">24</span>
+            </div>
+            <div class="mock-stat">
+              <span class="mock-stat__label">En route</span>
+              <span class="mock-stat__value">11</span>
+            </div>
+            <div class="mock-stat mock-stat--flag">
+              <span class="mock-stat__label">Delayed</span>
+              <span class="mock-stat__value">3</span>
+              <span class="mock-stat__delta mock-stat__delta--warn">needs a call</span>
+            </div>
+          </div>
+
+          <div class="mock-chart">
+            <span class="mock-chart__caption">Open jobs by region</span>
+            <div class="mock-bars">
+              <div class="mock-bar">
+                <span class="mock-bar__label">North West</span>
+                <span class="mock-bar__track"><span class="mock-bar__fill" style="width:88%"></span></span>
+                <span class="mock-bar__value">38</span>
+              </div>
+              <div class="mock-bar">
+                <span class="mock-bar__label">Midlands</span>
+                <span class="mock-bar__track"><span class="mock-bar__fill" style="width:67%"></span></span>
+                <span class="mock-bar__value">29</span>
+              </div>
+              <div class="mock-bar">
+                <span class="mock-bar__label">South East</span>
+                <span class="mock-bar__track"><span class="mock-bar__fill" style="width:49%"></span></span>
+                <span class="mock-bar__value">21</span>
+              </div>
+              <div class="mock-bar">
+                <span class="mock-bar__label">Scotland</span>
+                <span class="mock-bar__track"><span class="mock-bar__fill" style="width:28%"></span></span>
+                <span class="mock-bar__value">12</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="report-card__foot">Illustrative view, not client data</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CASE 3 ============ -->
+  <section class="case" id="self-service">
+    <div class="container case__grid">
+      <div class="case__body">
+        <span class="case__tag">Enablement</span>
+        <h2 class="case__title">A team that stopped waiting on one person</h2>
+
+        <div class="case__block">
+          <h3 class="case__label">The situation</h3>
+          <p>In a company of sixty, every report request queued behind a single analyst who properly understood the data. She was three weeks behind, and most of what she was working through were small changes that mattered to someone for about a day. Nobody else felt confident going near the numbers.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What I did</h3>
+          <p>Built two governed datasets covering sales and operations, with the measures defined once and row level security applied so people only see what they should. Ran three workshops teaching the wider team to build their own reports on top, and wrote a short guide covering the handful of things people reliably get wrong with dates and filters.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What changed</h3>
+          <p>Most requests never reach her now. The ones that do are the genuinely hard problems, which is a considerably better use of the only person who understands the data end to end.</p>
+        </div>
+
+        <div class="case__stack">
+          <span>Semantic model</span><span>Row level security</span><span>Workshops</span><span>Documentation</span>
+        </div>
+      </div>
+
+      <div class="case__visual">
+        <div class="report-card" role="img" aria-label="Illustrative diagram of one governed dataset: a central sales fact table joined to date, customer, product and region dimension tables">
+          <div class="report-card__head">
+            <span class="report-card__title">One governed dataset</span>
+            <span class="report-card__live">Certified</span>
+          </div>
+
+          <svg class="mock-model" viewBox="0 0 380 210" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <line class="model-link" x1="190" y1="105" x2="190" y2="42"/>
+            <line class="model-link" x1="190" y1="105" x2="190" y2="168"/>
+            <line class="model-link" x1="190" y1="105" x2="66" y2="105"/>
+            <line class="model-link" x1="190" y1="105" x2="314" y2="105"/>
+
+            <rect class="model-box model-box--dim" x="140" y="18" width="100" height="30" rx="3"/>
+            <text class="model-text" x="190" y="37" text-anchor="middle">Date</text>
+
+            <rect class="model-box model-box--dim" x="16" y="90" width="100" height="30" rx="3"/>
+            <text class="model-text" x="66" y="109" text-anchor="middle">Customer</text>
+
+            <rect class="model-box model-box--dim" x="264" y="90" width="100" height="30" rx="3"/>
+            <text class="model-text" x="314" y="109" text-anchor="middle">Product</text>
+
+            <rect class="model-box model-box--dim" x="140" y="162" width="100" height="30" rx="3"/>
+            <text class="model-text" x="190" y="181" text-anchor="middle">Region</text>
+
+            <rect class="model-box model-box--fact" x="134" y="86" width="112" height="38" rx="3"/>
+            <text class="model-text model-text--fact" x="190" y="103" text-anchor="middle">Sales</text>
+            <text class="model-sub" x="190" y="116" text-anchor="middle">18 measures</text>
+          </svg>
+
+          <p class="report-card__foot">Illustrative model, not client data</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CASE 4 ============ -->
+  <section class="case section--alt" id="migration">
+    <div class="container case__grid case__grid--flip">
+      <div class="case__body">
+        <span class="case__tag">Platform</span>
+        <h2 class="case__title">Off the ageing warehouse, without a big bang</h2>
+
+        <div class="case__block">
+          <h3 class="case__label">The situation</h3>
+          <p>Reports were slow, the warehouse was expensive to keep running, and replacing it had been quoted as a year long programme that nobody wanted to be the one to start. So it kept not starting, and the running costs kept arriving.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What I did</h3>
+          <p>Migrated in slices rather than all at once. The highest value subject area moved into a Fabric lakehouse first, then ran in parallel with the old platform for a month so we could prove the numbers matched before anyone relied on it. Then the next slice, the same way. Each one was small enough to reverse in an afternoon if it went wrong.</p>
+        </div>
+
+        <div class="case__block">
+          <h3 class="case__label">What changed</h3>
+          <p>Reporting got faster in stages instead of all at once at the end of a long programme. The old platform was switched off once it was empty, rather than on a date somebody had picked a year earlier.</p>
+        </div>
+
+        <div class="case__stack">
+          <span>Microsoft Fabric</span><span>OneLake</span><span>Parallel run</span><span>Phased cutover</span>
+        </div>
+      </div>
+
+      <div class="case__visual">
+        <div class="report-card" role="img" aria-label="Illustrative migration plan showing four subject areas moved in sequence, each with a parallel run before cutover">
+          <div class="report-card__head">
+            <span class="report-card__title">Migration, by slice</span>
+            <span class="report-card__live">3 of 4 live</span>
+          </div>
+
+          <div class="mock-phases">
+            <div class="mock-phase">
+              <span class="mock-phase__name">Sales</span>
+              <span class="mock-phase__track"><span class="mock-phase__bar mock-phase__bar--done" style="left:0%;width:26%"></span></span>
+              <span class="mock-phase__state">Live</span>
+            </div>
+            <div class="mock-phase">
+              <span class="mock-phase__name">Finance</span>
+              <span class="mock-phase__track"><span class="mock-phase__bar mock-phase__bar--done" style="left:22%;width:28%"></span></span>
+              <span class="mock-phase__state">Live</span>
+            </div>
+            <div class="mock-phase">
+              <span class="mock-phase__name">Operations</span>
+              <span class="mock-phase__track"><span class="mock-phase__bar mock-phase__bar--done" style="left:46%;width:26%"></span></span>
+              <span class="mock-phase__state">Live</span>
+            </div>
+            <div class="mock-phase">
+              <span class="mock-phase__name">People</span>
+              <span class="mock-phase__track"><span class="mock-phase__bar mock-phase__bar--now" style="left:68%;width:26%"></span></span>
+              <span class="mock-phase__state mock-phase__state--now">Parallel run</span>
+            </div>
+          </div>
+
+          <div class="mock-axis mock-axis--phases"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>
+
+          <p class="report-card__foot">Illustrative plan, not client data</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ HONEST NOTE ============ -->
+  <section class="section section--tight">
+    <div class="container">
+      <div class="disclosure">
+        <h2 class="disclosure__title">A note on these examples</h2>
+        <p>Databert is a young consultancy, and I would rather show you the shape of the work honestly than dress up someone else's case studies as my own. The four above are representative engagements drawn from the kind of problems I take on, and the reporting views are mockups built for this page. As real projects complete and clients are happy to be named, they will replace these.</p>
+        <p>If you would like to talk to someone who has worked with me, ask on our first call and I will put you in touch.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CTA BAND ============ -->
+  <section class="cta-band">
+    <div class="container cta-band__inner">
+      <h2 class="cta-band__title">Recognise your reporting in any of these?</h2>
+      <a href="contact.html" class="btn btn--ghost">
+        Book a free consultation
+        <svg class="btn__arrow" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3.5 8h9M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a href="index.html" class="footer__brand">
+          <svg class="nav__mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M20,4 L33,11.5 L33,26.5 L20,34 L7,26.5 L7,11.5 Z" fill="#080F1C" stroke="#C9A84C" stroke-width="1.3"/>
+            <circle cx="20" cy="4" r="1.4" fill="#C9A84C"/>
+            <circle cx="33" cy="11.5" r="1.4" fill="#C9A84C"/>
+            <circle cx="33" cy="26.5" r="1.4" fill="#C9A84C"/>
+            <circle cx="20" cy="34" r="1.4" fill="#C9A84C"/>
+            <circle cx="7" cy="26.5" r="1.4" fill="#C9A84C"/>
+            <circle cx="7" cy="11.5" r="1.4" fill="#C9A84C"/>
+            <rect x="13.5" y="21" width="3" height="6" rx="0.5" fill="#E8EDF2"/>
+            <rect x="18.5" y="15.5" width="3" height="11.5" rx="0.5" fill="#C9A84C"/>
+            <rect x="23.5" y="11" width="3" height="16" rx="0.5" fill="#E8EDF2"/>
+          </svg>
+          <span class="nav__word">Databert</span>
+        </a>
+        <p class="footer__tagline">Turning data into decisions</p>
+        <p class="footer__desc">A data analytics and reporting consultancy specialising in Microsoft Power BI and Microsoft Fabric.</p>
+      </div>
+
+      <div>
+        <div class="footer__heading">Site</div>
+        <div class="footer__links">
+          <a href="index.html">Home</a>
+          <a href="services.html">Services</a>
+          <a href="work.html">Work</a>
+          <a href="about.html">About</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer__heading">Services</div>
+        <div class="footer__links">
+          <a href="services.html#power-bi">Power BI Consulting</a>
+          <a href="services.html#fabric">Microsoft Fabric</a>
+          <a href="services.html#strategy">Data &amp; BI Strategy</a>
+          <a href="services.html#training">Training &amp; Enablement</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer__heading">Contact</div>
+        <div class="footer__links">
+          <a href="mailto:admin@databert.co.uk">admin@databert.co.uk</a>
+          <a href="contact.html">Book a consultation</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <span>© <span data-year>2026</span> Databert. All rights reserved.</span>
+      <span>Remote first · Worldwide</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

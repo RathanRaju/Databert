@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rathan Narayana Raju CV</title>
+<title>Rathan Portfolio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
@@ -156,7 +156,7 @@ ul{list-style:none}
 /* rows */
 .row-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
 .row-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.05fr);gap:16px}
-.row-3{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,1fr) minmax(0,1.05fr);gap:16px}
+.row-3{display:grid;grid-template-columns:minmax(0,1.8fr) minmax(0,0.94fr) minmax(0,1.02fr);gap:16px}
 .row-4{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr) minmax(0,1fr);gap:16px}
 
 /* stat cards */
@@ -192,9 +192,9 @@ ul{list-style:none}
   position:relative;z-index:2;cursor:pointer;transition:transform .2s}
 .tl-dot:hover{transform:scale(1.35)}
 .tl-body{display:grid;gap:14px}
-.tl-col{padding-right:10px}
-.tl-co{font-size:14.5px;font-weight:800;line-height:1.25;min-height:2.1em}
-.tl-role{font-size:12.8px;color:var(--ink-soft);margin-top:5px;font-weight:600}
+.tl-col{padding-right:9px}
+.tl-co{font-size:14.5px;font-weight:800;line-height:1.25;min-height:2.5em}
+.tl-role{font-size:12.8px;color:var(--ink-soft);margin-top:5px;font-weight:600;min-height:3em}
 .tl-ul{margin-top:11px;display:grid;gap:7px}
 .tl-ul li{font-size:12.2px;color:var(--ink-mute);display:flex;gap:8px;align-items:flex-start;line-height:1.45}
 .tl-ul li::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;margin-top:6px;flex:none;opacity:.7}
@@ -421,7 +421,7 @@ body.live .foot:focus-within > .add-mini{display:grid}
 .pg-fixed{width:1520px!important;max-width:none!important;grid-template-columns:var(--side-w) 1fr!important}
 .pg-fixed .row-stats{grid-template-columns:repeat(5,1fr)!important}
 .pg-fixed .row-2{grid-template-columns:minmax(0,1fr) minmax(0,2.05fr)!important}
-.pg-fixed .row-3{grid-template-columns:minmax(0,1.42fr) minmax(0,1fr) minmax(0,1.05fr)!important}
+.pg-fixed .row-3{grid-template-columns:minmax(0,1.8fr) minmax(0,0.94fr) minmax(0,1.02fr)!important}
 .pg-fixed .row-4{grid-template-columns:minmax(0,1.75fr) minmax(0,1fr) minmax(0,1fr)!important}
 .pg-fixed .row-2 > *,.pg-fixed .row-3 > *,.pg-fixed .row-4 > *{grid-column:auto!important}
 .pg-fixed .exp-grid{grid-template-columns:repeat(5,1fr)!important}
@@ -531,6 +531,10 @@ const PALETTE = ['#2563eb','#14b8a6','#8b5cf6','#f97316','#f5b400','#22c55e','#e
    2. Default CV data
    ============================================================ */
 const DEFAULT_DATA = {
+  /* Bump this whenever the content below is edited in the source: the file then
+     replaces whatever an earlier visit left in this browser. Edits made in the
+     page itself survive until the next bump — keep a copy with Export. */
+  dataVersion: 2,
   profile:{
     name:"Rathan\nNarayana Raju",
     role:"Senior Data Analyst",
@@ -541,12 +545,12 @@ const DEFAULT_DATA = {
     summary:"Results-driven data professional with 8+ years of experience in data analytics, AI/ML, and business intelligence. Expertise in designing scalable analytics solutions, developing AI-powered applications, and delivering actionable insights that drive business performance. Strong track record of leading cross-functional teams and working with senior stakeholders to deliver data-driven outcomes."
   },
   contact:[
-    {icon:"mail",     text:"rathannraju@gmail.com",         href:"mailto:rathannraju@gmail.com"},
-    {icon:"phone",    text:"+44 7392 132742",               href:"tel:+447392132742"},
-    {icon:"linkedin", text:"linkedin.com/in/rathannraju",   href:"https://linkedin.com/in/rathannraju"}
+    {icon:"mail",     text:"rathanr51@gmail.com",         href:"mailto:rathanr51@gmail.com"},
+    {icon:"phone",    text:"+44 7552324120",               href:"tel:+44 7552324120"},
+    {icon:"linkedin", text:"linkedin.com",   href:"https://www.linkedin.com/in/rathan-raju/"}
   ],
   certifications:["Microsoft PL-300","Microsoft DP-203","Microsoft DP-600","Lean Six Sigma Green Belt"],
-  education:[{degree:"MSc in Data Science", school:"University of Salford, UK", years:"2020 – 2021"}],
+  education:[{degree:"MSc in Data Science", school:"University of Essex, UK", years:"2020 – 2022"}, {degree:"Bachelor of Engineering", school:"Visvesvaraya Technological University, India", years:"2013 – 2017"}],
   stats:[
     {icon:"briefcase", value:"8+",   label:"Years Experience",          color:"#2563eb"},
     {icon:"chart",     value:"12+",  label:"Analytics Solutions Delivered", color:"#2563eb"},
@@ -562,11 +566,13 @@ const DEFAULT_DATA = {
     {icon:"group",  title:"Leadership & Stakeholders", desc:"Mentoring, Workshops, Stakeholder Mgmt, Cross-functional Lead", color:"#f5b400"}
   ],
   timeline:[
+    {year:"2017 – 2020", company:"Cognizant", role:"Data Analyst", color:"#f97316",
+     bullets:["SQL & Data Reporting","Data Quality & Validation","Client Delivery Support"]},
     {year:"2021", company:"CloudFM Group", role:"Data Scientist", color:"#2563eb",
      bullets:["ML Model Development","Process Automation","Data Analysis & Reporting"]},
     {year:"2023", company:"Harwin Group", role:"Data Scientist", color:"#14b8a6",
      bullets:["Forecasting & Analytics","Financial Reporting","Power BI Solutions"]},
-    {year:"2023 – Present", company:"D2 Global (Network Rail)", role:"Senior Data Analyst", color:"#8b5cf6",
+    {year:"2023 – Present", company:"TSA Riley", role:"Senior Data Analyst", color:"#8b5cf6",
      bullets:["Enterprise Analytics Solutions","AI-Powered Data Agents","Stakeholder & Delivery Lead"]}
   ],
   techstack:[
@@ -751,6 +757,13 @@ function renderExpertise(){
 function renderTimeline(){
   const n = DATA.timeline.length || 1;
   const cols = 'grid-template-columns:repeat('+n+',minmax(0,1fr))';
+  const n2 = Math.max(1, DATA.timeline.length);
+  const stops = DATA.timeline.map((t,i)=>{
+    const pct = (((i + 0.5) / n2) * 100 - 6) / 0.88;
+    return esc(t.color)+' '+pct.toFixed(1)+'%';
+  });
+  if(stops.length === 1) stops.push(stops[0].split(' ')[0]+' 100%');
+  const rail = 'background:linear-gradient(90deg,'+stops.join(',')+')';
   const heads = DATA.timeline.map((t,i)=>
     '<div>'+ed('timeline.'+i+'.year','div','tl-year')+
     '<div class="tl-dot" style="background:'+esc(t.color)+'" title="'+esc(t.company)+'"></div></div>').join('');
@@ -767,7 +780,7 @@ function renderTimeline(){
   return '<div class="card reveal">'+
     '<div class="card-h">Career Journey'+addMini('timeline','Add role')+'</div>'+
     '<div class="tl">'+
-      '<div class="tl-track"><div class="tl-line"></div><div class="tl-cols" style="'+cols+'">'+heads+'</div></div>'+
+      '<div class="tl-track"><div class="tl-line" style="'+rail+'"></div><div class="tl-cols" style="'+cols+'">'+heads+'</div></div>'+
       '<div class="tl-body" style="'+cols+'">'+bodies+'</div>'+
     '</div>'+
   '</div>';
@@ -923,7 +936,12 @@ function flashSaved(){
 function load(){
   try{
     const raw = localStorage.getItem(KEY);
-    if(raw){ DATA = mergeDefaults(JSON.parse(raw)); }
+    if(raw){
+      const saved = JSON.parse(raw);
+      DATA = (saved && saved.dataVersion === DEFAULT_DATA.dataVersion)
+        ? mergeDefaults(saved)
+        : clone(DEFAULT_DATA);
+    }
   }catch(e){ DATA = clone(DEFAULT_DATA); }
 }
 /* keep newly added default keys if the saved copy is older */
@@ -1240,6 +1258,7 @@ document.getElementById('btnImport').addEventListener('click', ()=>{
       const parsed = JSON.parse(document.getElementById('impArea').value);
       if(!parsed || typeof parsed !== 'object' || !parsed.profile) throw new Error('bad shape');
       DATA = mergeDefaults(parsed);
+      DATA.dataVersion = DEFAULT_DATA.dataVersion;
       save(true); render(); closeModal(); toast('CV data imported');
     }catch(err){ toast('That does not look like a valid CV export'); }
   });

@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rathan Narayana Raju — Interactive CV Dashboard</title>
+<meta name="description" content="Interactive, editable dashboard CV for Rathan Narayana Raju, Senior Data Analyst.">
+<style>
+/* ============================================================
+   Interactive CV Dashboard — self-contained stylesheet
+   ============================================================ */
+:root{
+  --navy-900:#050f2b; --navy-800:#0a1a3c; --navy-700:#102552;
+  --blue:#2563eb; --blue-600:#1d5fe0; --blue-300:#60a5fa; --blue-100:#dbeafe;
+  --teal:#14b8a6; --violet:#8b5cf6; --orange:#f97316; --amber:#f5b400;
+  --page:#eef1f6; --card:#ffffff; --card-2:#f7f9fc;
+  --ink:#0f1b33; --ink-soft:#475069; --ink-mute:#78829b;
+  --line:#e4e9f2; --track:#e6ebf4;
+  --shadow:0 1px 2px rgba(15,27,51,.05), 0 8px 24px -12px rgba(15,27,51,.18);
+  --shadow-lg:0 12px 40px -16px rgba(15,27,51,.35);
+  --r-lg:18px; --r-md:14px; --r-sm:10px;
+  --side-w:320px;
+  --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+}
+html[data-theme="dark"]{
+  --page:#060c1c; --card:#0e1730; --card-2:#121d3a;
+  --ink:#eaf0fb; --ink-soft:#a8b4cf; --ink-mute:#7d8aa8;
+  --line:#1e2b4d; --track:#1b2745;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7);
+  --shadow-lg:0 18px 50px -20px rgba(0,0,0,.85);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+  --page:#060c1c; --card:#0e1730; --card-2:#121d3a;
+  --ink:#eaf0fb; --ink-soft:#a8b4cf; --ink-mute:#7d8aa8;
+  --line:#1e2b4d; --track:#1b2745;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 30px -14px rgba(0,0,0,.7);
+  --shadow-lg:0 18px 50px -20px rgba(0,0,0,.85);
+  }
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{
+  background:var(--page); color:var(--ink); font-family:var(--font);
+  font-size:14px; line-height:1.5; -webkit-font-smoothing:antialiased;
+  padding:26px 20px 60px; transition:background .3s,color .3s;
+}
+h1,h2,h3,h4,p,ul{margin:0;padding:0}
+ul{list-style:none}
+[contenteditable]{outline:none}
+::selection{background:rgba(37,99,235,.28)}
+
+/* ---------- Toolbar ---------- */
+.toolbar{
+  position:sticky; top:14px; z-index:80; max-width:1520px; margin:0 auto 18px;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:10px 14px; border-radius:999px;
+  background:color-mix(in srgb, var(--card) 88%, transparent);
+  border:1px solid var(--line); box-shadow:var(--shadow);
+  backdrop-filter:blur(14px);
+}
+.tb-brand{display:flex;align-items:center;gap:9px;font-weight:700;font-size:13px;letter-spacing:.02em;margin-right:auto}
+.tb-dot{width:9px;height:9px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px rgba(37,99,235,.18)}
+.btn{
+  display:inline-flex;align-items:center;gap:7px;cursor:pointer;
+  border:1px solid var(--line); background:var(--card-2); color:var(--ink-soft);
+  font:600 12.5px/1 var(--font); padding:9px 13px; border-radius:999px;
+  transition:.18s ease; white-space:nowrap;
+}
+.btn:hover{color:var(--ink); border-color:var(--blue); transform:translateY(-1px)}
+.btn svg{width:15px;height:15px;flex:none}
+.btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 6px 18px -8px var(--blue)}
+.btn.primary:hover{background:var(--blue-600)}
+.btn.on{background:var(--teal);border-color:var(--teal);color:#04231f;box-shadow:0 6px 18px -8px var(--teal)}
+.btn.danger:hover{border-color:#ef4444;color:#ef4444}
+.save-pill{font-size:11.5px;color:var(--ink-mute);opacity:0;transition:opacity .3s;font-weight:600}
+.save-pill.show{opacity:1}
+
+/* ---------- Shell ---------- */
+.sheet{
+  max-width:1520px;margin:0 auto;background:var(--card);border-radius:26px;
+  box-shadow:var(--shadow-lg); border:1px solid var(--line);
+  display:grid; grid-template-columns:var(--side-w) 1fr; overflow:hidden;
+}
+/* ---------- Sidebar ---------- */
+.side{
+  background:linear-gradient(165deg,var(--navy-800) 0%,var(--navy-900) 55%,#02070f 100%);
+  color:#dbe6ff; padding:30px 26px 34px; position:relative;
+}
+.side::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(520px 260px at 50% -8%,rgba(37,99,235,.30),transparent 70%)}
+.side > *{position:relative;z-index:1}
+.avatar-wrap{width:158px;height:158px;margin:4px auto 20px;position:relative}
+.avatar{
+  width:100%;height:100%;border-radius:50%;object-fit:cover;display:block;
+  border:4px solid var(--blue); box-shadow:0 0 0 7px rgba(37,99,235,.16), 0 14px 30px -12px #000;
+  background:#0d1c3d;
+}
+.avatar-ph{display:grid;place-items:center;color:#4d6699;font-size:44px;font-weight:800;letter-spacing:.04em}
+.avatar-edit{
+  position:absolute;right:6px;bottom:6px;width:38px;height:38px;border-radius:50%;
+  background:var(--blue);border:3px solid var(--navy-800);display:none;place-items:center;
+  cursor:pointer;color:#fff;transition:.18s;
+}
+.avatar-edit:hover{transform:scale(1.08)}
+.avatar-edit svg{width:16px;height:16px}
+body.editing .avatar-edit{display:grid}
+.side h1{font-size:26px;line-height:1.15;font-weight:800;text-align:center;letter-spacing:-.01em;color:#fff}
+.side .role{text-align:center;color:var(--blue-300);font-weight:700;font-size:16px;margin-top:9px}
+.side .tagline{text-align:center;color:#9fb2d8;font-size:12.5px;margin-top:5px}
+.side-meta{margin-top:18px;display:grid;gap:9px}
+.meta-row{display:flex;align-items:center;gap:10px;font-size:12.5px;color:#c3d2ee}
+.meta-row svg{width:15px;height:15px;flex:none;color:var(--blue-300)}
+.side-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(120,160,230,.35),transparent);margin:24px 0 20px}
+.side-h{
+  color:var(--blue-300);font-size:12.5px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+}
+.contact-list{display:grid;gap:13px}
+.contact-item{display:flex;align-items:center;gap:12px;font-size:13px;color:#d7e3f9;word-break:break-word}
+.contact-ic{
+  width:30px;height:30px;border-radius:9px;background:rgba(96,165,250,.12);
+  display:grid;place-items:center;flex:none;color:var(--blue-300);border:1px solid rgba(96,165,250,.18);
+}
+.contact-ic svg{width:15px;height:15px}
+.contact-item a{color:inherit;text-decoration:none;border-bottom:1px solid transparent;transition:.15s}
+.contact-item a:hover{color:#fff;border-color:var(--blue-300)}
+.bullet-list{display:grid;gap:11px}
+.bullet-item{display:flex;gap:10px;font-size:13px;color:#d7e3f9;align-items:flex-start}
+.bullet-item::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--blue-300);margin-top:7px;flex:none}
+.edu-item{display:flex;gap:12px;align-items:flex-start}
+.edu-ic{width:36px;height:36px;border-radius:11px;background:rgba(96,165,250,.14);display:grid;place-items:center;color:var(--blue-300);flex:none}
+.edu-ic svg{width:19px;height:19px}
+.edu-item b{display:block;color:#fff;font-size:13.5px;font-weight:700}
+.edu-item span[data-bind]{display:block;color:#a9bbdd;font-size:12.5px}
+
+/* ---------- Main ---------- */
+.main{padding:22px;display:grid;gap:16px;background:var(--card);align-content:start}
+.card{
+  background:var(--card-2);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:18px; box-shadow:var(--shadow); position:relative;
+  transition:transform .25s cubic-bezier(.2,.7,.3,1), box-shadow .25s, border-color .25s;
+}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--blue) 35%,var(--line))}
+.card-h{
+  display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink);margin-bottom:16px;
+}
+.card-h .hi{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;flex:none}
+.card-h .hi svg{width:17px;height:17px}
+
+/* rows */
+.row-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.row-2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.05fr);gap:16px}
+.row-3{display:grid;grid-template-columns:minmax(0,1.42fr) minmax(0,1fr) minmax(0,1.05fr);gap:16px}
+.row-4{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr) minmax(0,1fr);gap:16px}
+
+/* stat cards */
+.stat{display:flex;align-items:center;gap:14px;padding:16px 16px}
+.stat .ic{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none;
+  box-shadow:0 8px 18px -10px currentColor}
+.stat .ic svg{width:24px;height:24px}
+.stat .v{font-size:30px;font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink)}
+.stat .l{font-size:10.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-mute);margin-top:6px;max-width:15ch}
+
+/* summary */
+.summary-text{font-size:13.4px;line-height:1.72;color:var(--ink-soft)}
+
+/* expertise */
+.exp-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.exp{text-align:center;padding:6px 4px;border-radius:var(--r-md);transition:background .2s}
+.exp:hover{background:color-mix(in srgb,var(--blue) 7%,transparent)}
+.exp .ic{width:60px;height:60px;border-radius:50%;display:grid;place-items:center;margin:0 auto 12px;color:#fff;
+  transition:transform .3s cubic-bezier(.2,.8,.3,1.4)}
+.exp:hover .ic{transform:translateY(-4px) rotate(-4deg)}
+.exp .ic svg{width:28px;height:28px}
+.exp b{display:block;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--ink);line-height:1.35}
+.exp p{font-size:11.8px;color:var(--ink-mute);margin-top:8px;line-height:1.55}
+
+/* timeline */
+.tl{position:relative;padding:6px 4px 2px}
+.tl-track{position:relative;height:34px;margin:0 0 14px}
+.tl-line{position:absolute;left:6%;right:6%;top:22px;height:3px;border-radius:3px;
+  background:linear-gradient(90deg,var(--blue),var(--teal),var(--violet))}
+.tl-cols{display:grid;position:relative}
+.tl-year{font-size:13px;font-weight:800;color:var(--ink-soft);text-align:center}
+.tl-dot{width:15px;height:15px;border-radius:50%;margin:6px auto 0;border:3px solid var(--card-2);
+  position:relative;z-index:2;cursor:pointer;transition:transform .2s}
+.tl-dot:hover{transform:scale(1.35)}
+.tl-body{display:grid;gap:14px}
+.tl-col{padding-right:10px}
+.tl-co{font-size:14.5px;font-weight:800;line-height:1.25;min-height:2.1em}
+.tl-role{font-size:12.8px;color:var(--ink-soft);margin-top:5px;font-weight:600}
+.tl-ul{margin-top:11px;display:grid;gap:7px}
+.tl-ul li{font-size:12.2px;color:var(--ink-mute);display:flex;gap:8px;align-items:flex-start;line-height:1.45}
+.tl-ul li::before{content:"";width:5px;height:5px;border-radius:50%;background:currentColor;margin-top:6px;flex:none;opacity:.7}
+
+/* bars */
+.bars{display:grid;gap:11px}
+.bar-row{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.5fr);align-items:center;gap:11px}
+.bar-name{font-size:12px;font-weight:600;color:var(--ink-soft)}
+.bar{position:relative;height:9px;border-radius:99px;background:var(--track);overflow:hidden}
+.bar-fill{position:absolute;inset:0 auto 0 0;border-radius:99px;width:0;
+  background:linear-gradient(90deg,var(--blue-300),var(--blue));transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.bar-val{position:absolute;right:0;top:-19px;font-size:11px;font-weight:700;color:var(--blue);opacity:0;transition:opacity .2s}
+.bar-row:hover .bar-val{opacity:1}
+body.editing .bar{cursor:ew-resize;height:12px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--blue) 40%,transparent)}
+body.editing .bar-val{opacity:1}
+
+/* industry bars */
+.ind{display:grid;gap:14px}
+.ind-row .top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px}
+.ind-row .nm{font-size:12.6px;font-weight:600;color:var(--ink-soft)}
+.ind-row .pc{font-size:12.6px;font-weight:800;color:var(--ink)}
+
+/* donut */
+.donut-wrap{position:relative;width:100%;max-width:330px;margin:2px auto 0;aspect-ratio:1}
+.donut{position:absolute;left:27.5%;top:27.5%;width:45%;height:45%;transform:rotate(-90deg);overflow:visible}
+.donut circle{transition:stroke-width .22s ease, opacity .22s ease;cursor:pointer}
+.donut circle.dim{opacity:.32}
+.donut-mid{
+  position:absolute;inset:0;display:grid;place-content:center;text-align:center;pointer-events:none;
+}
+.donut-mid .ic{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;margin:0 auto;
+  background:color-mix(in srgb,var(--amber) 18%,transparent);color:var(--amber)}
+.donut-mid .ic svg{width:24px;height:24px}
+.donut-mid .pv{font-size:22px;font-weight:800;line-height:1.1}
+.donut-mid .pl{font-size:10.5px;color:var(--ink-mute);max-width:12ch;margin:3px auto 0;line-height:1.3}
+.dlab{position:absolute;width:78px;font-size:10.2px;line-height:1.35;color:var(--ink-mute);transform:translate(-50%,-50%);pointer-events:none}
+.dlab b{display:block;font-size:14px;font-weight:800;color:var(--ink);margin-bottom:2px}
+
+/* projects */
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.proj{background:var(--card);border:1px solid var(--line);border-radius:var(--r-md);padding:14px;
+  display:flex;flex-direction:column;gap:10px;transition:.25s}
+.proj:hover{transform:translateY(-3px);border-color:color-mix(in srgb,var(--blue) 45%,var(--line));box-shadow:var(--shadow)}
+.proj .head{display:flex;gap:11px;align-items:flex-start}
+.proj .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;color:#fff;flex:none}
+.proj .ic svg{width:21px;height:21px}
+.proj .t{font-size:12.8px;font-weight:800;line-height:1.3}
+.proj .tags{font-size:10.6px;color:var(--ink-mute);margin-top:5px;font-weight:600}
+.proj p{font-size:12px;color:var(--ink-soft);line-height:1.6}
+
+/* impact */
+.imp{display:grid;gap:16px}
+.imp-row{display:flex;align-items:center;gap:14px}
+.imp-ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;flex:none}
+.imp-ic svg{width:23px;height:23px}
+.imp .v{font-size:27px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.imp .l{font-size:11.6px;color:var(--ink-mute);line-height:1.4;max-width:20ch}
+
+/* footer */
+.foot{
+  grid-column:1/-1;display:flex;align-items:center;gap:22px;flex-wrap:wrap;
+  padding:16px 26px;border-top:1px solid var(--line);
+  background:linear-gradient(90deg,color-mix(in srgb,var(--blue) 8%,var(--card)),var(--card));
+}
+.quote{display:flex;gap:11px;align-items:flex-start;font-size:13.2px;font-style:italic;color:var(--ink-soft);margin-right:auto;max-width:56ch}
+.quote svg{width:22px;height:22px;color:var(--blue);flex:none;margin-top:-2px}
+.traits{display:flex;gap:24px;flex-wrap:wrap}
+.trait{display:flex;align-items:center;gap:9px;font-size:12.4px;font-weight:600;color:var(--ink-soft)}
+.trait svg{width:19px;height:19px;color:var(--blue)}
+
+/* ---------- Edit affordances ---------- */
+body.editing [data-bind]{
+  border-radius:5px; box-shadow:0 0 0 1px color-mix(in srgb,var(--blue) 32%,transparent);
+  transition:box-shadow .15s, background .15s;
+}
+body.editing [data-bind]{overflow-wrap:normal;word-break:normal}
+.contact-item [data-bind],.href-edit{overflow-wrap:break-word!important;word-break:break-word!important}
+body.editing [data-bind]:hover{background:color-mix(in srgb,var(--blue) 9%,transparent)}
+body.editing [data-bind]:focus{box-shadow:0 0 0 2px var(--blue);background:color-mix(in srgb,var(--blue) 12%,transparent)}
+.side [data-bind]:focus{background:rgba(96,165,250,.14)!important}
+.ctl{display:none;gap:6px;align-items:center}
+body.editing .ctl{display:inline-flex}
+.mini{
+  width:22px;height:22px;border-radius:7px;display:grid;place-items:center;cursor:pointer;
+  border:1px solid var(--line);background:var(--card);color:var(--ink-mute);transition:.15s;flex:none;
+}
+.mini:hover{color:#fff;background:var(--blue);border-color:var(--blue)}
+.mini.del:hover{background:#ef4444;border-color:#ef4444}
+.mini svg{width:12px;height:12px}
+.side .mini{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:#9fb2d8}
+.add-row{display:none;margin-top:12px}
+body.editing .add-row{display:flex;justify-content:center}
+.add-btn{
+  display:inline-flex;align-items:center;gap:6px;font:700 11.5px/1 var(--font);cursor:pointer;
+  padding:7px 12px;border-radius:999px;border:1px dashed color-mix(in srgb,var(--blue) 55%,var(--line));
+  background:transparent;color:var(--blue);transition:.15s;
+}
+.add-btn:hover{background:color-mix(in srgb,var(--blue) 12%,transparent)}
+.add-btn svg{width:12px;height:12px}
+.side .add-btn{color:var(--blue-300);border-color:rgba(96,165,250,.45)}
+.item-wrap{position:relative}
+.item-ctl{position:absolute;top:-6px;right:-4px;z-index:5}
+.swatches{display:none;gap:4px;margin-top:8px;justify-content:center;flex-wrap:wrap}
+body.editing .swatches{display:flex}
+.sw{width:14px;height:14px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:.15s}
+.sw:hover{transform:scale(1.25)}
+.sw.sel{border-color:var(--ink)}
+
+/* ---------- Modal ---------- */
+.overlay{
+  position:fixed;inset:0;background:rgba(3,8,20,.62);backdrop-filter:blur(5px);
+  display:none;place-items:center;z-index:200;padding:22px;
+}
+.overlay.open{display:grid}
+.modal{
+  width:min(680px,100%);max-height:86vh;overflow:auto;background:var(--card);
+  border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lg);padding:22px;
+}
+.modal h3{font-size:16px;font-weight:800;margin-bottom:6px}
+.modal .sub{font-size:12.5px;color:var(--ink-mute);margin-bottom:14px;line-height:1.6}
+.modal textarea{
+  width:100%;min-height:260px;resize:vertical;border-radius:12px;border:1px solid var(--line);
+  background:var(--card-2);color:var(--ink);font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;padding:12px;
+}
+.modal textarea:focus{outline:none;border-color:var(--blue)}
+.modal-foot{display:flex;gap:9px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.help-list{display:grid;gap:10px;font-size:13px;color:var(--ink-soft)}
+.help-list b{color:var(--ink)}
+.kbd{display:inline-block;padding:2px 7px;border-radius:6px;border:1px solid var(--line);
+  background:var(--card-2);font:600 11px/1.5 ui-monospace,Menlo,monospace;color:var(--ink)}
+.toast{
+  position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);z-index:300;
+  background:var(--ink);color:var(--card);font:600 12.5px/1 var(--font);padding:12px 18px;border-radius:999px;
+  opacity:0;pointer-events:none;transition:.28s cubic-bezier(.2,.8,.2,1);box-shadow:var(--shadow-lg);
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* ---------- Reveal ---------- */
+.reveal{opacity:0;transform:translateY(14px)}
+.reveal.in{opacity:1;transform:none;transition:opacity .55s ease,transform .55s cubic-bezier(.2,.8,.2,1)}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1240px){
+  .row-3,.row-4{grid-template-columns:1fr 1fr}
+  .row-3 > :nth-child(1),.row-4 > :nth-child(1){grid-column:1/-1}
+  .row-stats{grid-template-columns:repeat(3,1fr)}
+}
+@media (max-width:980px){
+  .sheet{grid-template-columns:1fr}
+  .row-2,.row-3,.row-4{grid-template-columns:1fr}
+  .row-2 > *,.row-3 > *,.row-4 > *{grid-column:auto!important}
+  .exp-grid{grid-template-columns:repeat(3,1fr)}
+  .proj-grid{grid-template-columns:1fr}
+  .side{padding-bottom:26px}
+}
+@media (max-width:600px){
+  body{padding:14px 10px 44px}
+  .row-stats,.exp-grid{grid-template-columns:repeat(2,1fr)}
+  .tl-cols,.tl-body{grid-template-columns:1fr!important}
+  .tl-track{display:none}
+  .toolbar{border-radius:18px}
+  .tb-brand span{display:none}
+}
+
+/* ---------- Print ---------- */
+/* Locked desktop layout — used while measuring and while printing, so the
+   sheet keeps its dashboard grid no matter how narrow the paper or window is. */
+.pg-fixed{width:1520px!important;max-width:none!important;grid-template-columns:var(--side-w) 1fr!important}
+.pg-fixed .row-stats{grid-template-columns:repeat(5,1fr)!important}
+.pg-fixed .row-2{grid-template-columns:minmax(0,1fr) minmax(0,2.05fr)!important}
+.pg-fixed .row-3{grid-template-columns:minmax(0,1.42fr) minmax(0,1fr) minmax(0,1.05fr)!important}
+.pg-fixed .row-4{grid-template-columns:minmax(0,1.75fr) minmax(0,1fr) minmax(0,1fr)!important}
+.pg-fixed .row-2 > *,.pg-fixed .row-3 > *,.pg-fixed .row-4 > *{grid-column:auto!important}
+.pg-fixed .exp-grid{grid-template-columns:repeat(5,1fr)!important}
+.pg-fixed .proj-grid{grid-template-columns:repeat(3,1fr)!important}
+.pg-fixed .tl-track{display:block!important}
+
+@media print{
+  @page{margin:0}                 /* the exact page size is injected before printing */
+  body{padding:16px;background:#fff}
+  .toolbar,.overlay,.toast,.add-row,.ctl,.swatches,.avatar-edit{display:none!important}
+  .sheet{box-shadow:none;border-radius:18px}
+  .card{break-inside:avoid;box-shadow:none}
+  .reveal{opacity:1!important;transform:none!important}
+  .card:hover{transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ================= Toolbar ================= -->
+<div class="toolbar no-print">
+  <div class="tb-brand"><span class="tb-dot"></span><span>CV Dashboard</span></div>
+  <span class="save-pill" id="savePill">Saved</span>
+  <button class="btn" id="btnEdit" title="Toggle edit mode (Ctrl/Cmd + E)"></button>
+  <button class="btn" id="btnTheme" title="Toggle light / dark"></button>
+  <button class="btn" id="btnPrint" title="Print or save as PDF"></button>
+  <button class="btn" id="btnExport" title="Export data as JSON"></button>
+  <button class="btn" id="btnImport" title="Import data from JSON"></button>
+  <button class="btn danger" id="btnReset" title="Reset to the original CV"></button>
+  <button class="btn" id="btnHelp" title="How to use">?</button>
+</div>
+
+<!-- ================= Sheet ================= -->
+<main class="sheet" id="sheet">
+  <aside class="side" id="side"></aside>
+  <section class="main" id="main"></section>
+  <footer class="foot" id="foot"></footer>
+</main>
+
+<input type="file" id="photoInput" accept="image/*" hidden>
+
+<!-- ================= Modals ================= -->
+<div class="overlay" id="overlay">
+  <div class="modal" id="modal"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+"use strict";
+/* ============================================================
+   1. Icon set
+   ============================================================ */
+const I = {
+  briefcase:'<path d="M3 8h18v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8z"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/><path d="M3 13h18"/>',
+  chart:'<path d="M7 16V9"/><path d="M12 16V5"/><path d="M17 16v-4"/><path d="M4 20h16"/>',
+  award:'<circle cx="12" cy="9" r="5"/><path d="M9 13.5 7.5 21l4.5-2.4 4.5 2.4L15 13.5"/>',
+  users:'<path d="M16 20v-1.5a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4V20"/><circle cx="9.5" cy="7" r="3.2"/><path d="M21 20v-1.5a4 4 0 0 0-3-3.85"/><path d="M15.5 4.2a3.2 3.2 0 0 1 0 5.6"/>',
+  target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/>',
+  brain:'<path d="M9.5 4.5a2.5 2.5 0 0 0-2.4 3.2A2.6 2.6 0 0 0 5 10.2a2.6 2.6 0 0 0 1.4 2.3A2.6 2.6 0 0 0 8.6 17a2.5 2.5 0 0 0 3.4 2V4.9a2.5 2.5 0 0 0-2.5-.4z"/><path d="M14.5 4.5a2.5 2.5 0 0 1 2.4 3.2A2.6 2.6 0 0 1 19 10.2a2.6 2.6 0 0 1-1.4 2.3A2.6 2.6 0 0 1 15.4 17a2.5 2.5 0 0 1-3.4 2"/>',
+  layers:'<path d="M12 3 3 7.5l9 4.5 9-4.5L12 3z"/><path d="m3 12.5 9 4.5 9-4.5"/><path d="m3 17 9 4.5L21 17"/>',
+  cloud:'<path d="M17.5 19a4.5 4.5 0 0 0 .4-8.98A6 6 0 0 0 6.2 11 3.9 3.9 0 0 0 7 19h10.5z"/>',
+  group:'<circle cx="8" cy="9" r="2.6"/><circle cx="16" cy="9" r="2.6"/><path d="M3.5 18a4.5 4.5 0 0 1 9 0"/><path d="M11.5 18a4.5 4.5 0 0 1 9 0"/>',
+  mail:'<rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m3.6 7 8.4 6 8.4-6"/>',
+  phone:'<path d="M5 3.5h3l1.6 4-2 1.4a12.5 12.5 0 0 0 5.5 5.5l1.4-2 4 1.6v3a1.8 1.8 0 0 1-2 1.8A16.5 16.5 0 0 1 3.2 5.5a1.8 1.8 0 0 1 1.8-2z"/>',
+  linkedin:'<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M8 10.5V17"/><circle cx="8" cy="7.6" r="1"/><path d="M12 17v-3.6a2 2 0 0 1 4 0V17"/><path d="M12 17v-6.5"/>',
+  globe:'<circle cx="12" cy="12" r="8.5"/><path d="M3.5 12h17"/><path d="M12 3.5c2.4 2.4 3.6 5.4 3.6 8.5S14.4 18.1 12 20.5c-2.4-2.4-3.6-5.4-3.6-8.5S9.6 5.9 12 3.5z"/>',
+  pin:'<path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+  chevron:'<path d="m6 9 6 6 6-6"/>',
+  cap:'<path d="M12 4 2.5 8.5 12 13l9.5-4.5L12 4z"/><path d="M6.5 11v4.5c0 1.4 2.5 2.7 5.5 2.7s5.5-1.3 5.5-2.7V11"/>',
+  robot:'<rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 8V4.5"/><circle cx="12" cy="3.4" r="1.2"/><circle cx="9" cy="13" r="1.2" fill="currentColor" stroke="none"/><circle cx="15" cy="13" r="1.2" fill="currentColor" stroke="none"/><path d="M9.5 16.4h5"/>',
+  radar:'<circle cx="11" cy="11" r="6.5"/><path d="M11 7.5v3.5l2.4 1.6"/><path d="m20.5 20.5-4.2-4.2"/>',
+  coins:'<circle cx="12" cy="12" r="8.5"/><path d="M9.5 8.5h5"/><path d="M9.5 11h5"/><path d="M14.5 8.5c0 2.2-1.4 3.6-3.4 3.6H9.8l4 5.4"/>',
+  trend:'<path d="m3.5 16.5 5-5 3.5 3.5 6.5-7"/><path d="M14 8h4.5v4.5"/><path d="M3.5 20.5h17"/>',
+  clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.2V12l3.2 2"/>',
+  puzzle:'<path d="M10 4.5h4v2a1.8 1.8 0 1 0 3.5 0v-2H20v4h-1.8a1.8 1.8 0 1 0 0 3.5H20v4h-4v-1.8a1.8 1.8 0 1 0-3.5 0V19H8.5v-4H6.7a1.8 1.8 0 1 1 0-3.5h1.8v-4H10z"/>',
+  book:'<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5V5.5z"/><path d="M4 20.5A2.5 2.5 0 0 1 6.5 18H20v3H6.5A2.5 2.5 0 0 1 4 20.5z"/>',
+  bulb:'<path d="M9.2 17.5a6 6 0 1 1 5.6 0"/><path d="M9.8 20.5h4.4"/><path d="M10.4 17.5h3.2"/>',
+  quote:'<path d="M9.5 6.5c-3 1.3-4.7 3.7-4.7 6.9V18h5.6v-5.4H7.2c0-2 .8-3.4 2.9-4.3l-.6-1.8z"/><path d="M19 6.5c-3 1.3-4.7 3.7-4.7 6.9V18h5.6v-5.4h-3.2c0-2 .8-3.4 2.9-4.3l-.6-1.8z"/>',
+  edit:'<path d="M4 20h4L19 9a2.4 2.4 0 0 0-3.4-3.4L4.6 16.6 4 20z"/><path d="m14.5 6.5 3.4 3.4"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+  sun:'<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"/>',
+  moon:'<path d="M20 14.5A8.2 8.2 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/>',
+  printer:'<path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="7.5" rx="2"/><path d="M7 14h10v6.5H7z"/>',
+  download:'<path d="M12 3.5v11"/><path d="m7.5 10.5 4.5 4.5 4.5-4.5"/><path d="M4 20h16"/>',
+  upload:'<path d="M12 20V9"/><path d="m7.5 13 4.5-4.5L16.5 13"/><path d="M4 4h16"/>',
+  reset:'<path d="M4.5 12a7.5 7.5 0 1 0 2.6-5.7"/><path d="M4 4v4.5h4.5"/>',
+  plus:'<path d="M12 5.5v13M5.5 12h13"/>',
+  trash:'<path d="M4.5 7h15"/><path d="M9.5 7V5.2A1.2 1.2 0 0 1 10.7 4h2.6a1.2 1.2 0 0 1 1.2 1.2V7"/><path d="M6.5 7 7.4 19a1.6 1.6 0 0 0 1.6 1.5h6a1.6 1.6 0 0 0 1.6-1.5L17.5 7"/>',
+  camera:'<path d="M4 8h3l1.4-2.2h7.2L17 8h3a1.6 1.6 0 0 1 1.6 1.6v8.4A1.6 1.6 0 0 1 20 19.6H4A1.6 1.6 0 0 1 2.4 18V9.6A1.6 1.6 0 0 1 4 8z"/><circle cx="12" cy="13.4" r="3.4"/>',
+  close:'<path d="m6 6 12 12M18 6 6 18"/>',
+  copy:'<rect x="8.5" y="8.5" width="12" height="12" rx="2.5"/><path d="M15.5 5.5h-9a2.5 2.5 0 0 0-2.5 2.5v9"/>',
+  db:'<ellipse cx="12" cy="6" rx="7.5" ry="3"/><path d="M4.5 6v12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3V6"/><path d="M4.5 12c0 1.7 3.4 3 7.5 3s7.5-1.3 7.5-3"/>',
+  spark:'<path d="M12 3.5 13.9 9l5.6 1.9-5.6 1.9L12 18.4l-1.9-5.6L4.5 11 10.1 9 12 3.5z"/>',
+  shield:'<path d="M12 3.5 5 6.2v5.3c0 4.3 2.9 7.7 7 9 4.1-1.3 7-4.7 7-9V6.2L12 3.5z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
+};
+function svg(n, extra){
+  const p = I[n] || I.spark;
+  return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"'+(extra||'')+'>'+p+'</svg>';
+}
+const PALETTE = ['#2563eb','#14b8a6','#8b5cf6','#f97316','#f5b400','#ef4444','#06b6d4','#22c55e','#ec4899','#64748b'];
+
+/* ============================================================
+   2. Default CV data
+   ============================================================ */
+const DEFAULT_DATA = {
+  profile:{
+    name:"Rathan\nNarayana Raju",
+    role:"Senior Data Analyst",
+    tagline:"Data & AI | Analytics Transformation",
+    location:"Manchester, UK",
+    availability:"Open to International Opportunities",
+    photo:"",
+    summary:"Results-driven data professional with 8+ years of experience in data analytics, AI/ML, and business intelligence. Expertise in designing scalable analytics solutions, developing AI-powered applications, and delivering actionable insights that drive business performance. Strong track record of leading cross-functional teams and working with senior stakeholders to deliver data-driven outcomes."
+  },
+  contact:[
+    {icon:"mail",     text:"rathannraju@gmail.com",         href:"mailto:rathannraju@gmail.com"},
+    {icon:"phone",    text:"+44 7392 132742",               href:"tel:+447392132742"},
+    {icon:"linkedin", text:"linkedin.com/in/rathannraju",   href:"https://linkedin.com/in/rathannraju"}
+  ],
+  certifications:["Microsoft PL-300","Microsoft DP-203","Microsoft DP-600","Lean Six Sigma Green Belt"],
+  education:[{degree:"MSc in Data Science", school:"University of Salford, UK", years:"2020 – 2021"}],
+  stats:[
+    {icon:"briefcase", value:"8+",   label:"Years Experience",          color:"#2563eb"},
+    {icon:"chart",     value:"12+",  label:"Analytics Solutions Delivered", color:"#2563eb"},
+    {icon:"award",     value:"4",    label:"Professional Certifications",   color:"#2563eb"},
+    {icon:"users",     value:"100+", label:"People Mentored",           color:"#2563eb"},
+    {icon:"target",    value:"15+",  label:"Technologies & Tools",      color:"#2563eb"}
+  ],
+  expertise:[
+    {icon:"chart",  title:"Data & Analytics",        desc:"Dashboards, KPI Frameworks, Data Modelling, Reporting", color:"#2563eb"},
+    {icon:"brain",  title:"AI & Machine Learning",   desc:"Predictive Analytics, Anomaly Detection, AI Agents, NLP", color:"#14b8a6"},
+    {icon:"layers", title:"Data Engineering",        desc:"ETL Pipelines, Data Transformation, Data Quality", color:"#8b5cf6"},
+    {icon:"cloud",  title:"Cloud & Platforms",       desc:"Microsoft Fabric, Azure, Data Factory, Synapse", color:"#f97316"},
+    {icon:"group",  title:"Leadership & Stakeholders", desc:"Mentoring, Workshops, Stakeholder Mgmt, Cross-functional Lead", color:"#f5b400"}
+  ],
+  timeline:[
+    {year:"2021", company:"CloudFM Group", role:"Data Scientist", color:"#2563eb",
+     bullets:["ML Model Development","Process Automation","Data Analysis & Reporting"]},
+    {year:"2023", company:"Harwin Group", role:"Data Scientist", color:"#14b8a6",
+     bullets:["Forecasting & Analytics","Financial Reporting","Power BI Solutions"]},
+    {year:"2023 – Present", company:"D2 Global (Network Rail)", role:"Senior Data Analyst", color:"#8b5cf6",
+     bullets:["Enterprise Analytics Solutions","AI-Powered Data Agents","Stakeholder & Delivery Lead"]}
+  ],
+  techstack:[
+    {name:"Power BI",         level:95},
+    {name:"SQL",              level:92},
+    {name:"Microsoft Fabric", level:88},
+    {name:"Python",           level:84},
+    {name:"Azure",            level:80},
+    {name:"Data Modelling",   level:88},
+    {name:"AI / ML",          level:76},
+    {name:"Excel",            level:82},
+    {name:"Data Engineering", level:74}
+  ],
+  skills:[
+    {label:"Analytics & Reporting",   value:25, color:"#2563eb"},
+    {label:"AI & Machine Learning",   value:20, color:"#14b8a6"},
+    {label:"Data Engineering",        value:20, color:"#f5b400"},
+    {label:"Cloud & Platforms",       value:15, color:"#8b5cf6"},
+    {label:"Leadership & Stakeholders", value:20, color:"#22c55e"}
+  ],
+  projects:[
+    {icon:"robot", title:"AI-Powered Data Agent", tags:"Microsoft Fabric | AI", color:"#2563eb",
+     desc:"Developed intelligent data agents using Microsoft Fabric to enable natural language interactions and accelerate insight generation."},
+    {icon:"radar", title:"Predictive Anomaly Detection", tags:"Python | ML | SQL", color:"#14b8a6",
+     desc:"Built ML models to detect anomalies in planning, scheduling & commercial data to identify risks early and improve performance."},
+    {icon:"coins", title:"AI Finance Assistant", tags:"Python | NLP | Forecasting", color:"#8b5cf6",
+     desc:"Built a personalised finance assistant to analyse transactions, detect anomalies and provide smart recommendations."}
+  ],
+  impact:[
+    {icon:"trend", value:"40%", label:"Reduction in manual reporting effort",  color:"#22c55e"},
+    {icon:"target",value:"30%", label:"Improved decision making efficiency",   color:"#2563eb"},
+    {icon:"clock", value:"80%", label:"Faster insights with AI-powered solutions", color:"#f97316"}
+  ],
+  industries:[
+    {name:"Infrastructure / Construction", value:70},
+    {name:"Commercial / Finance",          value:60},
+    {name:"Consulting / Professional Services", value:40},
+    {name:"Technology / SaaS",             value:20}
+  ],
+  quote:"Turning data into actionable insights and AI-powered solutions that drive business value.",
+  traits:[
+    {icon:"puzzle", label:"Problem Solver"},
+    {icon:"chart",  label:"Data-Driven"},
+    {icon:"group",  label:"Collaborative Leader"},
+    {icon:"book",   label:"Continuous Learner"}
+  ]
+};
+
+/* ============================================================
+   3. State, storage & helpers
+   ============================================================ */
+const KEY = 'cv-dashboard-v1';
+const clone = o => JSON.parse(JSON.stringify(o));
+let DATA = clone(DEFAULT_DATA);
+let editing = false;
+
+/* -- extra runtime styles -- */
+document.head.insertAdjacentHTML('beforeend','<style>'+
+  '.edit-only{display:none}body.editing .edit-only{display:block}'+
+  '.href-edit{font-size:10.2px;color:var(--blue-300);margin-top:4px;word-break:break-all;opacity:.9}'+
+  '.name-ed{white-space:pre-line}'+
+  '.add-tile{display:none;align-items:center;justify-content:center;gap:7px;border:1px dashed color-mix(in srgb,var(--blue) 55%,var(--line));'+
+  'border-radius:var(--r-lg);color:var(--blue);font:700 12px/1 var(--font);cursor:pointer;background:transparent;min-height:84px}'+
+  'body.editing .add-tile{display:flex}.add-tile:hover{background:color-mix(in srgb,var(--blue) 10%,transparent)}'+
+  '.add-tile svg{width:14px;height:14px}'+'body.editing [data-act="icon"]{cursor:pointer;outline:1px dashed color-mix(in srgb,var(--blue) 45%,transparent);outline-offset:3px;border-radius:50%}'+'body.editing [data-act="icon"]:hover{transform:scale(1.08)}'+
+'</style>');
+
+function get(path){
+  return path.split('.').reduce((o,k)=> (o==null?o:o[k]), DATA);
+}
+function set(path,val){
+  const ks = path.split('.'); const last = ks.pop();
+  const t = ks.reduce((o,k)=>o[k], DATA);
+  if(t) t[last] = val;
+}
+const esc = s => String(s==null?'':s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+
+/* editable element factory */
+function ed(path, tag, cls, extra){
+  const v = esc(get(path));
+  return '<'+tag+' class="'+(cls||'')+'" data-bind="'+path+'"'+(extra||'')+'>'+v+'</'+tag+'>';
+}
+function delBtn(list, i, cls){
+  return '<span class="ctl '+(cls||'')+'"><button class="mini del" data-act="del" data-list="'+list+'" data-i="'+i+'" title="Remove">'+svg('trash')+'</button></span>';
+}
+function addBtn(list, label){
+  return '<div class="add-row"><button class="add-btn" data-act="add" data-list="'+list+'">'+svg('plus')+label+'</button></div>';
+}
+function swatches(path, cur){
+  return '<div class="swatches">'+PALETTE.map(c =>
+    '<span class="sw'+(c.toLowerCase()===String(cur).toLowerCase()?' sel':'')+'" style="background:'+c+'" data-act="color" data-path="'+path+'" data-color="'+c+'" title="'+c+'"></span>').join('')+'</div>';
+}
+
+/* ============================================================
+   4. Renderers
+   ============================================================ */
+function renderSide(){
+  const p = DATA.profile;
+  const initials = (p.name||'?').split(/\s+/).filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase();
+  const photo = p.photo
+    ? '<img class="avatar" src="'+esc(p.photo)+'" alt="Profile photo">'
+    : '<div class="avatar avatar-ph">'+esc(initials)+'</div>';
+
+  const contact = DATA.contact.map((c,i)=>
+    '<li class="contact-item item-wrap">'+
+      '<span class="contact-ic" data-act="icon" data-path="contact.'+i+'.icon">'+svg(c.icon)+'</span>'+
+      '<span style="flex:1">'+
+        ed('contact.'+i+'.text','span','')+
+        '<div class="edit-only href-edit" data-bind="contact.'+i+'.href">'+esc(c.href)+'</div>'+
+      '</span>'+
+      delBtn('contact',i)+
+    '</li>').join('');
+
+  const certs = DATA.certifications.map((c,i)=>
+    '<li class="bullet-item item-wrap">'+ed('certifications.'+i,'span','',' style="flex:1"')+delBtn('certifications',i)+'</li>').join('');
+
+  const edu = DATA.education.map((e,i)=>
+    '<div class="edu-item item-wrap">'+
+      '<span class="edu-ic">'+svg('cap')+'</span>'+
+      '<div style="flex:1">'+
+        ed('education.'+i+'.degree','b','')+
+        ed('education.'+i+'.school','span','')+
+        ed('education.'+i+'.years','span','')+
+      '</div>'+ delBtn('education',i)+
+    '</div>').join('');
+
+  return ''+
+  '<div class="avatar-wrap">'+photo+
+    '<button class="avatar-edit" data-act="photo" title="Change photo">'+svg('camera')+'</button>'+
+  '</div>'+
+  ed('profile.name','h1','name-ed')+
+  ed('profile.role','div','role')+
+  ed('profile.tagline','div','tagline')+
+  '<div class="side-meta">'+
+    '<div class="meta-row">'+svg('pin')+ed('profile.location','span','')+'</div>'+
+    '<div class="meta-row">'+svg('chevron')+ed('profile.availability','span','')+'</div>'+
+  '</div>'+
+  '<div class="side-sep"></div>'+
+  '<div class="side-h">Contact</div>'+
+  '<ul class="contact-list">'+contact+'</ul>'+ addBtn('contact','Add contact') +
+  '<div class="side-sep"></div>'+
+  '<div class="side-h">Certifications</div>'+
+  '<ul class="bullet-list">'+certs+'</ul>'+ addBtn('certifications','Add certification') +
+  '<div class="side-sep"></div>'+
+  '<div class="side-h">Education</div>'+
+  '<div class="bullet-list">'+edu+'</div>'+ addBtn('education','Add education');
+}
+
+function renderStats(){
+  const cards = DATA.stats.map((s,i)=>
+    '<div class="card stat reveal item-wrap">'+
+      '<span class="ic" data-act="icon" data-path="stats.'+i+'.icon" style="background:'+esc(s.color)+'">'+svg(s.icon)+'</span>'+
+      '<div style="flex:1">'+
+        ed('stats.'+i+'.value','div','v',' data-count="1"')+
+        ed('stats.'+i+'.label','div','l')+
+        swatches('stats.'+i+'.color', s.color)+
+      '</div>'+ delBtn('stats',i,'item-ctl')+
+    '</div>').join('');
+  return '<div class="row-stats">'+cards+
+    '<button class="add-tile" data-act="add" data-list="stats">'+svg('plus')+'Add stat</button></div>';
+}
+
+function renderSummary(){
+  return '<div class="card reveal">'+
+    '<div class="card-h"><span class="hi">'+svg('user')+'</span>Professional Summary</div>'+
+    ed('profile.summary','p','summary-text')+
+  '</div>';
+}
+
+function renderExpertise(){
+  const items = DATA.expertise.map((e,i)=>
+    '<div class="exp item-wrap">'+
+      '<span class="ic" data-act="icon" data-path="expertise.'+i+'.icon" style="background:'+esc(e.color)+'">'+svg(e.icon)+'</span>'+
+      ed('expertise.'+i+'.title','b','')+
+      ed('expertise.'+i+'.desc','p','')+
+      swatches('expertise.'+i+'.color', e.color)+
+      delBtn('expertise',i,'item-ctl')+
+    '</div>').join('');
+  return '<div class="card reveal">'+
+    '<div class="card-h">Core Expertise</div>'+
+    '<div class="exp-grid">'+items+'</div>'+
+    addBtn('expertise','Add expertise area')+
+  '</div>';
+}
+
+function renderTimeline(){
+  const n = DATA.timeline.length || 1;
+  const cols = 'grid-template-columns:repeat('+n+',minmax(0,1fr))';
+  const heads = DATA.timeline.map((t,i)=>
+    '<div>'+ed('timeline.'+i+'.year','div','tl-year')+
+    '<div class="tl-dot" style="background:'+esc(t.color)+'" title="'+esc(t.company)+'"></div></div>').join('');
+  const bodies = DATA.timeline.map((t,i)=>
+    '<div class="tl-col item-wrap">'+
+      ed('timeline.'+i+'.company','div','tl-co',' style="color:'+esc(t.color)+'"')+
+      ed('timeline.'+i+'.role','div','tl-role')+
+      '<ul class="tl-ul">'+ t.bullets.map((b,j)=>
+        '<li class="item-wrap">'+ed('timeline.'+i+'.bullets.'+j,'span','',' style="flex:1"')+
+        delBtn('timeline.'+i+'.bullets',j)+'</li>').join('') +'</ul>'+
+      '<div class="add-row" style="justify-content:flex-start;margin-top:9px">'+
+        '<button class="add-btn" data-act="add" data-list="timeline.'+i+'.bullets">'+svg('plus')+'Bullet</button></div>'+
+      swatches('timeline.'+i+'.color', t.color)+
+      delBtn('timeline',i,'item-ctl')+
+    '</div>').join('');
+  return '<div class="card reveal">'+
+    '<div class="card-h">Career Journey</div>'+
+    '<div class="tl">'+
+      '<div class="tl-track"><div class="tl-line"></div><div class="tl-cols" style="'+cols+'">'+heads+'</div></div>'+
+      '<div class="tl-body" style="'+cols+'">'+bodies+'</div>'+
+    '</div>'+
+    addBtn('timeline','Add role')+
+  '</div>';
+}
+
+function renderTech(){
+  const rows = DATA.techstack.map((t,i)=>
+    '<div class="bar-row item-wrap">'+
+      ed('techstack.'+i+'.name','div','bar-name')+
+      '<div style="display:flex;align-items:center;gap:8px">'+
+        '<div class="bar" data-path="techstack.'+i+'.level" style="flex:1">'+
+          '<div class="bar-fill" data-w="'+t.level+'"></div>'+
+          '<span class="bar-val">'+t.level+'%</span>'+
+        '</div>'+ delBtn('techstack',i)+
+      '</div>'+
+    '</div>').join('');
+  return '<div class="card reveal">'+
+    '<div class="card-h">Tech Stack</div>'+
+    '<div class="bars">'+rows+'</div>'+
+    addBtn('techstack','Add technology')+
+  '</div>';
+}
+
+function renderSkills(){
+  const total = DATA.skills.reduce((a,s)=>a+(+s.value||0),0) || 1;
+  const R = 52, C = 2*Math.PI*R;
+  let off = 0;
+  const segs = DATA.skills.map((s,i)=>{
+    const frac = (+s.value||0)/total, len = frac*C;
+    const el = '<circle data-seg="'+i+'" cx="60" cy="60" r="'+R+'" fill="none" stroke="'+esc(s.color)+'" '+
+      'stroke-width="21" stroke-dasharray="'+len.toFixed(2)+' '+(C-len).toFixed(2)+'" '+
+      'stroke-dashoffset="'+(-off).toFixed(2)+'" data-mid="'+(off+len/2).toFixed(2)+'"></circle>';
+    off += len; return el;
+  }).join('');
+  const labs = DATA.skills.map((s,i)=>
+    '<div class="dlab" data-lab="'+i+'"><b>'+Math.round((+s.value||0)/total*100)+'%</b>'+esc(s.label)+'</div>').join('');
+  const list = DATA.skills.map((s,i)=>
+    '<div class="bar-row item-wrap edit-only" style="margin-top:8px">'+
+      ed('skills.'+i+'.label','div','bar-name')+
+      '<div style="display:flex;align-items:center;gap:8px">'+
+        '<div class="bar" data-path="skills.'+i+'.value" data-max="60" style="flex:1;background:var(--track)">'+
+          '<div class="bar-fill" data-w="'+Math.min(100,(+s.value||0)/60*100)+'" style="background:'+esc(s.color)+'"></div>'+
+          '<span class="bar-val">'+s.value+'</span>'+
+        '</div>'+ delBtn('skills',i)+
+      '</div>'+
+      swatches('skills.'+i+'.color', s.color)+
+    '</div>').join('');
+  return '<div class="card reveal">'+
+    '<div class="card-h">Skills Snapshot</div>'+
+    '<div class="donut-wrap" id="donutWrap">'+
+      '<svg class="donut" viewBox="0 0 120 120">'+segs+'</svg>'+
+      '<div class="donut-mid" id="donutMid"><div class="ic">'+svg('bulb')+'</div></div>'+
+      labs+
+    '</div>'+
+    '<div class="edit-only" style="margin-top:14px">'+list+'</div>'+
+    addBtn('skills','Add skill area')+
+  '</div>';
+}
+
+function renderProjects(){
+  const items = DATA.projects.map((p,i)=>
+    '<div class="proj item-wrap">'+
+      '<div class="head">'+
+        '<span class="ic" data-act="icon" data-path="projects.'+i+'.icon" style="background:'+esc(p.color)+'">'+svg(p.icon)+'</span>'+
+        '<div style="flex:1">'+
+          ed('projects.'+i+'.title','div','t',' style="color:'+esc(p.color)+'"')+
+          ed('projects.'+i+'.tags','div','tags')+
+        '</div>'+
+      '</div>'+
+      ed('projects.'+i+'.desc','p','')+
+      swatches('projects.'+i+'.color', p.color)+
+      delBtn('projects',i,'item-ctl')+
+    '</div>').join('');
+  return '<div class="card reveal">'+
+    '<div class="card-h">Featured Projects</div>'+
+    '<div class="proj-grid">'+items+'</div>'+
+    addBtn('projects','Add project')+
+  '</div>';
+}
+
+function renderImpact(){
+  const rows = DATA.impact.map((m,i)=>
+    '<div class="imp-row item-wrap">'+
+      '<span class="imp-ic" data-act="icon" data-path="impact.'+i+'.icon" style="background:color-mix(in srgb,'+esc(m.color)+' 16%,transparent);color:'+esc(m.color)+'">'+svg(m.icon)+'</span>'+
+      '<div style="flex:1">'+
+        ed('impact.'+i+'.value','div','v',' style="color:'+esc(m.color)+'" data-count="1"')+
+        ed('impact.'+i+'.label','div','l')+
+        swatches('impact.'+i+'.color', m.color)+
+      '</div>'+ delBtn('impact',i)+
+    '</div>').join('');
+  return '<div class="card reveal">'+
+    '<div class="card-h">Key Impact</div>'+
+    '<div class="imp">'+rows+'</div>'+
+    addBtn('impact','Add metric')+
+  '</div>';
+}
+
+function renderIndustries(){
+  const rows = DATA.industries.map((n,i)=>
+    '<div class="ind-row item-wrap">'+
+      '<div class="top">'+
+        ed('industries.'+i+'.name','span','nm')+
+        '<span style="display:flex;align-items:center;gap:7px"><span class="pc">'+n.value+'%</span>'+delBtn('industries',i)+'</span>'+
+      '</div>'+
+      '<div class="bar" data-path="industries.'+i+'.value">'+
+        '<div class="bar-fill" data-w="'+n.value+'"></div><span class="bar-val">'+n.value+'%</span>'+
+      '</div>'+
+    '</div>').join('');
+  return '<div class="card reveal">'+
+    '<div class="card-h">Industry Experience</div>'+
+    '<div class="ind">'+rows+'</div>'+
+    addBtn('industries','Add industry')+
+  '</div>';
+}
+
+function renderFoot(){
+  const traits = DATA.traits.map((t,i)=>
+    '<div class="trait item-wrap"><span data-act="icon" data-path="traits.'+i+'.icon" style="display:inline-flex">'+svg(t.icon)+'</span>'+ed('traits.'+i+'.label','span','')+delBtn('traits',i)+'</div>').join('');
+  return '<div class="quote">'+svg('quote')+ed('quote','span','')+'</div>'+
+    '<div class="traits">'+traits+'</div>'+
+    '<div class="add-row" style="margin:0">'+
+      '<button class="add-btn" data-act="add" data-list="traits">'+svg('plus')+'Trait</button></div>';
+}
+
+function render(){
+  document.getElementById('side').innerHTML = renderSide();
+  document.getElementById('main').innerHTML =
+    renderStats()+
+    '<div class="row-2">'+renderSummary()+renderExpertise()+'</div>'+
+    '<div class="row-3">'+renderTimeline()+renderTech()+renderSkills()+'</div>'+
+    '<div class="row-4">'+renderProjects()+renderImpact()+renderIndustries()+'</div>';
+  document.getElementById('foot').innerHTML = renderFoot();
+  applyEditable();
+  observeReveal();
+  requestAnimationFrame(()=>{ fillBars(); placeDonutLabels(); });
+  wireDonut();
+}
+
+/* ============================================================
+   5. Persistence
+   ============================================================ */
+let saveTimer = null;
+function save(quiet){
+  try{
+    localStorage.setItem(KEY, JSON.stringify(DATA));
+    if(!quiet) flashSaved();
+  }catch(e){ toast('Could not save locally — export your JSON to keep a copy.'); }
+}
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer = setTimeout(()=>save(), 500);
+}
+function flashSaved(){
+  const p = document.getElementById('savePill');
+  p.textContent = 'Saved'; p.classList.add('show');
+  clearTimeout(flashSaved._t);
+  flashSaved._t = setTimeout(()=>p.classList.remove('show'), 1400);
+}
+function load(){
+  try{
+    const raw = localStorage.getItem(KEY);
+    if(raw){ DATA = mergeDefaults(JSON.parse(raw)); }
+  }catch(e){ DATA = clone(DEFAULT_DATA); }
+}
+/* keep newly added default keys if the saved copy is older */
+function mergeDefaults(saved){
+  const out = clone(DEFAULT_DATA);
+  Object.keys(out).forEach(k=>{ if(saved[k] !== undefined) out[k] = saved[k]; });
+  out.profile = Object.assign(clone(DEFAULT_DATA.profile), saved.profile||{});
+  return out;
+}
+
+/* ============================================================
+   6. Edit mode
+   ============================================================ */
+const CE_MODE = (()=>{ const d = document.createElement('div');
+  d.setAttribute('contenteditable','plaintext-only');
+  return d.contentEditable === 'plaintext-only' ? 'plaintext-only' : 'true'; })();
+function applyEditable(){
+  document.querySelectorAll('[data-bind]').forEach(el=>{
+    if(editing){ el.setAttribute('contenteditable', CE_MODE); el.setAttribute('spellcheck','false'); }
+    else el.removeAttribute('contenteditable');
+  });
+}
+function setEditing(on){
+  editing = on;
+  document.body.classList.toggle('editing', on);
+  const b = document.getElementById('btnEdit');
+  b.classList.toggle('on', on);
+  b.innerHTML = (on ? svg('check')+'Done editing' : svg('edit')+'Edit');
+  applyEditable();
+  if(on) toast('Edit mode on — click any text to change it. Drag the bars, click a coloured dot to recolour, click an icon to swap it.');
+  else save();
+}
+
+/* text edits */
+document.addEventListener('input', e=>{
+  const el = e.target.closest('[data-bind]');
+  if(!el || !editing) return;
+  set(el.getAttribute('data-bind'), el.innerText.replace(/\u00a0/g,' '));
+  scheduleSave();
+});
+/* paste as plain text */
+document.addEventListener('paste', e=>{
+  const el = e.target.closest('[data-bind]');
+  if(!el || !editing) return;
+  e.preventDefault();
+  const t = (e.clipboardData||window.clipboardData).getData('text/plain');
+  document.execCommand('insertText', false, t);
+});
+
+/* ============================================================
+   7. Structural actions
+   ============================================================ */
+const ICON_ORDER = Object.keys(I);
+const NEW_ITEM = {
+  contact:       ()=>({icon:'globe', text:'New contact', href:'https://'}),
+  certifications:()=>'New certification',
+  education:     ()=>({degree:'Degree', school:'Institution', years:'20XX – 20XX'}),
+  stats:         ()=>({icon:'spark', value:'0', label:'New Metric', color:PALETTE[0]}),
+  expertise:     ()=>({icon:'spark', title:'New Area', desc:'Describe this area of expertise', color:PALETTE[2]}),
+  timeline:      ()=>({year:'20XX', company:'Company', role:'Job Title', color:PALETTE[3], bullets:['Key responsibility']}),
+  bullets:       ()=>'Key responsibility',
+  techstack:     ()=>({name:'New tool', level:70}),
+  skills:        ()=>({label:'New area', value:10, color:PALETTE[6]}),
+  projects:      ()=>({icon:'spark', title:'New Project', tags:'Tools | Tech', color:PALETTE[1], desc:'What you built and the outcome it delivered.'}),
+  impact:        ()=>({icon:'trend', value:'0%', label:'What improved', color:PALETTE[7]}),
+  industries:    ()=>({name:'New industry', value:50}),
+  traits:        ()=>({icon:'shield', label:'New trait'})
+};
+
+document.addEventListener('click', e=>{
+  const t = e.target.closest('[data-act]');
+  if(!t) return;
+  const act = t.getAttribute('data-act');
+
+  if(act==='del'){
+    if(!editing) return;
+    const arr = get(t.getAttribute('data-list'));
+    arr.splice(+t.getAttribute('data-i'), 1);
+    save(true); render(); return;
+  }
+  if(act==='add'){
+    if(!editing) return;
+    const path = t.getAttribute('data-list');
+    const key = path.split('.').pop();
+    const arr = get(path);
+    arr.push(NEW_ITEM[key] ? NEW_ITEM[key]() : 'New item');
+    save(true); render();
+    const wrap = document.querySelector('[data-list="'+path+'"]');
+    if(wrap) wrap.scrollIntoView({behavior:'smooth', block:'center'});
+    return;
+  }
+  if(act==='color'){
+    if(!editing) return;
+    set(t.getAttribute('data-path'), t.getAttribute('data-color'));
+    save(true); render(); return;
+  }
+  if(act==='icon'){
+    if(!editing) return;
+    const p = t.getAttribute('data-path');
+    const cur = ICON_ORDER.indexOf(get(p));
+    set(p, ICON_ORDER[(cur+1) % ICON_ORDER.length]);
+    save(true); render(); return;
+  }
+  if(act==='photo'){ document.getElementById('photoInput').click(); return; }
+});
+
+/* photo upload — downscaled so it fits comfortably in local storage */
+document.getElementById('photoInput').addEventListener('change', e=>{
+  const f = e.target.files && e.target.files[0];
+  if(!f) return;
+  const r = new FileReader();
+  r.onload = ()=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const S = 460, c = document.createElement('canvas');
+      const side = Math.min(img.width, img.height);
+      c.width = c.height = S;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, (img.width-side)/2, (img.height-side)/2, side, side, 0, 0, S, S);
+      DATA.profile.photo = c.toDataURL('image/jpeg', 0.86);
+      save(true); render(); toast('Photo updated');
+    };
+    img.src = r.result;
+  };
+  r.readAsDataURL(f);
+  e.target.value = '';
+});
+
+/* ============================================================
+   8. Bars — drag to set a value in edit mode
+   ============================================================ */
+function fillBars(){
+  document.querySelectorAll('.bar-fill[data-w]').forEach(f=>{ f.style.width = f.getAttribute('data-w')+'%'; });
+}
+function barUpdate(bar, clientX){
+  const path = bar.getAttribute('data-path');
+  const max  = +(bar.getAttribute('data-max') || 100);
+  const r = bar.getBoundingClientRect();
+  const pct = Math.max(0, Math.min(1, (clientX - r.left) / r.width));
+  const val = Math.round(pct * max);
+  set(path, val);
+  const fill = bar.querySelector('.bar-fill');
+  fill.style.transition = 'none';
+  fill.style.width = (val/max*100)+'%';
+  fill.setAttribute('data-w', val/max*100);
+  const lab = bar.querySelector('.bar-val');
+  if(lab) lab.textContent = (max===100 ? val+'%' : val);
+  const pc = bar.closest('.ind-row') && bar.closest('.ind-row').querySelector('.pc');
+  if(pc) pc.textContent = val+'%';
+  scheduleSave();
+}
+let dragBar = null;
+document.addEventListener('pointerdown', e=>{
+  if(!editing) return;
+  const bar = e.target.closest('.bar');
+  if(!bar) return;
+  dragBar = bar; bar.setPointerCapture(e.pointerId);
+  barUpdate(bar, e.clientX); e.preventDefault();
+});
+document.addEventListener('pointermove', e=>{ if(dragBar) barUpdate(dragBar, e.clientX); });
+document.addEventListener('pointerup', ()=>{
+  if(!dragBar) return;
+  const wasSkill = dragBar.getAttribute('data-path').startsWith('skills.');
+  dragBar = null; save(true);
+  if(wasSkill) render();
+});
+
+/* ============================================================
+   9. Donut interaction + label placement
+   ============================================================ */
+function placeDonutLabels(){
+  const wrap = document.getElementById('donutWrap');
+  if(!wrap) return;
+  const C = 2*Math.PI*52;
+  wrap.querySelectorAll('.dlab').forEach(lab=>{
+    const i = lab.getAttribute('data-lab');
+    const seg = wrap.querySelector('[data-seg="'+i+'"]');
+    if(!seg) return;
+    const a = (+seg.getAttribute('data-mid') / C) * 2*Math.PI - Math.PI/2;
+    const x = 50 + Math.cos(a)*38.5, y = 50 + Math.sin(a)*38.5;
+    lab.style.left = x+'%';
+    lab.style.top  = y+'%';
+    lab.style.textAlign = Math.cos(a) > .25 ? 'left' : (Math.cos(a) < -.25 ? 'right' : 'center');
+  });
+}
+function wireDonut(){
+  const wrap = document.getElementById('donutWrap');
+  if(!wrap) return;
+  const mid = document.getElementById('donutMid');
+  const total = DATA.skills.reduce((a,s)=>a+(+s.value||0),0) || 1;
+  const base = mid.innerHTML;
+  wrap.querySelectorAll('[data-seg]').forEach(seg=>{
+    seg.addEventListener('mouseenter', ()=>{
+      const s = DATA.skills[+seg.getAttribute('data-seg')];
+      wrap.querySelectorAll('[data-seg]').forEach(o=>o.classList.toggle('dim', o!==seg));
+      seg.setAttribute('stroke-width','26');
+      mid.innerHTML = '<div class="pv" style="color:'+esc(s.color)+'">'+Math.round(s.value/total*100)+'%</div>'+
+                      '<div class="pl">'+esc(s.label)+'</div>';
+    });
+    seg.addEventListener('mouseleave', ()=>{
+      wrap.querySelectorAll('[data-seg]').forEach(o=>{ o.classList.remove('dim'); o.setAttribute('stroke-width','21'); });
+      mid.innerHTML = base;
+    });
+  });
+}
+
+/* ============================================================
+   10. Reveal + count-up
+   ============================================================ */
+let io = null;
+function countUp(el){
+  const raw = el.textContent.trim();
+  const m = raw.match(/^(\D*)(\d[\d,.]*)(.*)$/);
+  if(!m) return;
+  const target = parseFloat(m[2].replace(/,/g,''));
+  if(!isFinite(target) || target === 0) return;
+  const dur = 850, t0 = performance.now();
+  const step = now=>{
+    if(editing){ el.textContent = raw; return; }
+    const k = Math.min(1, (now-t0)/dur);
+    const e = 1 - Math.pow(1-k, 3);
+    el.textContent = m[1] + Math.round(target*e).toLocaleString() + m[3];
+    if(k < 1) requestAnimationFrame(step); else el.textContent = raw;
+  };
+  requestAnimationFrame(step);
+}
+function observeReveal(){
+  if(io) io.disconnect();
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const items = document.querySelectorAll('.reveal');
+  if(reduce){ items.forEach(el=>el.classList.add('in')); return; }
+  io = new IntersectionObserver(entries=>{
+    entries.forEach((en,n)=>{
+      if(!en.isIntersecting) return;
+      const el = en.target;
+      setTimeout(()=>{
+        el.classList.add('in');
+        el.querySelectorAll('[data-count]').forEach(countUp);
+      }, n*55);
+      io.unobserve(el);
+    });
+  }, {threshold:.12, rootMargin:'0px 0px -40px 0px'});
+  items.forEach(el=>io.observe(el));
+}
+setTimeout(()=>document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in')), 2500);
+window.addEventListener('resize', ()=>placeDonutLabels());
+
+/* ============================================================
+   11. Toolbar, modals & toast
+   ============================================================ */
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>t.classList.remove('show'), 3200);
+}
+const overlay = document.getElementById('overlay');
+const modal   = document.getElementById('modal');
+function openModal(html){ modal.innerHTML = html; overlay.classList.add('open'); }
+function closeModal(){ overlay.classList.remove('open'); modal.innerHTML=''; }
+overlay.addEventListener('click', e=>{ if(e.target===overlay) closeModal(); });
+document.addEventListener('click', e=>{ if(e.target.closest('[data-close]')) closeModal(); });
+
+const inIframe = (()=>{ try{ return window.self !== window.top; }catch(e){ return true; } })();
+
+function copyText(str){
+  const done = ()=>toast('Copied to clipboard');
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(str).then(done).catch(()=>legacyCopy(str,done));
+  } else legacyCopy(str, done);
+}
+function legacyCopy(str, done){
+  const ta = document.createElement('textarea');
+  ta.value = str; ta.style.position='fixed'; ta.style.opacity='0';
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand('copy'); done(); }
+  catch(e){ toast('Select the text and copy it manually'); }
+  document.body.removeChild(ta);
+}
+
+/* --- Export --- */
+document.getElementById('btnExport').addEventListener('click', ()=>{
+  const json = JSON.stringify(DATA, null, 2);
+  openModal(
+    '<h3>Export your CV data</h3>'+
+    '<p class="sub">This JSON holds everything on the page. Keep it somewhere safe — pasting it back through <b>Import</b> restores your CV on any browser or device.</p>'+
+    '<textarea id="expArea" readonly>'+esc(json)+'</textarea>'+
+    '<div class="modal-foot">'+
+      (inIframe ? '' : '<button class="btn" id="dlJson">'+svg('download')+'Download .json</button>')+
+      '<button class="btn primary" id="copyJson">'+svg('copy')+'Copy JSON</button>'+
+      '<button class="btn" data-close>Close</button>'+
+    '</div>');
+  document.getElementById('copyJson').addEventListener('click', ()=>copyText(json));
+  const dl = document.getElementById('dlJson');
+  if(dl) dl.addEventListener('click', ()=>{
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([json], {type:'application/json'}));
+    a.download = 'cv-dashboard-data.json'; a.click();
+    setTimeout(()=>URL.revokeObjectURL(a.href), 4000);
+  });
+});
+
+/* --- Import --- */
+document.getElementById('btnImport').addEventListener('click', ()=>{
+  openModal(
+    '<h3>Import CV data</h3>'+
+    '<p class="sub">Paste a JSON export below and choose <b>Load data</b>. This replaces everything currently on the page.</p>'+
+    '<textarea id="impArea" placeholder="Paste your exported JSON here…"></textarea>'+
+    '<div class="modal-foot">'+
+      '<button class="btn" data-close>Cancel</button>'+
+      '<button class="btn primary" id="doImport">'+svg('upload')+'Load data</button>'+
+    '</div>');
+  document.getElementById('doImport').addEventListener('click', ()=>{
+    try{
+      const parsed = JSON.parse(document.getElementById('impArea').value);
+      if(!parsed || typeof parsed !== 'object' || !parsed.profile) throw new Error('bad shape');
+      DATA = mergeDefaults(parsed);
+      save(true); render(); closeModal(); toast('CV data imported');
+    }catch(err){ toast('That does not look like a valid CV export'); }
+  });
+});
+
+/* --- Reset --- */
+document.getElementById('btnReset').addEventListener('click', ()=>{
+  openModal(
+    '<h3>Reset to the original CV?</h3>'+
+    '<p class="sub">Every change you have made in this browser will be discarded and the dashboard returns to its starting content. Export first if you want to keep a copy.</p>'+
+    '<div class="modal-foot">'+
+      '<button class="btn" data-close>Keep my changes</button>'+
+      '<button class="btn primary" id="doReset">'+svg('reset')+'Reset everything</button>'+
+    '</div>');
+  document.getElementById('doReset').addEventListener('click', ()=>{
+    DATA = clone(DEFAULT_DATA);
+    save(true); render(); closeModal(); toast('Reset to the original CV');
+  });
+});
+
+/* --- Help --- */
+document.getElementById('btnHelp').addEventListener('click', ()=>{
+  openModal(
+    '<h3>How to use this dashboard</h3>'+
+    '<p class="sub">Everything on the page is yours to change — no build step, no server.</p>'+
+    '<div class="help-list">'+
+      '<div><b>Edit</b> — turn on edit mode, then click any text to rewrite it. Shortcut: <span class="kbd">Ctrl</span>/<span class="kbd">⌘</span> + <span class="kbd">E</span>.</div>'+
+      '<div><b>Bars</b> — in edit mode, drag any progress bar to set its percentage.</div>'+
+      '<div><b>Colours</b> — the row of coloured dots under a card recolours that item.</div>'+
+      '<div><b>Icons</b> — click an icon in edit mode to cycle through the icon set.</div>'+
+      '<div><b>Photo</b> — click the camera button on the avatar to upload your own picture.</div>'+
+      '<div><b>Add / remove</b> — use the dashed <b>+</b> buttons and the small bin icons on each item.</div>'+
+      '<div><b>Skills donut</b> — hover a segment to inspect it; edit the values in the list that appears in edit mode.</div>'+
+      '<div><b>Saving</b> — changes save automatically in this browser. Use <b>Export</b> for a portable copy and <b>Import</b> to restore it elsewhere.</div>'+
+      '<div><b>PDF</b> — <b>Print</b> opens your browser dialog and sizes the page so the dashboard lands on one sheet. It prints the theme on screen, so switch to <b>Light</b> first for an ink-friendly copy.</div>'+
+    '</div>'+
+    '<div class="modal-foot"><button class="btn primary" data-close>Got it</button></div>');
+});
+
+/* --- Print --- */
+let pageStyle = null;
+function lockPrintLayout(){
+  const sheet = document.getElementById('sheet');
+  sheet.classList.add('pg-fixed');
+  const r = sheet.getBoundingClientRect();
+  const W = Math.ceil(r.width) + 32, H = Math.ceil(r.height) + 34;
+  if(!pageStyle){ pageStyle = document.createElement('style'); document.head.appendChild(pageStyle); }
+  pageStyle.textContent = '@media print{@page{size:'+W+'px '+H+'px;margin:0}}';
+}
+function unlockPrintLayout(){
+  document.getElementById('sheet').classList.remove('pg-fixed');
+  if(pageStyle) pageStyle.textContent = '';
+}
+window.addEventListener('beforeprint', lockPrintLayout);
+window.addEventListener('afterprint', unlockPrintLayout);
+document.getElementById('btnPrint').addEventListener('click', ()=>{
+  if(editing) setEditing(false);
+  document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
+  lockPrintLayout();
+  setTimeout(()=>{ window.print(); setTimeout(unlockPrintLayout, 800); }, 140);
+});
+
+/* --- Theme --- */
+function setTheme(mode){
+  document.documentElement.setAttribute('data-theme', mode);
+  try{ localStorage.setItem(KEY+':theme', mode); }catch(e){}
+  document.getElementById('btnTheme').innerHTML =
+    (mode==='dark' ? svg('sun')+'Light' : svg('moon')+'Dark');
+}
+document.getElementById('btnTheme').addEventListener('click', ()=>{
+  setTheme(document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark');
+});
+
+/* --- Edit toggle --- */
+document.getElementById('btnEdit').addEventListener('click', ()=>setEditing(!editing));
+
+/* --- Keyboard --- */
+document.addEventListener('keydown', e=>{
+  const meta = e.ctrlKey || e.metaKey;
+  if(meta && e.key.toLowerCase()==='e'){ e.preventDefault(); setEditing(!editing); }
+  if(meta && e.key.toLowerCase()==='s'){ e.preventDefault(); save(); }
+  if(e.key==='Escape'){
+    if(overlay.classList.contains('open')) closeModal();
+    else if(editing) setEditing(false);
+  }
+});
+
+/* ============================================================
+   12. Boot
+   ============================================================ */
+(function init(){
+  load();
+  let theme = null;
+  try{ theme = localStorage.getItem(KEY+':theme'); }catch(e){}
+  if(!theme) theme = document.documentElement.getAttribute('data-theme') ||
+    (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  setTheme(theme);
+  document.getElementById('btnEdit').innerHTML   = svg('edit')+'Edit';
+  document.getElementById('btnPrint').innerHTML  = svg('printer')+'PDF';
+  document.getElementById('btnExport').innerHTML = svg('download')+'Export';
+  document.getElementById('btnImport').innerHTML = svg('upload')+'Import';
+  document.getElementById('btnReset').innerHTML  = svg('reset')+'Reset';
+  document.getElementById('btnHelp').innerHTML   = svg('book')+'Help';
+  render();
+})();
+</script>
+</body>
+</html>

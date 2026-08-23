@@ -1,0 +1,588 @@
+<title>Analyst Sponsorship Radar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Public+Sans:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+:root{
+  --ink:#131A22;
+  --paper:#E9ECEF;
+  --surface:#FFFFFF;
+  --surface-2:#F3F5F7;
+  --line:#D2D8DE;
+  --line-soft:#E2E7EB;
+  --text:#131A22;
+  --text-2:#4A5764;
+  --text-3:#6E7C89;
+  --accent:#0E5A63;
+  --accent-ink:#0A454C;
+  --accent-wash:#E2EEEF;
+  --good:#1B6E4F;
+  --good-wash:#E1EFE8;
+  --warn:#8F5412;
+  --warn-wash:#F5EADC;
+  --shadow:0 1px 2px rgba(19,26,34,.06),0 8px 24px -12px rgba(19,26,34,.18);
+  --radius:10px;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E141B;
+    --surface:#161E27;
+    --surface-2:#1C2630;
+    --line:#2C3945;
+    --line-soft:#232E39;
+    --text:#E4EAEF;
+    --text-2:#A3B1BE;
+    --text-3:#7C8B99;
+    --accent:#3FA9B4;
+    --accent-ink:#69C6CF;
+    --accent-wash:#16323A;
+    --good:#55BF92;
+    --good-wash:#14302A;
+    --warn:#D3A05B;
+    --warn-wash:#33281A;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E141B;
+  --surface:#161E27;
+  --surface-2:#1C2630;
+  --line:#2C3945;
+  --line-soft:#232E39;
+  --text:#E4EAEF;
+  --text-2:#A3B1BE;
+  --text-3:#7C8B99;
+  --accent:#3FA9B4;
+  --accent-ink:#69C6CF;
+  --accent-wash:#16323A;
+  --good:#55BF92;
+  --good-wash:#14302A;
+  --warn:#D3A05B;
+  --warn-wash:#33281A;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--paper);
+  color:var(--text);
+  font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:32px 22px 96px}
+h1,h2,h3{font-family:Archivo,"Public Sans",sans-serif;text-wrap:balance;margin:0;line-height:1.15}
+a{color:var(--accent-ink)}
+
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--text-3);
+}
+
+/* ---------- masthead ---------- */
+.mast{
+  display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;
+  padding-bottom:20px;margin-bottom:26px;border-bottom:2px solid var(--ink);
+}
+:root[data-theme="dark"] .mast{border-bottom-color:var(--line)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .mast{border-bottom-color:var(--line)}}
+.mast h1{font-size:clamp(30px,5.2vw,46px);font-weight:700;letter-spacing:-.02em}
+.mast p{margin:8px 0 0;color:var(--text-2);max-width:56ch;font-size:15px}
+.stamp{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;line-height:1.5;
+  border:1px solid var(--accent);color:var(--accent-ink);
+  padding:8px 12px;border-radius:4px;text-align:right;background:var(--accent-wash);
+}
+
+/* ---------- readouts ---------- */
+.readouts{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:1px;
+  background:var(--line);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;margin-bottom:34px;
+}
+.ro{background:var(--surface);padding:15px 16px 14px;display:flex;flex-direction:column;gap:5px}
+.ro .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--text-3)}
+.ro .v{font-family:"IBM Plex Mono",monospace;font-size:23px;font-weight:600;letter-spacing:-.02em;font-variant-numeric:tabular-nums;line-height:1.1}
+.ro .n{font-size:12.5px;color:var(--text-2);line-height:1.4}
+.ro.is-warn .v{color:var(--warn)}
+.ro.is-good .v{color:var(--good)}
+
+/* ---------- sections ---------- */
+section{margin-bottom:44px}
+.shead{display:flex;align-items:baseline;gap:14px;margin-bottom:6px;flex-wrap:wrap}
+.shead h2{font-size:23px;font-weight:600;letter-spacing:-.015em}
+.sub{color:var(--text-2);font-size:15px;margin:0 0 20px;max-width:68ch}
+
+/* ---------- the fork ---------- */
+.fork{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:720px){.fork{grid-template-columns:1fr}}
+.lane{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:20px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;
+}
+.lane-top{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pill{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;padding:3.5px 9px;border-radius:100px;white-space:nowrap;
+}
+.pill.good{background:var(--good-wash);color:var(--good);border:1px solid color-mix(in srgb,var(--good) 34%,transparent)}
+.pill.warn{background:var(--warn-wash);color:var(--warn);border:1px solid color-mix(in srgb,var(--warn) 34%,transparent)}
+.lane h3{font-size:17px;font-weight:600}
+.lane p{margin:0;font-size:14.5px;color:var(--text-2)}
+.codes{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line-soft);margin-top:2px}
+.code-row{
+  display:flex;justify-content:space-between;gap:12px;align-items:baseline;
+  padding:9px 0;border-bottom:1px solid var(--line-soft);font-size:13.5px;
+}
+.code-row .c{font-family:"IBM Plex Mono",monospace;font-weight:600;color:var(--accent-ink);flex:0 0 auto}
+.code-row .t{color:var(--text-2);flex:1 1 auto;line-height:1.35}
+.code-row .r{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;color:var(--text);flex:0 0 auto;font-size:13px}
+.verdict{
+  font-size:13.5px;padding:11px 13px;border-radius:7px;line-height:1.5;
+  border-left:3px solid var(--accent);background:var(--surface-2);color:var(--text-2);
+}
+.lane.is-warn .verdict{border-left-color:var(--warn)}
+.lane.is-good .verdict{border-left-color:var(--good)}
+
+/* ---------- board grid ---------- */
+.tier{margin-top:26px}
+.tier-head{display:flex;align-items:center;gap:11px;margin-bottom:4px}
+.tier-num{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;font-weight:600;
+  width:22px;height:22px;border-radius:4px;display:grid;place-items:center;
+  background:var(--accent);color:#fff;flex:0 0 auto;
+}
+:root[data-theme="dark"] .tier-num{color:#0E141B}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .tier-num{color:#0E141B}}
+.tier-head h3{font-size:16px;font-weight:600}
+.tier-why{margin:0 0 14px 33px;font-size:14px;color:var(--text-2);max-width:66ch}
+
+.boards{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:12px}
+.board{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  padding:14px 15px;display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow);
+  transition:border-color .15s ease,transform .15s ease;
+}
+.board:hover{border-color:var(--accent);transform:translateY(-1px)}
+.board-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.board-name{font-family:Archivo,sans-serif;font-weight:600;font-size:15px;letter-spacing:-.01em}
+.board-note{font-size:13px;color:var(--text-2);margin:0;line-height:1.45;flex:1 1 auto}
+.board-alert{font-size:12.5px;color:var(--text-3);line-height:1.45;margin:0}
+.board-alert b{color:var(--text-2);font-weight:500}
+.board-actions{display:flex;align-items:center;gap:10px;margin-top:2px}
+.go{
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;font-weight:600;letter-spacing:.06em;
+  text-transform:uppercase;text-decoration:none;color:#fff;background:var(--accent);
+  padding:7px 12px;border-radius:6px;display:inline-block;transition:background .15s ease;
+}
+:root[data-theme="dark"] .go{color:#0E141B}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .go{color:#0E141B}}
+.go:hover{background:var(--accent-ink)}
+.go:focus-visible,.copy:focus-visible,.chk:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chk{
+  display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--text-3);
+  cursor:pointer;user-select:none;font-family:"IBM Plex Mono",monospace;letter-spacing:.04em;
+}
+.chk input{accent-color:var(--accent);width:14px;height:14px;cursor:pointer;margin:0}
+.board.done{border-color:var(--good)}
+.board.done .board-name::after{content:" ✓";color:var(--good)}
+.filt-badge{
+  font-family:"IBM Plex Mono",monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 7px;border-radius:3px;white-space:nowrap;flex:0 0 auto;
+  background:var(--good-wash);color:var(--good);border:1px solid color-mix(in srgb,var(--good) 30%,transparent);
+}
+.filt-badge.kw{background:var(--surface-2);color:var(--text-3);border-color:var(--line)}
+
+/* ---------- query library ---------- */
+.q{
+  background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  margin-bottom:10px;overflow:hidden;
+}
+.q-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 14px 0}
+.q-label{font-size:13.5px;color:var(--text-2)}
+.q-label b{color:var(--text);font-weight:600}
+.copy{
+  font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;
+  background:transparent;border:1px solid var(--line);color:var(--text-2);
+  padding:5px 10px;border-radius:5px;cursor:pointer;flex:0 0 auto;transition:all .15s ease;
+}
+.copy:hover{border-color:var(--accent);color:var(--accent-ink)}
+.copy.ok{border-color:var(--good);color:var(--good)}
+.q pre{
+  margin:9px 0 0;padding:12px 14px 14px;overflow-x:auto;
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;line-height:1.65;
+  color:var(--text);background:var(--surface-2);border-top:1px solid var(--line-soft);
+}
+
+/* ---------- steps ---------- */
+.steps{display:flex;flex-direction:column;gap:0;counter-reset:s}
+.step{
+  display:flex;gap:14px;padding:15px 0;border-bottom:1px solid var(--line-soft);
+}
+.step:last-child{border-bottom:none}
+.step-n{
+  font-family:"IBM Plex Mono",monospace;font-size:12px;font-weight:600;color:var(--accent-ink);
+  flex:0 0 auto;width:26px;padding-top:1px;
+}
+.step-b h4{margin:0 0 4px;font-family:Archivo,sans-serif;font-size:15px;font-weight:600}
+.step-b p{margin:0;font-size:14.5px;color:var(--text-2)}
+
+/* ---------- automation ---------- */
+.auto{
+  background:var(--surface);border:1px solid var(--accent);border-radius:var(--radius);
+  padding:22px;box-shadow:var(--shadow);
+}
+.auto h3{font-size:18px;font-weight:600;margin-bottom:8px}
+.auto p{font-size:14.5px;color:var(--text-2);margin:0 0 14px;max-width:70ch}
+.auto-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:4px}
+.auto-cell{border-left:2px solid var(--line);padding-left:12px}
+.auto-cell .k{font-family:"IBM Plex Mono",monospace;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--text-3);display:block;margin-bottom:3px}
+.auto-cell .v{font-size:14px;color:var(--text)}
+
+/* ---------- footer ---------- */
+.foot{
+  margin-top:12px;padding-top:20px;border-top:1px solid var(--line);
+  font-size:12.5px;color:var(--text-3);line-height:1.6;
+}
+.foot a{color:var(--text-2)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+.scroll{overflow-x:auto}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="mast">
+  <div>
+    <p class="eyebrow">UK Skilled Worker · Data &amp; Analytics</p>
+    <h1>Analyst Sponsorship Radar</h1>
+    <p>A standing search across fourteen job boards for data analytics, reporting and lead analyst roles that come with UK visa sponsorship — plus the occupation-code strategy that decides whether an offer can actually be sponsored.</p>
+  </div>
+  <div class="stamp mono">
+    DIGEST → rathanr51@gmail.com<br>
+    WEEKDAYS 07:22 UK<br>
+    <span id="built"></span>
+  </div>
+</header>
+
+<div class="readouts">
+  <div class="ro">
+    <span class="k">General salary floor</span>
+    <span class="v">£41,700</span>
+    <span class="n">Or the occupation's going rate — whichever is higher</span>
+  </div>
+  <div class="ro is-warn">
+    <span class="k">SOC 3544 going rate</span>
+    <span class="v">£34,900</span>
+    <span class="n">Data analysts — shortage-list rate only</span>
+  </div>
+  <div class="ro is-warn">
+    <span class="k">Shortage list expires</span>
+    <span class="v" id="cd">—</span>
+    <span class="n">SOC 3544 lapses 31 Dec 2026 unless extended</span>
+  </div>
+  <div class="ro is-good">
+    <span class="k">Licensed sponsors</span>
+    <span class="v">126,858</span>
+    <span class="n">On the GOV.UK worker register, Aug 2026</span>
+  </div>
+</div>
+
+<section>
+  <div class="shead">
+    <p class="eyebrow">Start here</p>
+    <h2>Two lanes, and only one of them is durable</h2>
+  </div>
+  <p class="sub">Since 22 July 2025 the Skilled Worker route generally requires a role skilled to <b>RQF level 6</b> (graduate level). Plain “Data analyst” sits below that line. It still gets sponsored — but only through a temporary carve-out with a hard expiry date and a family cost. Which lane a vacancy falls into is decided by the occupation code the employer assigns, not by the job title on the advert, so this is the single highest-leverage thing to screen for.</p>
+
+  <div class="fork">
+    <div class="lane is-warn">
+      <div class="lane-top">
+        <span class="pill warn">Expiring lane</span>
+        <span class="eyebrow">RQF 3–5</span>
+      </div>
+      <h3>Sponsored as “Data analyst”</h3>
+      <div class="codes">
+        <div class="code-row"><span class="c">3544</span><span class="t">Data analysts</span><span class="r">£34,900</span></div>
+      </div>
+      <p>Removed from general eligibility in July 2025 and kept alive only on the <b>Temporary Shortage List</b>. Roles coded here can still be sponsored today, at a lower salary bar than the general threshold.</p>
+      <div class="verdict"><b>The catch:</b> shortage-list sponsorship at RQF 3–5 carries <b>no right to bring dependants</b> and no salary or visa-fee discounts — and every entry is set to lapse on <b>31 December 2026</b> unless the Migration Advisory Committee recommends an extension. A visa granted under it is fine; a renewal after expiry is not guaranteed.</div>
+    </div>
+
+    <div class="lane is-good">
+      <div class="lane-top">
+        <span class="pill good">Durable lane</span>
+        <span class="eyebrow">RQF 6+</span>
+      </div>
+      <h3>Sponsored as a professional code</h3>
+      <div class="codes">
+        <div class="code-row"><span class="c">2433</span><span class="t">Actuaries, economists &amp; statisticians</span><span class="r">£55,100</span></div>
+        <div class="code-row"><span class="c">2133</span><span class="t">IT business analysts, architects &amp; systems designers</span><span class="r">£54,900</span></div>
+        <div class="code-row"><span class="c">2139</span><span class="t">IT professionals n.e.c.</span><span class="r">£52,300</span></div>
+        <div class="code-row"><span class="c">2132</span><span class="t">IT managers</span><span class="r">£55,000</span></div>
+      </div>
+      <p>Full Skilled Worker eligibility, no expiry date, dependants permitted. The salary bar is materially higher — which is exactly why seniority helps you rather than hurting you here.</p>
+      <div class="verdict"><b>Why this favours you:</b> a <b>Lead</b> / <b>Senior</b> / <b>Principal</b> analytics title, or one framed around BI architecture, statistics or analytics engineering, is far easier for an employer to code at RQF 6 than a plain analyst role. Aim one rung up. It widens the visa, not just the salary.</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <p class="eyebrow">The standing search</p>
+    <h2>Fourteen boards, tiered by how hard they filter</h2>
+  </div>
+  <p class="sub">Every link runs a live UK search for analytics and reporting roles at click time — nothing here goes stale. Tick a board once you have created its native email alert, so you can see at a glance what is still unarmed. Your ticks are saved in this browser.</p>
+
+  <div class="tier">
+    <div class="tier-head"><span class="tier-num">1</span><h3>Sponsor-verified boards</h3></div>
+    <p class="tier-why">These cross-reference vacancies against the GOV.UK licensed-sponsor register, so a listing appearing here means the employer genuinely holds a licence. Lowest volume, highest signal — check these first.</p>
+    <div class="boards">
+      <div class="board" data-id="hunt">
+        <div class="board-top"><span class="board-name">Hunt UK Visa Sponsors</span><span class="filt-badge">Licence-checked</span></div>
+        <p class="board-note">Indexes only employers on the sponsor register, and shows the SOC code and going rate against each role.</p>
+        <p class="board-alert"><b>Alert:</b> create a free account → follow the “Data analyst” role page.</p>
+        <div class="board-actions"><a class="go" href="https://huntukvisasponsors.com/jobs/role/data-analyst" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="ukvj">
+        <div class="board-top"><span class="board-name">UK Visa Jobs</span><span class="filt-badge">Licence-checked</span></div>
+        <p class="board-note">Verified-sponsor listings with a sponsorship-confidence rating per employer.</p>
+        <p class="board-alert"><b>Alert:</b> sign up → set a saved search for “Data Analyst”, daily email.</p>
+        <div class="board-actions"><a class="go" href="https://www.ukvisajobs.com/" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="sponsorlist">
+        <div class="board-top"><span class="board-name">SponsorList Checker</span><span class="filt-badge">Licence-checked</span></div>
+        <p class="board-note">Not a job board — a daily-updated lookup for confirming a specific employer holds a licence before you apply.</p>
+        <p class="board-alert"><b>Use:</b> paste any company name from any other board here first.</p>
+        <div class="board-actions"><a class="go" href="https://sponsorlist.co.uk/visa-sponsorship-checker/" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="tier-num">2</span><h3>Sectors that sponsor structurally</h3></div>
+    <p class="tier-why">NHS trusts and universities are almost universally licensed sponsors, state their position openly on the advert, and run large internal analytics and reporting functions. Welcome to the Jungle is the one mainstream tech board with a genuine sponsorship filter rather than a keyword guess.</p>
+    <div class="boards">
+      <div class="board" data-id="nhs">
+        <div class="board-top"><span class="board-name">NHS Jobs</span><span class="filt-badge">States position</span></div>
+        <p class="board-note">Trusts hire information analysts, BI and reporting analysts constantly, and each advert declares its sponsorship stance explicitly.</p>
+        <p class="board-alert"><b>Alert:</b> account → Saved searches → email me new matches.</p>
+        <div class="board-actions"><a class="go" href="https://www.jobs.nhs.uk/candidate/search/results?keyword=data%20analyst" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="jacuk">
+        <div class="board-top"><span class="board-name">jobs.ac.uk</span><span class="filt-badge">States position</span></div>
+        <p class="board-note">University data, planning and insight roles. Institutions hold licences as a matter of course and are used to sponsoring.</p>
+        <p class="board-alert"><b>Alert:</b> free account → Job alerts → keyword + weekly digest.</p>
+        <div class="board-actions"><a class="go" href="https://www.jobs.ac.uk/search/?keywords=data+analyst" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="wttj">
+        <div class="board-top"><span class="board-name">Welcome to the Jungle</span><span class="filt-badge">Real filter</span></div>
+        <p class="board-note">Formerly Otta. Has an actual visa-sponsorship toggle in your profile preferences, applied across tech and startup roles.</p>
+        <p class="board-alert"><b>Alert:</b> profile → turn on <b>“Needs visa sponsorship”</b> → weekly matches email.</p>
+        <div class="board-actions"><a class="go" href="https://app.welcometothejungle.com/jobs" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="findajob">
+        <div class="board-top"><span class="board-name">Find a job (DWP)</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">The government's own board. Heavy on public-sector and council analytics roles that rarely surface on commercial sites.</p>
+        <p class="board-alert"><b>Alert:</b> account → save this search → daily email.</p>
+        <div class="board-actions"><a class="go" href="https://findajob.dwp.gov.uk/search?q=data+analyst" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tier">
+    <div class="tier-head"><span class="tier-num">3</span><h3>Volume aggregators</h3></div>
+    <p class="tier-why">No true sponsorship filter on any of these — the links below carry sponsorship keywords in the query instead, which catches adverts that say so and misses those that simply do not mention it. Highest volume, so lean on the alerts rather than browsing, and run every promising employer through the licence checker in tier 1.</p>
+    <div class="boards">
+      <div class="board" data-id="linkedin">
+        <div class="board-top"><span class="board-name">LinkedIn</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">Largest pool of lead and senior analytics roles, and the one place where the hiring manager is usually visible and reachable.</p>
+        <p class="board-alert"><b>Alert:</b> run the search → toggle <b>“Set alert”</b> to daily.</p>
+        <div class="board-actions"><a class="go" href="https://www.linkedin.com/jobs/search/?keywords=data%20analyst%20visa%20sponsorship&amp;location=United%20Kingdom&amp;f_TPR=r604800" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="indeed">
+        <div class="board-top"><span class="board-name">Indeed UK</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">Deepest coverage of mid-market employers and recruitment agencies advertising analytics vacancies.</p>
+        <p class="board-alert"><b>Alert:</b> scroll to <b>“Get new jobs for this search by email”</b>.</p>
+        <div class="board-actions"><a class="go" href="https://uk.indeed.com/jobs?q=%22data+analyst%22+%22visa+sponsorship%22&amp;l=United+Kingdom&amp;fromage=7" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="adzuna">
+        <div class="board-top"><span class="board-name">Adzuna</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">Aggregates most other UK boards into one feed, with salary benchmarking against the visa threshold.</p>
+        <p class="board-alert"><b>Alert:</b> “Email me jobs like this” under the results.</p>
+        <div class="board-actions"><a class="go" href="https://www.adzuna.co.uk/search?q=data+analyst+visa+sponsorship" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="reed">
+        <div class="board-top"><span class="board-name">Reed</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">Strong on permanent commercial analytics and reporting roles across finance and retail.</p>
+        <p class="board-alert"><b>Alert:</b> “Create job alert” above the results list.</p>
+        <div class="board-actions"><a class="go" href="https://www.reed.co.uk/jobs/data-analyst-jobs?keywords=sponsorship" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="totaljobs">
+        <div class="board-top"><span class="board-name">Totaljobs</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">Good regional spread beyond London — Manchester, Birmingham, Leeds, Edinburgh.</p>
+        <p class="board-alert"><b>Alert:</b> “Get job alerts” → daily.</p>
+        <div class="board-actions"><a class="go" href="https://www.totaljobs.com/jobs/data-analyst/in-uk" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="cvlibrary">
+        <div class="board-top"><span class="board-name">CV-Library</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">Agency-heavy. Useful because recruiters will tell you a client's sponsorship position before you apply.</p>
+        <p class="board-alert"><b>Alert:</b> register → job alerts by keyword.</p>
+        <div class="board-actions"><a class="go" href="https://www.cv-library.co.uk/data-analyst-jobs" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+      <div class="board" data-id="glassdoor">
+        <div class="board-top"><span class="board-name">Glassdoor</span><span class="filt-badge kw">Keyword</span></div>
+        <p class="board-note">Its sponsorship-keyword search is unusually well populated, and salary data sits next to each listing.</p>
+        <p class="board-alert"><b>Alert:</b> “Create job alert” on the search page.</p>
+        <div class="board-actions"><a class="go" href="https://www.glassdoor.co.uk/Job/united-kingdom-data-analyst-jobs-in-uk-with-visa-sponsorship-jobs-SRCH_IL.0,14_IN2_KO15,60.htm" target="_blank" rel="noopener">Open</a><label class="chk"><input type="checkbox"> armed</label></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <p class="eyebrow">Query library</p>
+    <h2>Search strings tuned for sponsorship</h2>
+  </div>
+  <p class="sub">Paste these into any board that accepts boolean input. The first widens the title net across every phrasing UK employers use for the same job; the second targets the durable RQF 6 lane specifically; the third is a negative filter worth running to learn which employers to stop wasting applications on.</p>
+
+  <div class="q">
+    <div class="q-top"><span class="q-label"><b>Title net</b> — every UK variant of the role you want</span><button class="copy" data-q="q1">Copy</button></div>
+    <pre id="q1">("data analyst" OR "reporting analyst" OR "insight analyst" OR "business intelligence analyst" OR "BI analyst" OR "MI analyst" OR "analytics engineer" OR "data insight" OR "performance analyst")</pre>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-label"><b>Durable lane</b> — seniority that codes at RQF 6</span><button class="copy" data-q="q2">Copy</button></div>
+    <pre id="q2">("lead data analyst" OR "senior data analyst" OR "principal analyst" OR "analytics lead" OR "lead insight analyst" OR "BI lead" OR "data analytics manager" OR "head of insight") AND (sponsorship OR "skilled worker" OR visa)</pre>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-label"><b>Sponsorship signal</b> — phrases employers actually write</span><button class="copy" data-q="q3">Copy</button></div>
+    <pre id="q3">("visa sponsorship" OR "sponsorship available" OR "we can sponsor" OR "certificate of sponsorship" OR "skilled worker visa" OR "sponsorship is available" OR "happy to sponsor")</pre>
+  </div>
+
+  <div class="q">
+    <div class="q-top"><span class="q-label"><b>Exclusion set</b> — the refusals, so you can skip them</span><button class="copy" data-q="q4">Copy</button></div>
+    <pre id="q4">"data analyst" AND ("no sponsorship" OR "unable to sponsor" OR "cannot offer sponsorship" OR "must have the right to work" OR "no visa sponsorship available")</pre>
+  </div>
+</section>
+
+<section>
+  <div class="shead">
+    <p class="eyebrow">Before you apply</p>
+    <h2>Four checks that save wasted applications</h2>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <span class="step-n mono">01</span>
+      <div class="step-b">
+        <h4>Confirm the licence, not the intention</h4>
+        <p>An employer saying “we may consider sponsorship” means nothing without a licence. Search the company on the GOV.UK register of licensed sponsors — it is a free CSV updated at least monthly — or use the tier 1 checker. Confirm the route says <b>Skilled Worker</b>, not only Temporary Worker.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-n mono">02</span>
+      <div class="step-b">
+        <h4>Check the salary clears the right bar</h4>
+        <p>The floor is £41,700 <i>or</i> the occupation's going rate, whichever is higher — so a £38,000 “Data Analyst” advert cannot be sponsored under a professional code even by a licensed employer. Rule out anything materially below the bar for the code you are targeting before you spend time on it.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-n mono">03</span>
+      <div class="step-b">
+        <h4>Ask which SOC code they would assign</h4>
+        <p>The one question that resolves everything, and it is entirely reasonable to ask at first-stage screening. “If you were to sponsor this role, which SOC occupation code would it be assigned to?” A 2xxx answer is the durable lane. 3544 means the shortage list, no dependants, and an expiry you should discuss openly.</p>
+      </div>
+    </div>
+    <div class="step">
+      <span class="step-n mono">04</span>
+      <div class="step-b">
+        <h4>Raise it early, and frame it as solved</h4>
+        <p>Sponsorship costs an employer a fee and some paperwork, not months of delay. Say plainly what you need and what it involves — silence until offer stage is what actually loses roles. If you are already in the UK on a Graduate or Student visa, lead with that: switching in-country is markedly simpler than sponsoring from overseas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="auto">
+    <p class="eyebrow">Running automatically</p>
+    <h3>Your weekday email digest</h3>
+    <p>A scheduled job runs every weekday morning, sweeps the boards above for newly posted UK analytics and reporting roles with sponsorship signals, and emails you a digest with live links. It runs whether or not this page is open, and sits alongside the native alerts you arm above rather than replacing them — the board alerts catch what a search misses, and vice versa.</p>
+    <div class="auto-grid">
+      <div class="auto-cell"><span class="k">Delivers to</span><span class="v mono">rathanr51@gmail.com</span></div>
+      <div class="auto-cell"><span class="k">Schedule</span><span class="v">Weekdays, 07:22 UK</span></div>
+      <div class="auto-cell"><span class="k">Scope</span><span class="v">UK · analytics, reporting &amp; lead analyst</span></div>
+      <div class="auto-cell"><span class="k">To change or stop</span><span class="v">Ask Claude to adjust the routine</span></div>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <p><b>On the figures.</b> Salary thresholds and going rates are as reported in August 2026 and are the ones to sanity-check a vacancy against, not to rely on for an application. Rates change with each Statement of Changes, and the going rate that binds is the one in force on the date the Certificate of Sponsorship is assigned. Confirm against Appendix Skilled Occupations on GOV.UK, and take advice from a regulated immigration adviser before making a decision that turns on a number. This page is a job-search tool, not immigration advice.</p>
+  <p>Sources: <a href="https://www.gov.uk/government/publications/register-of-licensed-sponsors-workers" target="_blank" rel="noopener">GOV.UK register of licensed sponsors</a> · <a href="https://www.gov.uk/government/publications/skilled-worker-visa-eligible-occupations/skilled-worker-visa-eligible-occupations-and-codes" target="_blank" rel="noopener">Skilled Worker eligible occupations and codes</a> · <a href="https://www.ein.org.uk/blog/uk-temporary-shortage-list-2025-guidance-skilled-workers" target="_blank" rel="noopener">Temporary Shortage List guidance</a> · <a href="https://www.cipd.org/uk/views-and-insights/thought-leadership/insight/immigration-rule-change-july-2025/" target="_blank" rel="noopener">CIPD briefing on the July 2025 rule changes</a></p>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  // Countdown to the Temporary Shortage List expiry
+  var expiry = new Date("2026-12-31T23:59:59Z");
+  var days = Math.max(0, Math.ceil((expiry - new Date()) / 86400000));
+  var cd = document.getElementById("cd");
+  if (cd) cd.textContent = days + " days";
+
+  var built = document.getElementById("built");
+  if (built) {
+    built.textContent = "COMPILED " + new Date().toLocaleDateString("en-GB",
+      {day:"2-digit", month:"short", year:"numeric"}).toUpperCase();
+  }
+
+  // Copy buttons for the query library
+  document.querySelectorAll(".copy").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var pre = document.getElementById(btn.dataset.q);
+      if (!pre) return;
+      var done = function(){
+        var prev = btn.textContent;
+        btn.textContent = "Copied";
+        btn.classList.add("ok");
+        setTimeout(function(){ btn.textContent = prev; btn.classList.remove("ok"); }, 1600);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(pre.textContent).then(done, function(){});
+      } else {
+        var r = document.createRange();
+        r.selectNodeContents(pre);
+        var s = window.getSelection();
+        s.removeAllRanges(); s.addRange(r);
+        try { document.execCommand("copy"); done(); } catch(e){}
+      }
+    });
+  });
+
+  // Which board alerts are armed — saved per browser
+  var KEY = "asr.armed.v1";
+  var state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch(e) { state = {}; }
+
+  document.querySelectorAll(".board").forEach(function(card){
+    var id = card.dataset.id;
+    var box = card.querySelector('input[type="checkbox"]');
+    if (!id || !box) return;
+    if (state[id]) { box.checked = true; card.classList.add("done"); }
+    box.addEventListener("change", function(){
+      card.classList.toggle("done", box.checked);
+      state[id] = box.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e){}
+    });
+  });
+})();
+</script>

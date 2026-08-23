@@ -3,7 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Rathan Narayana Raju — Interactive CV Dashboard</title>
+<title>Rathan Narayana Raju CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
 <meta name="description" content="Interactive, editable dashboard CV for Rathan Narayana Raju, Senior Data Analyst.">
 <style>
 /* ============================================================
@@ -70,6 +73,7 @@ ul{list-style:none}
 }
 .btn:hover{color:var(--ink); border-color:var(--blue); transform:translateY(-1px)}
 .btn svg{width:15px;height:15px;flex:none}
+.btn:focus-visible,.mini:focus-visible,.add-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
 .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 6px 18px -8px var(--blue)}
 .btn.primary:hover{background:var(--blue-600)}
 .btn.on{background:var(--teal);border-color:var(--teal);color:#04231f;box-shadow:0 6px 18px -8px var(--teal)}
@@ -368,6 +372,10 @@ body.editing .swatches{display:flex}
 .pg-fixed .exp-grid{grid-template-columns:repeat(5,1fr)!important}
 .pg-fixed .proj-grid{grid-template-columns:repeat(3,1fr)!important}
 .pg-fixed .tl-track{display:block!important}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
 
 @media print{
   @page{margin:0}                 /* the exact page size is injected before printing */
@@ -1252,7 +1260,11 @@ document.getElementById('btnPrint').addEventListener('click', ()=>{
   if(editing) setEditing(false);
   document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   lockPrintLayout();
-  setTimeout(()=>{ window.print(); setTimeout(unlockPrintLayout, 800); }, 140);
+  setTimeout(()=>{
+    try{ window.print(); }
+    catch(err){ toast('This view will not let the page open a print dialog — open it in its own tab and print from there.'); }
+    setTimeout(unlockPrintLayout, 800);
+  }, 140);
 });
 
 /* --- Theme --- */

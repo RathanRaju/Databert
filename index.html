@@ -109,7 +109,6 @@ ul{list-style:none}
 }
 .avatar-edit:hover{transform:scale(1.08)}
 .avatar-edit svg{width:16px;height:16px}
-body.editing .avatar-edit{display:grid}
 .side h1{font-size:26px;line-height:1.15;font-weight:800;text-align:center;letter-spacing:-.01em;color:#fff}
 .side .role{text-align:center;color:var(--blue-300);font-weight:700;font-size:16px;margin-top:9px}
 .side .tagline{text-align:center;color:#9fb2d8;font-size:12.5px;margin-top:5px}
@@ -119,7 +118,7 @@ body.editing .avatar-edit{display:grid}
 .side-sep{height:1px;background:linear-gradient(90deg,transparent,rgba(120,160,230,.35),transparent);margin:24px 0 20px}
 .side-h{
   color:var(--blue-300);font-size:12.5px;font-weight:800;letter-spacing:.14em;
-  text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;
+  text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;min-height:24px;
 }
 .contact-list{display:grid;gap:13px}
 .contact-item{display:flex;align-items:center;gap:12px;font-size:13px;color:#d7e3f9;word-break:break-word}
@@ -149,7 +148,7 @@ body.editing .avatar-edit{display:grid}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);border-color:color-mix(in srgb,var(--blue) 35%,var(--line))}
 .card-h{
   display:flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--ink);margin-bottom:16px;
+  text-transform:uppercase;color:var(--ink);margin-bottom:16px;min-height:24px;
 }
 .card-h .hi{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:var(--blue);color:#fff;flex:none}
 .card-h .hi svg{width:17px;height:17px}
@@ -209,8 +208,6 @@ body.editing .avatar-edit{display:grid}
   background:linear-gradient(90deg,var(--blue-300),var(--blue));transition:width .9s cubic-bezier(.2,.8,.2,1)}
 .bar-val{position:absolute;right:0;top:-19px;font-size:11px;font-weight:700;color:var(--blue);opacity:0;transition:opacity .2s}
 .bar-row:hover .bar-val{opacity:1}
-body.editing .bar{cursor:ew-resize;height:12px;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--blue) 40%,transparent)}
-body.editing .bar-val{opacity:1}
 
 /* industry bars */
 .ind{display:grid;gap:14px}
@@ -256,8 +253,9 @@ body.editing .bar-val{opacity:1}
 
 /* footer */
 .foot{
+  position:relative;
   grid-column:1/-1;display:flex;align-items:center;gap:22px;flex-wrap:wrap;
-  padding:16px 26px;border-top:1px solid var(--line);
+  padding:16px 52px 16px 26px;border-top:1px solid var(--line);
   background:linear-gradient(90deg,color-mix(in srgb,var(--blue) 8%,var(--card)),var(--card));
 }
 .quote{display:flex;gap:11px;align-items:flex-start;font-size:13.2px;font-style:italic;color:var(--ink-soft);margin-right:auto;max-width:56ch}
@@ -266,18 +264,48 @@ body.editing .bar-val{opacity:1}
 .trait{display:flex;align-items:center;gap:9px;font-size:12.4px;font-weight:600;color:var(--ink-soft)}
 .trait svg{width:19px;height:19px;color:var(--blue)}
 
-/* ---------- Edit affordances ---------- */
-body.editing [data-bind]{
-  border-radius:5px; box-shadow:0 0 0 1px color-mix(in srgb,var(--blue) 32%,transparent);
-  transition:box-shadow .15s, background .15s;
-}
-body.editing [data-bind]{overflow-wrap:normal;word-break:normal}
+/* ---------- Inline editing ----------
+   The page is always editable. Every control stays hidden until the pointer
+   (or keyboard focus) reaches the thing it belongs to, and each one floats
+   over the layout rather than pushing it around. */
+body.live [data-bind]{overflow-wrap:normal;word-break:normal;border-radius:5px;
+  transition:box-shadow .15s, background .15s}
 .contact-item [data-bind],.href-edit{overflow-wrap:break-word!important;word-break:break-word!important}
-body.editing [data-bind]:hover{background:color-mix(in srgb,var(--blue) 9%,transparent)}
-body.editing [data-bind]:focus{box-shadow:0 0 0 2px var(--blue);background:color-mix(in srgb,var(--blue) 12%,transparent)}
-.side [data-bind]:focus{background:rgba(96,165,250,.14)!important}
-.ctl{display:none;gap:6px;align-items:center}
-body.editing .ctl{display:inline-flex}
+body.live [data-bind]:hover{background:color-mix(in srgb,var(--blue) 8%,transparent);
+  box-shadow:0 0 0 1px color-mix(in srgb,var(--blue) 30%,transparent)}
+body.live [data-bind]:focus{background:color-mix(in srgb,var(--blue) 12%,transparent);
+  box-shadow:0 0 0 2px var(--blue)}
+.side [data-bind]:hover,.side [data-bind]:focus{background:rgba(96,165,250,.16)!important}
+body.live [data-act="icon"]{cursor:pointer;transition:transform .15s}
+body.live [data-act="icon"]:hover{transform:scale(1.09);
+  outline:2px dashed color-mix(in srgb,var(--blue) 55%,transparent);outline-offset:3px;border-radius:50%}
+body.live .bar:hover{cursor:ew-resize;box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--blue) 55%,transparent)}
+body.live .card:hover,body.live .card:focus-within{z-index:30}
+
+/* hidden by default */
+.ctl,.swatches,.edit-only,.avatar-edit,.add-mini,.skill-edit{display:none}
+
+/* …revealed for whatever is under the pointer */
+body.live .item-wrap:hover .ctl,
+body.live .item-wrap:focus-within .ctl{display:inline-flex}
+body.live .item-wrap:hover .swatches,
+body.live .item-wrap:focus-within .swatches{display:flex}
+body.live .contact-item:hover .edit-only,
+body.live .contact-item:focus-within .edit-only{display:block}
+body.live .avatar-wrap:hover .avatar-edit,
+body.live .avatar-wrap:focus-within .avatar-edit{display:grid}
+body.live .card:hover > .skill-edit,
+body.live .card:focus-within > .skill-edit{display:block}
+body.live .card:hover > .card-h > .add-mini,
+body.live .card:focus-within > .card-h > .add-mini,
+body.live .side:hover .side-h > .add-mini,
+body.live .side:focus-within .side-h > .add-mini,
+body.live .row-rel:hover > .add-mini,
+body.live .row-rel:focus-within > .add-mini,
+body.live .foot:hover > .add-mini,
+body.live .foot:focus-within > .add-mini{display:grid}
+
+.ctl{gap:6px;align-items:center}
 .mini{
   width:22px;height:22px;border-radius:7px;display:grid;place-items:center;cursor:pointer;
   border:1px solid var(--line);background:var(--card);color:var(--ink-mute);transition:.15s;flex:none;
@@ -285,24 +313,51 @@ body.editing .ctl{display:inline-flex}
 .mini:hover{color:#fff;background:var(--blue);border-color:var(--blue)}
 .mini.del:hover{background:#ef4444;border-color:#ef4444}
 .mini svg{width:12px;height:12px}
-.side .mini{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.14);color:#9fb2d8}
-.add-row{display:none;margin-top:12px}
-body.editing .add-row{display:flex;justify-content:center}
-.add-btn{
-  display:inline-flex;align-items:center;gap:6px;font:700 11.5px/1 var(--font);cursor:pointer;
-  padding:7px 12px;border-radius:999px;border:1px dashed color-mix(in srgb,var(--blue) 55%,var(--line));
-  background:transparent;color:var(--blue);transition:.15s;
-}
-.add-btn:hover{background:color-mix(in srgb,var(--blue) 12%,transparent)}
-.add-btn svg{width:12px;height:12px}
-.side .add-btn{color:var(--blue-300);border-color:rgba(96,165,250,.45)}
+.side .mini{background:#16244a;border-color:rgba(255,255,255,.16);color:#9fb2d8}
 .item-wrap{position:relative}
 .item-ctl{position:absolute;top:-6px;right:-4px;z-index:5}
-.swatches{display:none;gap:4px;margin-top:8px;justify-content:center;flex-wrap:wrap}
-body.editing .swatches{display:flex}
-.sw{width:14px;height:14px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:.15s}
+
+/* the “add another” button lives in the section heading, so nothing reflows */
+.add-mini{
+  width:23px;height:23px;border-radius:50%;place-items:center;cursor:pointer;flex:none;margin-left:auto;
+  border:1px dashed color-mix(in srgb,var(--blue) 60%,var(--line));background:var(--card);
+  color:var(--blue);transition:.15s;
+}
+.add-mini:hover{background:var(--blue);border-style:solid;color:#fff;transform:scale(1.08)}
+.add-mini svg{width:12px;height:12px}
+.side .add-mini{background:#16244a;color:var(--blue-300);border-color:rgba(96,165,250,.5)}
+.add-mini.float{position:absolute;z-index:9}
+.row-rel{position:relative}
+.row-rel > .add-mini.float{top:-11px;right:-5px}
+.foot > .add-mini.float{top:50%;right:16px;transform:translateY(-50%)}
+
+/* colour picker floats over the item it recolours */
+.swatches .add-mini{display:grid;margin:0 3px 0 0;width:20px;height:20px;border-color:color-mix(in srgb,var(--blue) 45%,var(--line))}
+.swatches{
+  position:absolute;left:50%;bottom:-9px;transform:translateX(-50%);z-index:8;gap:4px;
+  flex-wrap:wrap;justify-content:center;width:max-content;max-width:min(230px,calc(100vw - 48px));
+  padding:5px 8px;border-radius:99px;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-lg);
+}
+.side .swatches{background:#16244a;border-color:rgba(255,255,255,.16)}
+.sw{width:13px;height:13px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:.15s}
 .sw:hover{transform:scale(1.25)}
 .sw.sel{border-color:var(--ink)}
+
+/* contact links: the address sits under the label while you are on it */
+.contact-item .edit-only{
+  position:absolute;left:42px;right:0;top:100%;z-index:9;margin-top:2px;
+  background:#16244a;border:1px solid rgba(120,160,230,.32);border-radius:8px;padding:5px 8px;
+}
+
+/* skill weights drop out of the bottom of their card */
+.skill-edit{
+  position:absolute;left:12px;right:12px;top:100%;margin-top:-8px;z-index:25;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 14px 6px;
+  box-shadow:var(--shadow-lg);
+}
+.skill-edit .bar-row{margin-bottom:18px}
+.skill-edit .swatches{bottom:-11px}
 
 /* ---------- Modal ---------- */
 .overlay{
@@ -380,7 +435,7 @@ body.editing .swatches{display:flex}
 @media print{
   @page{margin:0}                 /* the exact page size is injected before printing */
   body{padding:16px;background:#fff}
-  .toolbar,.overlay,.toast,.add-row,.ctl,.swatches,.avatar-edit{display:none!important}
+  .toolbar,.overlay,.toast,.ctl,.swatches,.avatar-edit,.add-mini,.edit-only,.skill-edit{display:none!important}
   .sheet{box-shadow:none;border-radius:18px}
   .card{break-inside:avoid;box-shadow:none}
   .reveal{opacity:1!important;transform:none!important}
@@ -394,7 +449,6 @@ body.editing .swatches{display:flex}
 <div class="toolbar no-print">
   <div class="tb-brand"><span class="tb-dot"></span><span>CV Dashboard</span></div>
   <span class="save-pill" id="savePill">Saved</span>
-  <button class="btn" id="btnEdit" title="Toggle edit mode (Ctrl/Cmd + E)"></button>
   <button class="btn" id="btnTheme" title="Toggle light / dark"></button>
   <button class="btn" id="btnPrint" title="Print or save as PDF"></button>
   <button class="btn" id="btnExport" title="Export data as JSON"></button>
@@ -471,7 +525,7 @@ function svg(n, extra){
   const p = I[n] || I.spark;
   return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"'+(extra||'')+'>'+p+'</svg>';
 }
-const PALETTE = ['#2563eb','#14b8a6','#8b5cf6','#f97316','#f5b400','#ef4444','#06b6d4','#22c55e','#ec4899','#64748b'];
+const PALETTE = ['#2563eb','#14b8a6','#8b5cf6','#f97316','#f5b400','#22c55e','#ec4899','#64748b'];
 
 /* ============================================================
    2. Default CV data
@@ -567,17 +621,13 @@ const DEFAULT_DATA = {
 const KEY = 'cv-dashboard-v1';
 const clone = o => JSON.parse(JSON.stringify(o));
 let DATA = clone(DEFAULT_DATA);
-let editing = false;
+let editing = true;   /* the page is live unless it is locked with Ctrl/Cmd+E */
 
 /* -- extra runtime styles -- */
 document.head.insertAdjacentHTML('beforeend','<style>'+
-  '.edit-only{display:none}body.editing .edit-only{display:block}'+
   '.href-edit{font-size:10.2px;color:var(--blue-300);margin-top:4px;word-break:break-all;opacity:.9}'+
   '.name-ed{white-space:pre-line}'+
-  '.add-tile{display:none;align-items:center;justify-content:center;gap:7px;border:1px dashed color-mix(in srgb,var(--blue) 55%,var(--line));'+
-  'border-radius:var(--r-lg);color:var(--blue);font:700 12px/1 var(--font);cursor:pointer;background:transparent;min-height:84px}'+
-  'body.editing .add-tile{display:flex}.add-tile:hover{background:color-mix(in srgb,var(--blue) 10%,transparent)}'+
-  '.add-tile svg{width:14px;height:14px}'+'body.editing [data-act="icon"]{cursor:pointer;outline:1px dashed color-mix(in srgb,var(--blue) 45%,transparent);outline-offset:3px;border-radius:50%}'+'body.editing [data-act="icon"]:hover{transform:scale(1.08)}'+
+
 '</style>');
 
 function get(path){
@@ -599,11 +649,12 @@ function ed(path, tag, cls, extra){
 function delBtn(list, i, cls){
   return '<span class="ctl '+(cls||'')+'"><button class="mini del" data-act="del" data-list="'+list+'" data-i="'+i+'" title="Remove">'+svg('trash')+'</button></span>';
 }
-function addBtn(list, label){
-  return '<div class="add-row"><button class="add-btn" data-act="add" data-list="'+list+'">'+svg('plus')+label+'</button></div>';
+function addMini(list, title, cls){
+  return '<button class="add-mini'+(cls?' '+cls:'')+'" data-act="add" data-list="'+list+'" '+
+         'title="'+esc(title)+'" aria-label="'+esc(title)+'">'+svg('plus')+'</button>';
 }
-function swatches(path, cur){
-  return '<div class="swatches">'+PALETTE.map(c =>
+function swatches(path, cur, extra){
+  return '<div class="swatches">'+(extra||'')+PALETTE.map(c =>
     '<span class="sw'+(c.toLowerCase()===String(cur).toLowerCase()?' sel':'')+'" style="background:'+c+'" data-act="color" data-path="'+path+'" data-color="'+c+'" title="'+c+'"></span>').join('')+'</div>';
 }
 
@@ -652,14 +703,14 @@ function renderSide(){
     '<div class="meta-row">'+svg('chevron')+ed('profile.availability','span','')+'</div>'+
   '</div>'+
   '<div class="side-sep"></div>'+
-  '<div class="side-h">Contact</div>'+
-  '<ul class="contact-list">'+contact+'</ul>'+ addBtn('contact','Add contact') +
+  '<div class="side-h">Contact'+addMini('contact','Add contact')+'</div>'+
+  '<ul class="contact-list">'+contact+'</ul>'+
   '<div class="side-sep"></div>'+
-  '<div class="side-h">Certifications</div>'+
-  '<ul class="bullet-list">'+certs+'</ul>'+ addBtn('certifications','Add certification') +
+  '<div class="side-h">Certifications'+addMini('certifications','Add certification')+'</div>'+
+  '<ul class="bullet-list">'+certs+'</ul>'+
   '<div class="side-sep"></div>'+
-  '<div class="side-h">Education</div>'+
-  '<div class="bullet-list">'+edu+'</div>'+ addBtn('education','Add education');
+  '<div class="side-h">Education'+addMini('education','Add education')+'</div>'+
+  '<div class="bullet-list">'+edu+'</div>';
 }
 
 function renderStats(){
@@ -672,8 +723,7 @@ function renderStats(){
         swatches('stats.'+i+'.color', s.color)+
       '</div>'+ delBtn('stats',i,'item-ctl')+
     '</div>').join('');
-  return '<div class="row-stats">'+cards+
-    '<button class="add-tile" data-act="add" data-list="stats">'+svg('plus')+'Add stat</button></div>';
+  return '<div class="row-stats row-rel">'+cards+addMini('stats','Add stat','float')+'</div>';
 }
 
 function renderSummary(){
@@ -693,9 +743,8 @@ function renderExpertise(){
       delBtn('expertise',i,'item-ctl')+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Core Expertise</div>'+
+    '<div class="card-h">Core Expertise'+addMini('expertise','Add expertise area')+'</div>'+
     '<div class="exp-grid">'+items+'</div>'+
-    addBtn('expertise','Add expertise area')+
   '</div>';
 }
 
@@ -712,18 +761,15 @@ function renderTimeline(){
       '<ul class="tl-ul">'+ t.bullets.map((b,j)=>
         '<li class="item-wrap">'+ed('timeline.'+i+'.bullets.'+j,'span','',' style="flex:1"')+
         delBtn('timeline.'+i+'.bullets',j)+'</li>').join('') +'</ul>'+
-      '<div class="add-row" style="justify-content:flex-start;margin-top:9px">'+
-        '<button class="add-btn" data-act="add" data-list="timeline.'+i+'.bullets">'+svg('plus')+'Bullet</button></div>'+
-      swatches('timeline.'+i+'.color', t.color)+
+      swatches('timeline.'+i+'.color', t.color, addMini('timeline.'+i+'.bullets','Add bullet'))+
       delBtn('timeline',i,'item-ctl')+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Career Journey</div>'+
+    '<div class="card-h">Career Journey'+addMini('timeline','Add role')+'</div>'+
     '<div class="tl">'+
       '<div class="tl-track"><div class="tl-line"></div><div class="tl-cols" style="'+cols+'">'+heads+'</div></div>'+
       '<div class="tl-body" style="'+cols+'">'+bodies+'</div>'+
     '</div>'+
-    addBtn('timeline','Add role')+
   '</div>';
 }
 
@@ -739,9 +785,8 @@ function renderTech(){
       '</div>'+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Tech Stack</div>'+
+    '<div class="card-h">Tech Stack'+addMini('techstack','Add technology')+'</div>'+
     '<div class="bars">'+rows+'</div>'+
-    addBtn('techstack','Add technology')+
   '</div>';
 }
 
@@ -759,7 +804,7 @@ function renderSkills(){
   const labs = DATA.skills.map((s,i)=>
     '<div class="dlab" data-lab="'+i+'"><b>'+Math.round((+s.value||0)/total*100)+'%</b>'+esc(s.label)+'</div>').join('');
   const list = DATA.skills.map((s,i)=>
-    '<div class="bar-row item-wrap edit-only" style="margin-top:8px">'+
+    '<div class="bar-row item-wrap">'+
       ed('skills.'+i+'.label','div','bar-name')+
       '<div style="display:flex;align-items:center;gap:8px">'+
         '<div class="bar" data-path="skills.'+i+'.value" data-max="60" style="flex:1;background:var(--track)">'+
@@ -770,14 +815,13 @@ function renderSkills(){
       swatches('skills.'+i+'.color', s.color)+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Skills Snapshot</div>'+
+    '<div class="card-h">Skills Snapshot'+addMini('skills','Add skill area')+'</div>'+
     '<div class="donut-wrap" id="donutWrap">'+
       '<svg class="donut" viewBox="0 0 120 120">'+segs+'</svg>'+
       '<div class="donut-mid" id="donutMid"><div class="ic">'+svg('bulb')+'</div></div>'+
       labs+
     '</div>'+
-    '<div class="edit-only" style="margin-top:14px">'+list+'</div>'+
-    addBtn('skills','Add skill area')+
+    '<div class="skill-edit">'+list+'</div>'+
   '</div>';
 }
 
@@ -796,9 +840,8 @@ function renderProjects(){
       delBtn('projects',i,'item-ctl')+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Featured Projects</div>'+
+    '<div class="card-h">Featured Projects'+addMini('projects','Add project')+'</div>'+
     '<div class="proj-grid">'+items+'</div>'+
-    addBtn('projects','Add project')+
   '</div>';
 }
 
@@ -813,9 +856,8 @@ function renderImpact(){
       '</div>'+ delBtn('impact',i)+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Key Impact</div>'+
+    '<div class="card-h">Key Impact'+addMini('impact','Add metric')+'</div>'+
     '<div class="imp">'+rows+'</div>'+
-    addBtn('impact','Add metric')+
   '</div>';
 }
 
@@ -831,9 +873,8 @@ function renderIndustries(){
       '</div>'+
     '</div>').join('');
   return '<div class="card reveal">'+
-    '<div class="card-h">Industry Experience</div>'+
+    '<div class="card-h">Industry Experience'+addMini('industries','Add industry')+'</div>'+
     '<div class="ind">'+rows+'</div>'+
-    addBtn('industries','Add industry')+
   '</div>';
 }
 
@@ -842,8 +883,7 @@ function renderFoot(){
     '<div class="trait item-wrap"><span data-act="icon" data-path="traits.'+i+'.icon" style="display:inline-flex">'+svg(t.icon)+'</span>'+ed('traits.'+i+'.label','span','')+delBtn('traits',i)+'</div>').join('');
   return '<div class="quote">'+svg('quote')+ed('quote','span','')+'</div>'+
     '<div class="traits">'+traits+'</div>'+
-    '<div class="add-row" style="margin:0">'+
-      '<button class="add-btn" data-act="add" data-list="traits">'+svg('plus')+'Trait</button></div>';
+    addMini('traits','Add trait','float');
 }
 
 function render(){
@@ -908,13 +948,12 @@ function applyEditable(){
 }
 function setEditing(on){
   editing = on;
-  document.body.classList.toggle('editing', on);
-  const b = document.getElementById('btnEdit');
-  b.classList.toggle('on', on);
-  b.innerHTML = (on ? svg('check')+'Done editing' : svg('edit')+'Edit');
+  document.body.classList.toggle('live', on);
   applyEditable();
-  if(on) toast('Edit mode on — click any text to change it. Drag the bars, click a coloured dot to recolour, click an icon to swap it.');
-  else save();
+  try{ localStorage.setItem(KEY+':locked', on ? '' : '1'); }catch(e){}
+  toast(on ? 'Editing unlocked — click any text to change it.'
+           : 'Editing locked. Press Ctrl/Cmd + E to unlock.');
+  if(!on) save();
 }
 
 /* text edits */
@@ -946,9 +985,9 @@ const NEW_ITEM = {
   timeline:      ()=>({year:'20XX', company:'Company', role:'Job Title', color:PALETTE[3], bullets:['Key responsibility']}),
   bullets:       ()=>'Key responsibility',
   techstack:     ()=>({name:'New tool', level:70}),
-  skills:        ()=>({label:'New area', value:10, color:PALETTE[6]}),
+  skills:        ()=>({label:'New area', value:10, color:PALETTE[1]}),
   projects:      ()=>({icon:'spark', title:'New Project', tags:'Tools | Tech', color:PALETTE[1], desc:'What you built and the outcome it delivered.'}),
-  impact:        ()=>({icon:'trend', value:'0%', label:'What improved', color:PALETTE[7]}),
+  impact:        ()=>({icon:'trend', value:'0%', label:'What improved', color:PALETTE[5]}),
   industries:    ()=>({name:'New industry', value:50}),
   traits:        ()=>({icon:'shield', label:'New trait'})
 };
@@ -1102,7 +1141,7 @@ function countUp(el){
   if(!isFinite(target) || target === 0) return;
   const dur = 850, t0 = performance.now();
   const step = now=>{
-    if(editing){ el.textContent = raw; return; }
+    if(document.activeElement === el){ el.textContent = raw; return; }
     const k = Math.min(1, (now-t0)/dur);
     const e = 1 - Math.pow(1-k, 3);
     el.textContent = m[1] + Math.round(target*e).toLocaleString() + m[3];
@@ -1227,13 +1266,14 @@ document.getElementById('btnHelp').addEventListener('click', ()=>{
     '<h3>How to use this dashboard</h3>'+
     '<p class="sub">Everything on the page is yours to change — no build step, no server.</p>'+
     '<div class="help-list">'+
-      '<div><b>Edit</b> — turn on edit mode, then click any text to rewrite it. Shortcut: <span class="kbd">Ctrl</span>/<span class="kbd">⌘</span> + <span class="kbd">E</span>.</div>'+
-      '<div><b>Bars</b> — in edit mode, drag any progress bar to set its percentage.</div>'+
-      '<div><b>Colours</b> — the row of coloured dots under a card recolours that item.</div>'+
-      '<div><b>Icons</b> — click an icon in edit mode to cycle through the icon set.</div>'+
+      '<div><b>Always editable</b> — click any text and type over it. There is no edit mode to turn on.</div>'+
+      '<div><b>Lock it</b> — <span class="kbd">Ctrl</span>/<span class="kbd">⌘</span> + <span class="kbd">E</span> freezes the page so nothing can be changed by accident, and unlocks it again.</div>'+
+      '<div><b>Bars</b> — drag any progress bar to set its percentage.</div>'+
+      '<div><b>Colours</b> — hover an item and a row of coloured dots appears over it; click one to recolour it.</div>'+
+      '<div><b>Icons</b> — click any icon to cycle through the icon set.</div>'+
       '<div><b>Photo</b> — click the camera button on the avatar to upload your own picture.</div>'+
-      '<div><b>Add / remove</b> — use the dashed <b>+</b> buttons and the small bin icons on each item.</div>'+
-      '<div><b>Skills donut</b> — hover a segment to inspect it; edit the values in the list that appears in edit mode.</div>'+
+      '<div><b>Add / remove</b> — hover a card and a <b>+</b> appears beside its heading; hover any single entry for its bin icon.</div>'+
+      '<div><b>Skills donut</b> — hover a segment to inspect it; the weights panel drops out of the bottom of that card while your pointer is on it.</div>'+
       '<div><b>Saving</b> — changes save automatically in this browser. Use <b>Export</b> for a portable copy and <b>Import</b> to restore it elsewhere.</div>'+
       '<div><b>PDF</b> — <b>Print</b> opens your browser dialog and sizes the page so the dashboard lands on one sheet. It prints the theme on screen, so switch to <b>Light</b> first for an ink-friendly copy.</div>'+
     '</div>'+
@@ -1257,7 +1297,7 @@ function unlockPrintLayout(){
 window.addEventListener('beforeprint', lockPrintLayout);
 window.addEventListener('afterprint', unlockPrintLayout);
 document.getElementById('btnPrint').addEventListener('click', ()=>{
-  if(editing) setEditing(false);
+  if(document.activeElement && document.activeElement.blur) document.activeElement.blur();
   document.querySelectorAll('.reveal').forEach(el=>el.classList.add('in'));
   lockPrintLayout();
   setTimeout(()=>{
@@ -1278,8 +1318,6 @@ document.getElementById('btnTheme').addEventListener('click', ()=>{
   setTheme(document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark');
 });
 
-/* --- Edit toggle --- */
-document.getElementById('btnEdit').addEventListener('click', ()=>setEditing(!editing));
 
 /* --- Keyboard --- */
 document.addEventListener('keydown', e=>{
@@ -1288,7 +1326,7 @@ document.addEventListener('keydown', e=>{
   if(meta && e.key.toLowerCase()==='s'){ e.preventDefault(); save(); }
   if(e.key==='Escape'){
     if(overlay.classList.contains('open')) closeModal();
-    else if(editing) setEditing(false);
+    else if(document.activeElement && document.activeElement.hasAttribute('data-bind')) document.activeElement.blur();
   }
 });
 
@@ -1302,13 +1340,22 @@ document.addEventListener('keydown', e=>{
   if(!theme) theme = document.documentElement.getAttribute('data-theme') ||
     (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   setTheme(theme);
-  document.getElementById('btnEdit').innerHTML   = svg('edit')+'Edit';
+  let locked = false;
+  try{ locked = localStorage.getItem(KEY+':locked')==='1'; }catch(e){}
+  editing = !locked;
+  document.body.classList.toggle('live', editing);
   document.getElementById('btnPrint').innerHTML  = svg('printer')+'PDF';
   document.getElementById('btnExport').innerHTML = svg('download')+'Export';
   document.getElementById('btnImport').innerHTML = svg('upload')+'Import';
   document.getElementById('btnReset').innerHTML  = svg('reset')+'Reset';
   document.getElementById('btnHelp').innerHTML   = svg('book')+'Help';
   render();
+  try{
+    if(!localStorage.getItem(KEY+':seen')){
+      localStorage.setItem(KEY+':seen','1');
+      setTimeout(()=>toast('Everything here is editable — click any text and type. Hover a card for its add, colour and delete controls.'), 900);
+    }
+  }catch(e){}
 })();
 </script>
 </body>

@@ -9,17 +9,21 @@ dependencies. Open it in any browser (or host it on GitHub Pages) and it just ru
 
 ### Editing
 
-Click **Edit** in the toolbar (or press <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>E</kbd>) and the
-whole page becomes editable:
+The page is **always editable** — there is no edit mode to switch on. Click any text and type.
+Controls stay hidden until you hover the thing they belong to, so at rest the dashboard looks
+exactly like a finished CV.
 
 | What | How |
 | --- | --- |
 | Text | Click any heading, bullet, figure or paragraph and type over it |
 | Progress bars | Drag a bar to set its percentage |
-| Colours | Click a dot in the swatch row under an item |
+| Colours | Hover an item; a pill of colour dots floats over it |
 | Icons | Click an icon to cycle through the icon set |
-| Photo | Click the camera button on the avatar |
-| Add / remove | Dashed **+** buttons add entries; the bin icon on each item removes it |
+| Photo | Hover the avatar and click the camera button |
+| Add | Hover a card and a **+** appears beside its heading |
+| Remove | Hover a single entry for its bin icon |
+| Skill weights | Hover the Skills card; the weights panel drops out of its bottom edge |
+| Lock | <kbd>Ctrl</kbd>/<kbd>⌘</kbd> + <kbd>E</kbd> freezes the page against accidental edits |
 
 Changes save to the browser automatically. **Export** copies the whole CV out as JSON and
 **Import** loads it back — that is how you move your edits to another browser or machine.

@@ -244,7 +244,7 @@ ul{list-style:none}
 .foot{
   position:relative;
   grid-column:1/-1;display:flex;align-items:center;gap:22px;flex-wrap:wrap;
-  padding:16px 52px 16px 26px;border-top:1px solid var(--line);
+  padding:16px 26px;border-top:1px solid var(--line);
   background:linear-gradient(90deg,color-mix(in srgb,var(--blue) 8%,var(--card)),var(--card));
 }
 .quote{display:flex;gap:11px;align-items:flex-start;font-size:13.2px;font-style:italic;color:var(--ink-soft);margin-right:auto;max-width:56ch}
@@ -252,6 +252,29 @@ ul{list-style:none}
 .traits{display:flex;gap:24px;flex-wrap:wrap}
 .trait{display:flex;align-items:center;gap:9px;font-size:12.4px;font-weight:600;color:var(--ink-soft)}
 .trait svg{width:19px;height:19px;color:var(--blue)}
+
+/* ---------- Mentorship call to action ---------- */
+.cta{
+  display:inline-flex;align-items:center;gap:11px;flex:none;text-decoration:none;
+  padding:9px 14px 9px 10px;border-radius:999px;
+  background:linear-gradient(135deg,var(--navy-800),var(--navy-900));
+  border:1px solid rgba(96,165,250,.35);color:#fff;
+  box-shadow:0 8px 22px -12px rgba(8,20,48,.9);
+  transition:transform .2s cubic-bezier(.2,.8,.3,1), box-shadow .2s, border-color .2s;
+}
+.cta:hover{transform:translateY(-2px);border-color:var(--blue-300);
+  box-shadow:0 14px 30px -14px rgba(8,20,48,.95)}
+.cta:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+.cta-ic{
+  width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;
+  background:var(--blue);color:#fff;
+}
+.cta-ic svg{width:17px;height:17px}
+.cta-txt{display:grid;line-height:1.25}
+.cta-txt b{font-size:12.6px;font-weight:700;color:#fff}
+.cta-txt span{font-size:10.4px;color:#9fb2d8}
+.cta-go{width:15px;height:15px;color:var(--blue-300);flex:none;transform:rotate(-90deg);transition:transform .2s}
+.cta:hover .cta-go{transform:rotate(-90deg) translateY(-3px)}
 
 /* ---------- Focus lenses ---------- */
 .lensbar{
@@ -660,6 +683,13 @@ const DEFAULT_DATA = {
     {name:"Consulting / Professional Services", value:40, lens:["lead"]},
     {name:"Technology / SaaS",                  value:20, lens:["ae"]}
   ],
+  mentorship:{
+    icon:"cap",
+    label:"Apply for Mentorship",
+    note:"Data science mentoring on MentorCruise",
+    href:"https://mentorcruise.com/mentor/rathanraju/",
+    lens:["lead"]
+  },
   quote:"Project controls data is only worth having when it is trusted. My job is to make the numbers reliable, repeatable and ready for the decision.",
   traits:[
     {icon:"puzzle", label:"Problem Solver",       lens:["ae"]},
@@ -918,8 +948,15 @@ function renderIndustries(){
 function renderFoot(){
   const traits = DATA.traits.map((t,i)=>
     '<div class="trait"'+lensAttr(t)+'>'+svg(t.icon)+ed('traits.'+i+'.label','span','')+'</div>').join('');
+  const m = DATA.mentorship;
+  const cta = m ? '<a class="cta" href="'+esc(m.href)+'" target="_blank" rel="noopener noreferrer"'+
+      lensAttr(m)+' aria-label="'+esc(m.label)+', opens MentorCruise in a new tab">'+
+      '<span class="cta-ic">'+svg(m.icon)+'</span>'+
+      '<span class="cta-txt"><b>'+esc(m.label)+'</b><span>'+esc(m.note)+'</span></span>'+
+      svg('chevron',' class="cta-go"')+
+    '</a>' : '';
   return '<div class="quote">'+svg('quote')+ed('quote','span','')+'</div>'+
-    '<div class="traits">'+traits+'</div>';
+    '<div class="traits">'+traits+'</div>'+ cta;
 }
 
 function render(){

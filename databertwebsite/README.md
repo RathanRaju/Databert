@@ -14,7 +14,9 @@ about.html             Story, values, founder bio (placeholder, see below)
 contact.html           Contact form and Calendly link
 404.html               Custom "page not found" page
 css/style.css          All styling
+css/interactive.css    Styling for the homepage's interactive pieces (loaded after style.css)
 js/main.js             Nav, form handling, small interactions
+js/interactive.js      The homepage's interactive pieces (see "The interactive homepage" below)
 assets/favicon.svg     Logo mark / favicon
 _worker.js             Handles /api/contact and emails you via Resend; serves everything else
 robots.txt, sitemap.xml
@@ -88,6 +90,30 @@ The form has a honeypot field and length limits, so it is reasonably spam resist
 ## Email for the domain
 
 A domain doesn't come with a mailbox. Since DNS is on Cloudflare, the simplest free option is **Cloudflare → Email Routing**: it forwards `admin@databert.co.uk` (or a catch-all) into your existing inbox, with no separate mailbox to manage.
+
+## The interactive homepage
+
+The homepage has an interactive layer on top of the base design. All of it is plain JavaScript with no libraries, no external services, and no accounts to connect. Nothing a visitor types into the health check or calculator is stored or sent anywhere.
+
+| Piece | What it does | Where to edit |
+|---|---|---|
+| Data network | Nodes and hexagons drift behind the hero and reach toward the cursor | `js/interactive.js`, "Hero: drifting data network" |
+| Live report card | Switch between Revenue, Margin and Orders; hover or arrow key through months; press refresh | Figures are in `METRICS` in `js/interactive.js` (illustrative) |
+| Before and after | Drag the handle between a messy spreadsheet and a clean dashboard | Markup in `index.html`, section `#difference` |
+| Health check | Five questions, a score out of 10, and the two weakest areas with a link that preselects that service on the contact form | `QUESTIONS`, `ADVICE` and `VERDICTS` in `js/interactive.js` |
+| Cost calculator | Sliders for people, hours, hourly cost and share automated; works out hours and cost a year | Slider ranges in `index.html`, section `#check` |
+| Honest numbers | Counts up to 150+, 2, 1, 0 in the dark section | `data-count` attributes in `index.html` |
+| Timeline | The process steps fill in gold as you scroll past them | Automatic |
+
+**Behaviour you can rely on:**
+
+- **Reduced motion.** Visitors who have turned animation off in their operating system get a still version: no drifting, no counting, no scroll reveals, nothing hidden.
+- **Without JavaScript**, the page still reads fully; only the two checks, which need JavaScript to work, are hidden.
+- **Keyboard.** Every interactive piece works without a mouse: tabs with arrow keys, the chart with arrow keys, the slider with arrow keys.
+- **Health check links** go to `contact.html?service=...`, which `js/main.js` already uses to preselect the service. If you rename a service value in `contact.html`, update the matching key in `ADVICE`.
+- The copy stays free of hyphens and dashes, including text the JavaScript generates.
+
+To upload, include `css/interactive.css` and `js/interactive.js` alongside everything else. Without them the homepage falls back to the static design rather than breaking.
 
 ## Previewing changes locally
 

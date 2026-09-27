@@ -23,6 +23,8 @@ and risk, baseline governance, period reporting) that a generic data CV does not
 | Tech stack & industries | Hover any bar for its exact level |
 | Theme | Light / dark, following your system on first visit and remembered afterwards |
 | PDF | Sizes the page so the whole dashboard prints on a single sheet |
+| Constellation backdrop | A canvas starfield behind the page that drifts, links neighbouring nodes and reacts to the cursor; it is skipped under `prefers-reduced-motion` and never printed |
+| Service links | Mentorship (MentorCruise) and Databert Consulting sit in the top panel, and databert.co.uk is in the contact list so it survives the PDF |
 
 Everything interactive is reachable with <kbd>Tab</kbd> and activated with <kbd>Enter</kbd>;
 <kbd>Esc</kbd> closes the open drawer or clears the lens. The only thing kept in browser

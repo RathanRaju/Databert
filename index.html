@@ -54,6 +54,12 @@ ul{list-style:none}
 [contenteditable]{outline:none}
 ::selection{background:rgba(37,99,235,.28)}
 
+/* ---------- Constellation background ---------- */
+#bg{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;display:block;
+}
+
 /* ---------- Toolbar ---------- */
 .toolbar{
   position:sticky; top:14px; z-index:80; max-width:1520px; margin:0 auto 18px;
@@ -73,19 +79,40 @@ ul{list-style:none}
 }
 .btn:hover{color:var(--ink); border-color:var(--blue); transform:translateY(-1px)}
 .btn svg{width:15px;height:15px;flex:none}
-.btn:focus-visible,.mini:focus-visible,.add-btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.btn:focus-visible,.tb-cta:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.tb-cta{
+  display:inline-flex;align-items:center;gap:7px;text-decoration:none;white-space:nowrap;
+  font:700 12.5px/1 var(--font);padding:9px 14px;border-radius:999px;
+  background:color-mix(in srgb,var(--blue) 12%,transparent);
+  border:1px solid color-mix(in srgb,var(--blue) 40%,transparent);color:var(--blue);
+  transition:.18s ease;
+}
+.tb-cta:hover{background:var(--blue);border-color:var(--blue);color:#fff;transform:translateY(-1px);
+  box-shadow:0 8px 20px -10px var(--blue)}
+.tb-cta svg{width:15px;height:15px;flex:none}
+.tb-cta.gold{
+  background:color-mix(in srgb,#b8912f 14%,transparent);
+  border-color:color-mix(in srgb,#b8912f 45%,transparent);color:#8f6f1f;
+}
+html[data-theme="dark"] .tb-cta.gold{color:#d9b551}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tb-cta.gold{color:#d9b551}}
+.tb-cta.gold:hover{background:#b8912f;border-color:#b8912f;color:#fff;box-shadow:0 8px 20px -10px #b8912f}
+.tb-sep{width:1px;height:20px;background:var(--line);flex:none}
 .btn.primary{background:var(--blue);border-color:var(--blue);color:#fff;box-shadow:0 6px 18px -8px var(--blue)}
 .btn.primary:hover{background:var(--blue-600)}
 
 /* ---------- Shell ---------- */
 .sheet{
-  max-width:1520px;margin:0 auto;background:var(--card);border-radius:26px;
+  max-width:1520px;margin:0 auto;border-radius:26px;position:relative;z-index:1;
   box-shadow:var(--shadow-lg); border:1px solid var(--line);
   display:grid; grid-template-columns:var(--side-w) 1fr; overflow:hidden;
 }
 /* ---------- Sidebar ---------- */
 .side{
-  background:linear-gradient(165deg,var(--navy-800) 0%,var(--navy-900) 55%,#02070f 100%);
+  background:linear-gradient(165deg,
+    color-mix(in srgb,var(--navy-800) 86%,transparent) 0%,
+    color-mix(in srgb,var(--navy-900) 86%,transparent) 55%,
+    color-mix(in srgb,#02070f 86%,transparent) 100%);
   color:#dbe6ff; padding:30px 26px 34px; position:relative;
 }
 .side::after{content:"";position:absolute;inset:0;pointer-events:none;
@@ -128,7 +155,7 @@ ul{list-style:none}
 .edu-item span{display:block;color:#a9bbdd;font-size:12.5px}
 
 /* ---------- Main ---------- */
-.main{padding:22px;display:grid;gap:16px;background:var(--card);align-content:start}
+.main{padding:22px;display:grid;gap:16px;background:transparent;align-content:start}
 .card{
   background:var(--card-2);border:1px solid var(--line);border-radius:var(--r-lg);
   padding:18px; box-shadow:var(--shadow); position:relative;
@@ -245,7 +272,9 @@ ul{list-style:none}
   position:relative;
   grid-column:1/-1;display:flex;align-items:center;gap:22px;flex-wrap:wrap;
   padding:16px 26px;border-top:1px solid var(--line);
-  background:linear-gradient(90deg,color-mix(in srgb,var(--blue) 8%,var(--card)),var(--card));
+  background:linear-gradient(90deg,
+    color-mix(in srgb,var(--blue) 8%,color-mix(in srgb,var(--card) 88%,transparent)),
+    color-mix(in srgb,var(--card) 88%,transparent));
 }
 .quote{display:flex;gap:11px;align-items:flex-start;font-size:13.2px;font-style:italic;color:var(--ink-soft);margin-right:auto;max-width:56ch}
 .quote svg{width:22px;height:22px;color:var(--blue);flex:none;margin-top:-2px}
@@ -471,7 +500,10 @@ body.lens-on circle[data-lens].lens-miss{opacity:.3}
 @media print{
   @page{margin:0}                 /* the exact page size is injected before printing */
   body{padding:16px;background:#fff}
-  .toolbar,.overlay,.toast,.copy-btn,.lensbar,.tl-detail,.tl-hint{display:none!important}
+  .toolbar,.overlay,.toast,.copy-btn,.lensbar,.tl-detail,.tl-hint,#bg{display:none!important}
+  .sheet,.main{background:var(--card)}
+  .foot{background:var(--card)}
+  .side{background:linear-gradient(165deg,var(--navy-800) 0%,var(--navy-900) 55%,#02070f 100%)}
   [data-lens]{opacity:1!important;filter:none!important}
   .sheet{box-shadow:none;border-radius:18px}
   .card{break-inside:avoid;box-shadow:none}
@@ -482,9 +514,16 @@ body.lens-on circle[data-lens].lens-miss{opacity:.3}
 </head>
 <body>
 
+<canvas id="bg" aria-hidden="true"></canvas>
+
 <!-- ================= Toolbar ================= -->
 <div class="toolbar no-print">
-  <div class="tb-brand"><span class="tb-dot"></span><span>CV Dashboard</span></div>
+  <div class="tb-brand"><span class="tb-dot"></span><span>Rathan's Portfolio</span></div>
+  <a class="tb-cta" id="ctaMentor" href="https://mentorcruise.com/mentor/rathanraju/"
+     target="_blank" rel="noopener noreferrer"></a>
+  <a class="tb-cta gold" id="ctaDatabert" href="https://www.databert.co.uk/"
+     target="_blank" rel="noopener noreferrer"></a>
+  <span class="tb-sep"></span>
   <button class="btn" id="btnTheme" title="Toggle light / dark"></button>
   <button class="btn" id="btnPrint" title="Print or save as PDF"></button>
   <button class="btn" id="btnHelp" title="What you can do on this page">?</button>
@@ -576,7 +615,8 @@ const DEFAULT_DATA = {
     {icon:"mail",     text:"rathanr51@gmail.com",         href:"mailto:rathanr51@gmail.com"},
     {icon:"phone",    text:"+44 7552324120",              href:"tel:+44 7552324120"},
     {icon:"linkedin", text:"linkedin.com",                href:"https://www.linkedin.com/in/rathan-raju/"},
-    {icon:"github",   text:"github.com/RathanRaju",       href:"https://github.com/RathanRaju"}
+    {icon:"github",   text:"github.com/RathanRaju",       href:"https://github.com/RathanRaju"},
+    {icon:"globe",    text:"databert.co.uk",               href:"https://www.databert.co.uk/"}
   ],
   certifications:["Microsoft PL-300","Microsoft DP-203","Microsoft DP-600","Lean Six Sigma Green Belt"],
   education:[
@@ -1245,6 +1285,7 @@ function setTheme(mode){
   try{ localStorage.setItem(KEY+':theme', mode); }catch(e){}
   document.getElementById('btnTheme').innerHTML =
     (mode==='dark' ? svg('sun')+'Light' : svg('moon')+'Dark');
+  if(window.repaintBackdrop) window.repaintBackdrop();
 }
 document.getElementById('btnTheme').addEventListener('click', ()=>{
   setTheme(document.documentElement.getAttribute('data-theme')==='dark' ? 'light' : 'dark');
@@ -1261,7 +1302,94 @@ document.addEventListener('keydown', e=>{
 });
 
 /* ============================================================
-   9. Boot
+   9. Constellation background
+   ============================================================ */
+(function constellation(){
+  const c = document.getElementById('bg');
+  if(!c || !c.getContext) return;
+  const ctx = c.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const LINK = 150, PULL = 165;
+  let w = 0, h = 0, nodes = [], raf = null;
+  const pointer = { x:-9999, y:-9999, on:false };
+
+  function size(){
+    const dpr = Math.min(2, window.devicePixelRatio || 1);
+    w = c.clientWidth; h = c.clientHeight;
+    c.width = Math.round(w*dpr); c.height = Math.round(h*dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const want = Math.max(34, Math.min(110, Math.round((w*h)/17000)));
+    nodes = Array.from({length:want}, ()=>({
+      x: Math.random()*w, y: Math.random()*h,
+      vx:(Math.random()-.5)*.20, vy:(Math.random()-.5)*.20,
+      r: Math.random()*1.5 + .8
+    }));
+  }
+  function ink(){
+    const light = document.documentElement.getAttribute('data-theme') === 'light' ||
+      (!document.documentElement.getAttribute('data-theme') &&
+        matchMedia('(prefers-color-scheme: light)').matches);
+    return light
+      ? { dot:'rgba(37,99,235,', line:'rgba(37,99,235,', dotA:.40, lineA:.17 }
+      : { dot:'rgba(147,197,253,', line:'rgba(96,165,250,', dotA:.78, lineA:.30 };
+  }
+  function draw(){
+    const k = ink();
+    ctx.clearRect(0, 0, w, h);
+    for(const p of nodes){
+      if(!reduce){
+        p.x += p.vx; p.y += p.vy;
+        if(p.x < 0 || p.x > w) p.vx *= -1;
+        if(p.y < 0 || p.y > h) p.vy *= -1;
+        if(pointer.on){
+          const dx = p.x - pointer.x, dy = p.y - pointer.y;
+          const d = Math.hypot(dx, dy);
+          if(d > 0.5 && d < PULL){          /* drift away from the cursor */
+            const f = (1 - d/PULL) * 0.7;
+            p.x += (dx/d)*f; p.y += (dy/d)*f;
+          }
+        }
+      }
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+      ctx.fillStyle = k.dot + k.dotA + ')';
+      ctx.fill();
+    }
+    ctx.lineWidth = 1;
+    for(let i=0; i<nodes.length; i++){
+      const a = nodes[i];
+      for(let j=i+1; j<nodes.length; j++){
+        const b = nodes[j];
+        const d = Math.hypot(a.x-b.x, a.y-b.y);
+        if(d >= LINK) continue;
+        ctx.strokeStyle = k.line + (k.lineA * (1 - d/LINK)).toFixed(3) + ')';
+        ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+      }
+      if(pointer.on){
+        const d = Math.hypot(a.x-pointer.x, a.y-pointer.y);
+        if(d < PULL){
+          ctx.strokeStyle = k.line + (k.lineA*1.5*(1 - d/PULL)).toFixed(3) + ')';
+          ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(pointer.x, pointer.y); ctx.stroke();
+        }
+      }
+    }
+  }
+  function loop(){ draw(); raf = requestAnimationFrame(loop); }
+  function start(){ if(reduce){ draw(); return; } if(!raf) loop(); }
+  function stop(){ if(raf){ cancelAnimationFrame(raf); raf = null; } }
+
+  window.addEventListener('resize', ()=>{ size(); if(reduce) draw(); });
+  window.addEventListener('pointermove', e=>{ pointer.x = e.clientX; pointer.y = e.clientY; pointer.on = true; });
+  window.addEventListener('pointerleave', ()=>{ pointer.on = false; });
+  document.addEventListener('visibilitychange', ()=> document.hidden ? stop() : start());
+  window.addEventListener('beforeprint', stop);
+  window.addEventListener('afterprint', start);
+  size(); start();
+  window.repaintBackdrop = draw;    /* the theme toggle calls this */
+})();
+
+/* ============================================================
+   10. Boot
    ============================================================ */
 (function init(){
   let theme = null;
@@ -1269,6 +1397,8 @@ document.addEventListener('keydown', e=>{
   if(!theme) theme = document.documentElement.getAttribute('data-theme') ||
     (matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
   setTheme(theme);
+  document.getElementById('ctaMentor').innerHTML   = svg('cap')+'Mentorship';
+  document.getElementById('ctaDatabert').innerHTML = svg('spark')+'Databert Consulting';
   document.getElementById('btnPrint').innerHTML = svg('printer')+'PDF';
   document.getElementById('btnHelp').innerHTML  = svg('book')+'Help';
   render();
